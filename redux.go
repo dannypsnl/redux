@@ -21,17 +21,19 @@ type reducer func(interface{}, Action) interface{}
 
 // Store is a type manage our data
 type Store struct {
-	// reducers contains every reducer of this Store.
-	reducers []reducer
 	// GetState contain key map state
 	// and we use key to spread reducer's state
 	// for example: "counter" mapping to reducer named counter.
 	// when use GetState["counter"], we will got the current state of "counter" key's mapping target.
 	GetState map[string]interface{}
+	// reducers contains every reducer of this Store.
+	reducers []reducer
 	// subscribes contains those function we want to invoke at dispatch
-	subscribes  []func()
+	subscribes []func()
+	// atSubscribe make sure we can't call Dispatch in Subscribed function
 	atSubscribe bool
-	mu          sync.Mutex
+	// We use mu to Lock each Dispatch call
+	mu sync.Mutex
 }
 
 // NewStore create a Store by reducers
