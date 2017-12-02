@@ -11,19 +11,22 @@ type Action struct {
 	Type string
 }
 
+// SendAction give a simple way to pass pointer of Action, it will be clear and performance.
 func SendAction(typ string) *Action {
 	return &Action{
 		Type: typ,
 	}
 }
 
+// Reducer is a function get current state and a Action, return new state.
 type Reducer func(interface{}, Action) interface{}
 
 type store struct {
+	// reducers contains every reducer of this store.
 	reducers []Reducer
 	// GetState contain key map state
 	// and we use key to spread reducer's state
-	// for example: "counter" mapping to counter reducer.
+	// for example: "counter" mapping to reducer named counter.
 	// when use GetState["counter"], we will got the current state of "counter" key's mapping target.
 	GetState map[string]interface{}
 }
@@ -40,17 +43,21 @@ func NewStore(reducer Reducer, reducers ...Reducer) *store {
 }
 
 func (s *store) NewReducer(reducer Reducer) {
-	// this code will get package.function_name, so we drop package part
-	func_name := runtime.FuncForPC(reflect.ValueOf(reducer).Pointer()).Name()
-	func_name = func_name[strings.LastIndexByte(func_name, '.')+1:]
-	s.GetState[func_name] = reducer(nil, Action{})
+	s.GetState[getReducerName(reducer)] = reducer(nil, Action{})
 	s.reducers = append(s.reducers, reducer)
 }
 
 func (s *store) Dispatch(act *Action) {
+	// we dispatch action to every reducer, and reducer update mapping state.
 	for _, reducer := range s.reducers {
-		func_name := runtime.FuncForPC(reflect.ValueOf(reducer).Pointer()).Name()
-		func_name = func_name[strings.LastIndexByte(func_name, '.')+1:]
+		func_name := getReducerName(reducer)
 		s.GetState[func_name] = reducer(s.GetState[func_name], *act)
 	}
+}
+
+// getReducerName is a helper func to get function's ref name.
+func getReducerName(r Reducer) string {
+	// this code will get package.function_name, so we have to drop package part.
+	full_name := runtime.FuncForPC(reflect.ValueOf(r).Pointer()).Name()
+	return full_name[strings.LastIndexByte(full_name, '.')+1:]
 }
