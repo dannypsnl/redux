@@ -1,5 +1,9 @@
 package redux
 
+import (
+	"sync"
+)
+
 type Action struct {
 	Type string
 }
@@ -26,6 +30,7 @@ type store struct {
 	// subscribes contains those function we want to invoke at dispatch
 	subscribes  []func()
 	atSubscribe bool
+	mu          sync.Mutex
 }
 
 func NewStore(reducer Reducer, reducers ...Reducer) *store {
@@ -47,6 +52,7 @@ func (s *store) newReducer(reducer Reducer) {
 }
 
 func (s *store) Dispatch(act *Action) {
+	s.mu.Lock()
 	if s.atSubscribe {
 		panic(`you're trying to invoke Dispatch inside the subscribed function`)
 	}
@@ -61,6 +67,7 @@ func (s *store) Dispatch(act *Action) {
 		subscribtor()
 	}
 	s.atSubscribe = false
+	s.mu.Unlock()
 }
 
 func (s *store) Subscribe(subscribe_fn func()) {

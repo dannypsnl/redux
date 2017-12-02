@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-
 	"github.com/dannypsnl/redux"
+	"sync"
 )
 
 func counter(state interface{}, action redux.Action) interface{} {
@@ -28,10 +28,20 @@ func main() {
 		// store.Dispatch(redux.SendAction("INC"))
 		//       ^^^^^^^^ invoke Dispatch in Subscribe will cause panic
 	})
+	var wg sync.WaitGroup
 	for i := 0; i < 10; i++ {
-		store.Dispatch(redux.SendAction("INC"))
+		wg.Add(1)
+		go func() {
+			store.Dispatch(redux.SendAction("INC"))
+			wg.Done()
+		}()
 	}
 	for i := 0; i < 10; i++ {
-		store.Dispatch(redux.SendAction("DEC"))
+		wg.Add(1)
+		go func() {
+			store.Dispatch(redux.SendAction("DEC"))
+			wg.Done()
+		}()
 	}
+	wg.Wait()
 }
