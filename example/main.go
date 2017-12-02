@@ -7,9 +7,9 @@ import (
 )
 
 func counter(state interface{}, action redux.Action) interface{} {
-	// This is initial state
+	// initial state
 	if state == nil {
-		state = 0
+		return 0
 	}
 	switch action.Type {
 	case "INC":
