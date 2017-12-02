@@ -26,7 +26,10 @@ func main() {
 	store.Subscribe(func() {
 		fmt.Printf("State is %v\n", store.GetState["counter"])
 	})
-	store.Dispatch(redux.SendAction("INC"))
-	store.Dispatch(redux.SendAction("DEC"))
-	store.Dispatch(redux.SendAction("DEC"))
+	for i := 0; i < 10; i++ {
+		store.Dispatch(redux.SendAction("INC"))
+	}
+	for i := 0; i < 10; i++ {
+		store.Dispatch(redux.SendAction("DEC"))
+	}
 }
