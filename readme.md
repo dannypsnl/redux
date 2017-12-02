@@ -1,5 +1,5 @@
 # redux
-[![Build Status](https://travis-ci.org/dannypsnl/redux.svg?branch=master)](https://travis-ci.org/dannypsnl/redux)
+[![Build Status](https://travis-ci.org/dannypsnl/redux.svg?branch=master)](https://travis-ci.org/dannypsnl/redux)<br>
 This is a little try for redux in go.
 ## Install
 ```bash
