@@ -29,14 +29,14 @@ func NewStore(reducer Reducer, reducers ...Reducer) *store {
 	s := &store{
 		GetState: make(map[string]interface{}),
 	}
-	s.NewReducer(reducer)
+	s.newReducer(reducer)
 	for _, reducer := range reducers {
-		s.NewReducer(reducer)
+		s.newReducer(reducer)
 	}
 	return s
 }
 
-func (s *store) NewReducer(reducer Reducer) {
+func (s *store) newReducer(reducer Reducer) {
 	s.GetState[getReducerName(reducer)] = reducer(nil, Action{})
 	s.reducers = append(s.reducers, reducer)
 }
