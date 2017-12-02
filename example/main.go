@@ -22,8 +22,7 @@ func counter(state interface{}, action redux.Action) interface{} {
 }
 
 func main() {
-	store := redux.NewStore()
-	store.NewReducer(counter)
+	store := redux.NewStore(counter)
 	fmt.Printf("State is %v\n", store.GetState["counter"])
 	store.Dispatch(redux.SendAction("INC"))
 	fmt.Printf("State is %v\n", store.GetState["counter"])

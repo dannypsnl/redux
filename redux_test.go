@@ -34,12 +34,7 @@ func jump(state interface{}, action Action) interface{} {
 }
 
 func TestStore(t *testing.T) {
-	store := NewStore(counter)
-	store.Dispatch(SendAction("INC"))
-	if store.GetStateD() != 1 {
-		t.Errorf("State should be 1 now, but it's: %v", store.GetStateD())
-	}
-	store = NewStore(counter, jump)
+	store := NewStore(counter, jump)
 	store.Dispatch(SendAction("JUMP"))
 	if store.GetState["jump"] != "TOP" {
 		t.Error(`Error`)
