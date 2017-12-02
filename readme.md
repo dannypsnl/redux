@@ -25,10 +25,10 @@ func counter(state interface{}, action redux.Action) interface{} {
 
 func main() {
     store := redux.NewStore(counter) // counter state be initial at here, it's 0
-    store.Dispatch(redux.SendAction("INC")) // state increase by action, now is 1
+    // Subscribe's function will be invoke when Dispatch
     store.Subscribe(func() {
-        fmt.Printf("Now state is %v\n", store.GetState["counter"]) // So here should got 1
+        fmt.Printf("Now state is %v\n", store.GetState["counter"])
     })
-    store.Dispatch(redux.SendAction("INC"))
+    store.Dispatch(redux.SendAction("INC")) // state increase by action, now is 1
 }
 ```
