@@ -4,7 +4,7 @@ import (
 	"sync"
 )
 
-// Action is a type for Reducer to know what should it do by recognize Action::Type
+// Action is a type for reducer to know what should it do by recognize Action::Type
 type Action struct {
 	Type string
 }
@@ -16,13 +16,13 @@ func SendAction(typ string) *Action {
 	}
 }
 
-// Reducer is a function get current state and a Action, return new state.
-type Reducer func(interface{}, Action) interface{}
+// reducer is a function get current state and a Action, return new state.
+type reducer func(interface{}, Action) interface{}
 
 // store is a type manage our data
 type store struct {
 	// reducers contains every reducer of this store.
-	reducers []Reducer
+	reducers []reducer
 	// GetState contain key map state
 	// and we use key to spread reducer's state
 	// for example: "counter" mapping to reducer named counter.
@@ -34,23 +34,23 @@ type store struct {
 	mu          sync.Mutex
 }
 
-// NewStore create a store by Reducers
-func NewStore(reducer Reducer, reducers ...Reducer) *store {
+// NewStore create a store by reducers
+func NewStore(r reducer, reducers ...reducer) *store {
 	s := &store{
 		GetState:    make(map[string]interface{}),
 		atSubscribe: false,
 	}
-	s.newReducer(reducer)
-	for _, reducer := range reducers {
-		s.newReducer(reducer)
+	s.newreducer(r)
+	for _, r := range reducers {
+		s.newreducer(r)
 	}
 	return s
 }
 
-func (s *store) newReducer(reducer Reducer) {
+func (s *store) newreducer(r reducer) {
 	// initial state will be return when current state is nil, so we send nil at here.
-	s.GetState[getReducerName(reducer)] = reducer(nil, Action{})
-	s.reducers = append(s.reducers, reducer)
+	s.GetState[getReducerName(r)] = r(nil, Action{})
+	s.reducers = append(s.reducers, r)
 }
 
 func (s *store) Dispatch(act *Action) {
@@ -59,9 +59,9 @@ func (s *store) Dispatch(act *Action) {
 		panic(`you're trying to invoke Dispatch inside the subscribed function`)
 	}
 	// we dispatch action to every reducer, and reducer update mapping state.
-	for _, reducer := range s.reducers {
-		funcName := getReducerName(reducer)
-		s.GetState[funcName] = reducer(s.GetState[funcName], *act)
+	for _, r := range s.reducers {
+		funcName := getReducerName(r)
+		s.GetState[funcName] = r(s.GetState[funcName], *act)
 	}
 	// we call subscribed function after state updated.
 	s.atSubscribe = true
