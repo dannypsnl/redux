@@ -20,7 +20,7 @@ func counter(state interface{}, action redux.Action) interface{} {
 }
 
 func Example() {
-	// This Example show how to
+	// This Example show how to use redux
 	store := redux.NewStore(counter)
 	store.Subscribe(func() {
 		fmt.Println(store.GetState["counter"])
@@ -28,5 +28,6 @@ func Example() {
 	store.Dispatch(redux.SendAction("INC"))
 
 	// Output:
+	//
 	// 1
 }
