@@ -37,7 +37,7 @@ func NewStore() *store {
 func (s *store) NewReducer(reducer Reducer) {
 	// this code will get package.function_name, so we drop package part
 	func_name := runtime.FuncForPC(reflect.ValueOf(reducer).Pointer()).Name()
-	func_name = func_name[strings.IndexRune(func_name, '.')+1:]
+	func_name = func_name[strings.LastIndexByte(func_name, '.')+1:]
 	s.GetState[func_name] = reducer(s.GetState[func_name], Action{})
 	s.reducers = append(s.reducers, reducer)
 }
@@ -45,7 +45,7 @@ func (s *store) NewReducer(reducer Reducer) {
 func (s *store) Dispatch(act *Action) {
 	for _, reducer := range s.reducers {
 		func_name := runtime.FuncForPC(reflect.ValueOf(reducer).Pointer()).Name()
-		func_name = func_name[strings.IndexRune(func_name, '.')+1:]
+		func_name = func_name[strings.LastIndexByte(func_name, '.')+1:]
 		s.GetState[func_name] = reducer(s.GetState[func_name], *act)
 	}
 }

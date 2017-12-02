@@ -9,6 +9,10 @@ $ go get https://github.com/dannypsnl/redux
 import "github.com/dannypsnl/redux"
 
 func counter(state interface{}, act redux.Action) interface{} {
+    // Initial State
+    if state == nil {
+        return 0
+    }
     switch act.Type {
     case "INC":
         return state.(int)+1
@@ -20,9 +24,9 @@ func counter(state interface{}, act redux.Action) interface{} {
 }
 
 func main() {
-    store := redux.NewStore(counter)
-    store.Dispatch(redux.SendAction("INC"))
-
-    fmt.Printf("Now state is %v\n", store.GetState())
+    store := redux.NewStore()
+    store.NewReducer(counter) // counter state be initial at here, it's 0
+    store.Dispatch(redux.SendAction("INC")) // state increase by action, now is 1
+    fmt.Printf("Now state is %v\n", store.GetState["counter"]) // So here should got 1
 }
 ```
