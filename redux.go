@@ -19,9 +19,9 @@ func SendAction(typ string) *Action {
 // reducer is a function get current state and a Action, return new state.
 type reducer func(interface{}, Action) interface{}
 
-// store is a type manage our data
-type store struct {
-	// reducers contains every reducer of this store.
+// Store is a type manage our data
+type Store struct {
+	// reducers contains every reducer of this Store.
 	reducers []reducer
 	// GetState contain key map state
 	// and we use key to spread reducer's state
@@ -34,9 +34,9 @@ type store struct {
 	mu          sync.Mutex
 }
 
-// NewStore create a store by reducers
-func NewStore(r reducer, reducers ...reducer) *store {
-	s := &store{
+// NewStore create a Store by reducers
+func NewStore(r reducer, reducers ...reducer) *Store {
+	s := &Store{
 		GetState:    make(map[string]interface{}),
 		atSubscribe: false,
 	}
@@ -47,14 +47,14 @@ func NewStore(r reducer, reducers ...reducer) *store {
 	return s
 }
 
-func (s *store) newReducer(r reducer) {
+func (s *Store) newReducer(r reducer) {
 	// initial state will be return when current state is nil, so we send nil at here.
 	s.GetState[getReducerName(r)] = r(nil, Action{})
 	s.reducers = append(s.reducers, r)
 }
 
 // Dispatch send action to every reducer
-func (s *store) Dispatch(act *Action) {
+func (s *Store) Dispatch(act *Action) {
 	s.mu.Lock()
 	if s.atSubscribe {
 		panic(`you're trying to invoke Dispatch inside the subscribed function`)
@@ -74,6 +74,6 @@ func (s *store) Dispatch(act *Action) {
 }
 
 // Subscribe emit argument into subscribes chain, it will be invoked when Dispatch. !Warning, subscribed function can't invoke Dispatch, it will panic
-func (s *store) Subscribe(subscribetor func()) {
+func (s *Store) Subscribe(subscribetor func()) {
 	s.subscribes = append(s.subscribes, subscribetor)
 }
