@@ -37,7 +37,7 @@ before_script:
 # in a modern Go project.
 script:
   - test -z $(gofmt -s -l $GO_FILES)         # Fail if a .go file hasn't been formatted with gofmt
-  - go test -v -covermode=count -coverprofile=coverage.out -race .                   # Run all the tests with the race detector enabled
+  - go test -v -covermode=count -coverprofile=coverage.out .                   # Run all the tests with the race detector enabled
   - $HOME/gopath/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken
   - $COVERALLS_TOKEN
   - go vet ./...                             # go vet is the official Go static analyzer
