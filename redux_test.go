@@ -34,12 +34,16 @@ func jump(state interface{}, action Action) interface{} {
 }
 
 func TestStore(t *testing.T) {
+	testTarget := "jump"
+	var expectedState interface{} = "TOP"
 	store := NewStore(counter, jump)
+	store.Subscribe(func() {
+		if store.GetState[testTarget] != expectedState {
+			t.Errorf("Expected: %v, Actual: %v", expectedState, store.GetState[testTarget])
+		}
+	})
 	store.Dispatch(SendAction("JUMP"))
-	if store.GetState["jump"] != "TOP" {
-		t.Error(`Error`)
-	}
-	if store.GetState["counter"] != 0 {
-		t.Error(`initial state of counter is wrong`)
-	}
+	testTarget = "counter"
+	expectedState = 1
+	store.Dispatch(SendAction("INC"))
 }
