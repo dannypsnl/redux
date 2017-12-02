@@ -1,5 +1,12 @@
 package redux
 
+import (
+	_ "fmt"
+	"reflect"
+	"runtime"
+	"strings"
+)
+
 type Action struct {
 	Type string
 }
@@ -13,20 +20,32 @@ func SendAction(typ string) *Action {
 type Reducer func(interface{}, Action) interface{}
 
 type store struct {
-	reducer Reducer
-	state   interface{}
+	reducers []Reducer
+	// GetState contain key map state
+	// and we use key to spread reducer's state
+	// for example: "counter" mapping to counter reducer.
+	// when use GetState["counter"], we will got the current state of "counter" key's mapping target.
+	GetState map[string]interface{}
 }
 
-func NewStore(r Reducer) *store {
+func NewStore() *store {
 	return &store{
-		reducer: r,
-		state:   0,
+		GetState: make(map[string]interface{}),
 	}
 }
 
-func (s *store) Dispatch(act *Action) {
-	s.state = s.reducer(s.state, *act)
+func (s *store) NewReducer(reducer Reducer) {
+	// this code will get package.function_name, so we drop package part
+	func_name := runtime.FuncForPC(reflect.ValueOf(reducer).Pointer()).Name()
+	func_name = func_name[strings.IndexRune(func_name, '.')+1:]
+	s.GetState[func_name] = reducer(s.GetState[func_name], Action{})
+	s.reducers = append(s.reducers, reducer)
 }
-func (s *store) GetState() interface{} {
-	return s.state
+
+func (s *store) Dispatch(act *Action) {
+	for _, reducer := range s.reducers {
+		func_name := runtime.FuncForPC(reflect.ValueOf(reducer).Pointer()).Name()
+		func_name = func_name[strings.IndexRune(func_name, '.')+1:]
+		s.GetState[func_name] = reducer(s.GetState[func_name], *act)
+	}
 }

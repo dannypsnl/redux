@@ -3,10 +3,14 @@ package main
 import (
 	"fmt"
 
-	rd "github.com/dannypsnl/redux"
+	"github.com/dannypsnl/redux"
 )
 
-func counter(state interface{}, action rd.Action) interface{} {
+func counter(state interface{}, action redux.Action) interface{} {
+	// This is initial state
+	if state == nil {
+		state = 0
+	}
 	switch action.Type {
 	case "INC":
 		return state.(int) + 1
@@ -18,10 +22,13 @@ func counter(state interface{}, action rd.Action) interface{} {
 }
 
 func main() {
-	store := rd.NewStore(counter)
-	fmt.Printf("State is %v\n", store.GetState())
-	store.Dispatch(rd.SendAction("INC"))
-	fmt.Printf("State is %v\n", store.GetState())
-	store.Dispatch(rd.SendAction("DEC"))
-	fmt.Printf("State is %v\n", store.GetState())
+	store := redux.NewStore()
+	store.NewReducer(counter)
+	fmt.Printf("State is %v\n", store.GetState["counter"])
+	store.Dispatch(redux.SendAction("INC"))
+	fmt.Printf("State is %v\n", store.GetState["counter"])
+	store.Dispatch(redux.SendAction("DEC"))
+	fmt.Printf("State is %v\n", store.GetState["counter"])
+	store.Dispatch(redux.SendAction("DEC"))
+	fmt.Printf("State is %v\n", store.GetState["counter"])
 }
