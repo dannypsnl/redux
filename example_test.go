@@ -23,11 +23,11 @@ func Example() {
 	// This Example show how to use redux
 	store := redux.NewStore(counter)
 	store.Subscribe(func() {
-		fmt.Println(store.GetState["counter"])
+		fmt.Println("Current State: ", store.GetState["counter"])
 	})
 	store.Dispatch(redux.SendAction("INC"))
 
 	// Output:
 	//
-	// 1
+	// Current State: 1
 }
