@@ -14,6 +14,7 @@ func SendAction(typ string) *Action {
 // Reducer is a function get current state and a Action, return new state.
 type Reducer func(interface{}, Action) interface{}
 
+// store is a type manage our data
 type store struct {
 	// reducers contains every reducer of this store.
 	reducers []Reducer
@@ -21,7 +22,8 @@ type store struct {
 	// and we use key to spread reducer's state
 	// for example: "counter" mapping to reducer named counter.
 	// when use GetState["counter"], we will got the current state of "counter" key's mapping target.
-	GetState   map[string]interface{}
+	GetState map[string]interface{}
+	// subscribes contains those function we want to invoke at dispatch
 	subscribes []func()
 }
 
@@ -37,6 +39,7 @@ func NewStore(reducer Reducer, reducers ...Reducer) *store {
 }
 
 func (s *store) newReducer(reducer Reducer) {
+	// initial state will be return when current state is nil, so we send nil at here.
 	s.GetState[getReducerName(reducer)] = reducer(nil, Action{})
 	s.reducers = append(s.reducers, reducer)
 }
