@@ -21,7 +21,8 @@ type store struct {
 	// and we use key to spread reducer's state
 	// for example: "counter" mapping to reducer named counter.
 	// when use GetState["counter"], we will got the current state of "counter" key's mapping target.
-	GetState map[string]interface{}
+	GetState   map[string]interface{}
+	subscribes []func()
 }
 
 func NewStore(reducer Reducer, reducers ...Reducer) *store {
@@ -46,4 +47,12 @@ func (s *store) Dispatch(act *Action) {
 		func_name := getReducerName(reducer)
 		s.GetState[func_name] = reducer(s.GetState[func_name], *act)
 	}
+	// we call subscribed function after state updated.
+	for _, subscribtor := range s.subscribes {
+		subscribtor()
+	}
+}
+
+func (s *store) Subscribe(subscribe_fn func()) {
+	s.subscribes = append(s.subscribes, subscribe_fn)
 }
