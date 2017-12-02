@@ -4,6 +4,7 @@ import (
 	"sync"
 )
 
+// Action is a type for Reducer to know what should it do by recognize Action::Type
 type Action struct {
 	Type string
 }
@@ -33,6 +34,7 @@ type store struct {
 	mu          sync.Mutex
 }
 
+// NewStore create a store by Reducers
 func NewStore(reducer Reducer, reducers ...Reducer) *store {
 	s := &store{
 		GetState:    make(map[string]interface{}),
@@ -58,8 +60,8 @@ func (s *store) Dispatch(act *Action) {
 	}
 	// we dispatch action to every reducer, and reducer update mapping state.
 	for _, reducer := range s.reducers {
-		func_name := getReducerName(reducer)
-		s.GetState[func_name] = reducer(s.GetState[func_name], *act)
+		funcName := getReducerName(reducer)
+		s.GetState[funcName] = reducer(s.GetState[funcName], *act)
 	}
 	// we call subscribed function after state updated.
 	s.atSubscribe = true
@@ -70,6 +72,6 @@ func (s *store) Dispatch(act *Action) {
 	s.mu.Unlock()
 }
 
-func (s *store) Subscribe(subscribe_fn func()) {
-	s.subscribes = append(s.subscribes, subscribe_fn)
+func (s *store) Subscribe(subscribetor func()) {
+	s.subscribes = append(s.subscribes, subscribetor)
 }
