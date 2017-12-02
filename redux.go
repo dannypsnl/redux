@@ -40,19 +40,20 @@ func NewStore(r reducer, reducers ...reducer) *store {
 		GetState:    make(map[string]interface{}),
 		atSubscribe: false,
 	}
-	s.newreducer(r)
+	s.newReducer(r)
 	for _, r := range reducers {
-		s.newreducer(r)
+		s.newReducer(r)
 	}
 	return s
 }
 
-func (s *store) newreducer(r reducer) {
+func (s *store) newReducer(r reducer) {
 	// initial state will be return when current state is nil, so we send nil at here.
 	s.GetState[getReducerName(r)] = r(nil, Action{})
 	s.reducers = append(s.reducers, r)
 }
 
+// Dispatch send action to every reducer
 func (s *store) Dispatch(act *Action) {
 	s.mu.Lock()
 	if s.atSubscribe {
@@ -72,6 +73,7 @@ func (s *store) Dispatch(act *Action) {
 	s.mu.Unlock()
 }
 
+// Subscribe emit argument into subscribes chain, it will be invoked when Dispatch. !Warning, subscribed function can't invoke Dispatch, it will panic
 func (s *store) Subscribe(subscribetor func()) {
 	s.subscribes = append(s.subscribes, subscribetor)
 }
