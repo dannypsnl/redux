@@ -24,12 +24,14 @@ type store struct {
 	// when use GetState["counter"], we will got the current state of "counter" key's mapping target.
 	GetState map[string]interface{}
 	// subscribes contains those function we want to invoke at dispatch
-	subscribes []func()
+	subscribes  []func()
+	atSubscribe bool
 }
 
 func NewStore(reducer Reducer, reducers ...Reducer) *store {
 	s := &store{
-		GetState: make(map[string]interface{}),
+		GetState:    make(map[string]interface{}),
+		atSubscribe: false,
 	}
 	s.newReducer(reducer)
 	for _, reducer := range reducers {
@@ -45,15 +47,20 @@ func (s *store) newReducer(reducer Reducer) {
 }
 
 func (s *store) Dispatch(act *Action) {
+	if s.atSubscribe {
+		panic(`you're trying to invoke Dispatch inside the subscribed function`)
+	}
 	// we dispatch action to every reducer, and reducer update mapping state.
 	for _, reducer := range s.reducers {
 		func_name := getReducerName(reducer)
 		s.GetState[func_name] = reducer(s.GetState[func_name], *act)
 	}
 	// we call subscribed function after state updated.
+	s.atSubscribe = true
 	for _, subscribtor := range s.subscribes {
 		subscribtor()
 	}
+	s.atSubscribe = false
 }
 
 func (s *store) Subscribe(subscribe_fn func()) {
