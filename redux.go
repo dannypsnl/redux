@@ -1,12 +1,5 @@
 package redux
 
-import (
-	_ "fmt"
-	"reflect"
-	"runtime"
-	"strings"
-)
-
 type Action struct {
 	Type string
 }
@@ -53,11 +46,4 @@ func (s *store) Dispatch(act *Action) {
 		func_name := getReducerName(reducer)
 		s.GetState[func_name] = reducer(s.GetState[func_name], *act)
 	}
-}
-
-// getReducerName is a helper func to get function's ref name.
-func getReducerName(r Reducer) string {
-	// this code will get package.function_name, so we have to drop package part.
-	full_name := runtime.FuncForPC(reflect.ValueOf(r).Pointer()).Name()
-	return full_name[strings.LastIndexByte(full_name, '.')+1:]
 }
