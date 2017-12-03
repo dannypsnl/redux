@@ -57,10 +57,10 @@ func (s *Store) newReducer(r reducer) {
 
 // Dispatch send action to every reducer
 func (s *Store) Dispatch(act *Action) {
+	s.mu.Lock()
 	if s.atSubscribe {
 		panic(`you're trying to invoke Dispatch inside the subscribed function`)
 	}
-	s.mu.Lock()
 	// we dispatch action to every reducer, and reducer update mapping state.
 	for _, r := range s.reducers {
 		funcName := getReducerName(r)
