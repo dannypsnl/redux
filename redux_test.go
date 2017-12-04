@@ -38,8 +38,8 @@ func TestStore(t *testing.T) {
 	var expectedState interface{} = "TOP"
 	store := NewStore(counter, jump)
 	store.Subscribe(func() {
-		if store.GetState[testTarget] != expectedState {
-			t.Errorf("Expected: %v, Actual: %v", expectedState, store.GetState[testTarget])
+		if store.GetState(testTarget) != expectedState {
+			t.Errorf("Expected: %v, Actual: %v", expectedState, store.GetState(testTarget))
 		}
 	})
 	store.Dispatch(SendAction("JUMP"))

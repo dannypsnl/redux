@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/dannypsnl/redux"
 	"sync"
+
+	"github.com/dannypsnl/redux"
 )
 
 func counter(state interface{}, action redux.Action) interface{} {
@@ -24,7 +25,7 @@ func counter(state interface{}, action redux.Action) interface{} {
 func main() {
 	store := redux.NewStore(counter)
 	store.Subscribe(func() {
-		fmt.Printf("State is %v\n", store.GetState["counter"])
+		fmt.Printf("State is %v\n", store.GetState("counter"))
 		// store.Dispatch(redux.SendAction("INC"))
 		//       ^^^^^^^^ invoke Dispatch in Subscribe will cause panic
 	})
