@@ -25,7 +25,8 @@ func login(state interface{}, action redux.Action) interface{} {
 	}
 }
 
-func ExampleComplex() {
+func ExampleActionArgs() {
+	// ExampleActionArgs show how to use Args of Action
 	store := redux.NewStore(login)
 	act := &redux.Action{
 		Type: "login",
@@ -40,4 +41,7 @@ func ExampleComplex() {
 		}
 	})
 	store.Dispatch(act)
+	// Output:
+	//
+	// danny Login
 }
