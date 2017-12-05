@@ -20,6 +20,7 @@ We need user & password to do this State update, so we will put user & password'
 Again, only reducer should use Args, so cast is safety
 - `Subscribe` recieve a func without args will be invoked by every next Dispatch
 - `JSON` return state as JSON format string<br>
+
 Example
 ```go
 import "github.com/dannypsnl/redux"
