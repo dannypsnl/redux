@@ -44,7 +44,7 @@ stat: reducer
 
 function:
     'func' ID '(' (ID typeFlow (',' ID typeFlow)*)? ')' '{'
-        stat
+        stat    
     '}'
     ;
 
