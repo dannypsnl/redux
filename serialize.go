@@ -4,6 +4,7 @@ import (
 	"fmt"
 )
 
+// JSON serialize state of store to JSON format string
 func (s *Store) JSON() (str string) {
 	str += "{\n"
 	for k, v := range s.state {

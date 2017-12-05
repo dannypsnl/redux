@@ -36,3 +36,20 @@ func main() {
     store.Dispatch(redux.SendAction("INC")) // state increase by action, now is 1
 }
 ```
+- NewStore
+Create New Store by reducers(at least one reducer)
+- Dispatch
+Dispatch recieve then send your action object to every reducers to update state
+- SendAction
+SendAction recieve a string and return a pointer to Action for you<br>
+The reason for it is because we usually only need Type, so SendAction reduce the code for you and reduce the opportunity make fault<br>
+- Action
+Action is a type contain Type & Args<br>
+Type is just a string help reducer juage what should them do.<br>
+Args is a map[string]interface{} contain a lot values, think about we Dispatch login Action<br>
+We need user & password to do this State update, so we will put user & password's value in the Action::Args<br>
+Again, only reducer should use Args, so cast is safety
+- Subscribe
+Subscribe recieve a func without args will be invoked by every next Dispatch
+- JSON
+JSON return state as JSON format string
