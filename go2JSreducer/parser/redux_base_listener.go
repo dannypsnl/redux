@@ -33,6 +33,12 @@ func (s *BaseReduxListener) EnterStat(ctx *StatContext) {}
 // ExitStat is called when production stat is exited.
 func (s *BaseReduxListener) ExitStat(ctx *StatContext) {}
 
+// EnterFunction is called when production function is entered.
+func (s *BaseReduxListener) EnterFunction(ctx *FunctionContext) {}
+
+// ExitFunction is called when production function is exited.
+func (s *BaseReduxListener) ExitFunction(ctx *FunctionContext) {}
+
 // EnterReducer is called when production reducer is entered.
 func (s *BaseReduxListener) EnterReducer(ctx *ReducerContext) {}
 
@@ -80,3 +86,15 @@ func (s *BaseReduxListener) EnterExpr(ctx *ExprContext) {}
 
 // ExitExpr is called when production expr is exited.
 func (s *BaseReduxListener) ExitExpr(ctx *ExprContext) {}
+
+// EnterPackageStat is called when production packageStat is entered.
+func (s *BaseReduxListener) EnterPackageStat(ctx *PackageStatContext) {}
+
+// ExitPackageStat is called when production packageStat is exited.
+func (s *BaseReduxListener) ExitPackageStat(ctx *PackageStatContext) {}
+
+// EnterImportStat is called when production importStat is entered.
+func (s *BaseReduxListener) EnterImportStat(ctx *ImportStatContext) {}
+
+// ExitImportStat is called when production importStat is exited.
+func (s *BaseReduxListener) ExitImportStat(ctx *ImportStatContext) {}

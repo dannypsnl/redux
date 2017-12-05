@@ -16,8 +16,8 @@ func NewTreeShapeListener() *TreeShapeListener {
 	return new(TreeShapeListener)
 }
 
-func (this *TreeShapeListener) EnterEveryRule(ctx antlr.ParserRuleContext) {
-	fmt.Println(ctx.GetText())
+func (s *TreeShapeListener) EnterReducer(ctx *parser.ReducerContext) {
+	fmt.Println("reducer found!", ctx.ID(0).GetText())
 }
 
 func main() {

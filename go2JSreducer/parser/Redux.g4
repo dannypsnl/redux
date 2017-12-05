@@ -1,10 +1,10 @@
 grammar Redux;
 
 WS: [ \t\n\r]+ -> channel(HIDDEN) ;
-String: '"' .*? '"'
+STRING: '"' .*? '"'
     | '`' .*? '`'
     ;
-Ident: StartLetter
+ID: StartLetter
     Letter*
     ;
 fragment
@@ -36,15 +36,24 @@ Digit: [0-9] ;
 prog: stat+ ;
 
 stat: reducer
+    | function
     | defineGlobal
+    | packageStat
+    | importStat
+    ;
+
+function:
+    'func' ID '(' (ID typeFlow (',' ID typeFlow)*)? ')' '{'
+        stat
+    '}'
     ;
 
 reducer:
-    'func' Ident '(' Ident 'interface{}' ',' Ident 'Action' ')' 'interface{}' '{'
-        'if' Ident '==' 'nil' '{'
+    'func' ID '(' ID 'interface{}' ',' ID 'redux.Action' ')' 'interface{}' '{'
+        'if' ID '==' 'nil' '{'
             'return' initialState=expr
         '}'
-        'switch' Ident '.' 'Type' '{'
+        'switch' ID '.' 'Type' '{'
         cases
         'default' ':'
             'return' expr
@@ -56,23 +65,30 @@ cases:
         'return' expr)+
     ;
 method:
-    Ident '(' typeFlow (',' typeFlow)* ')' typeFlow
+    ID '(' typeFlow (',' typeFlow)* ')' typeFlow
     ;
 
-data: Ident typeFlow;
-typeFlow: Ident 
+data: ID typeFlow;
+typeFlow: ID 
     | 'struct' '{' data '}'
     | 'interface' '{' method* '}'
     | 
     ;
-define: Ident typeFlow '=' expr;
+define: ID typeFlow '=' expr;
 defineGlobal: 'const' define
     | 'var' define
-    | 'type' Ident typeFlow
+    | 'type' ID typeFlow
     ;
 
 expr: expr ('+'|'-'|'*'|'/') expr
     | '(' expr ')'
+    | expr '.' '(' ID ')' // cast
     | Number
-    | String
+    | STRING
+    | ID
+    ;
+
+packageStat: 'package' ID ;
+importStat: 'import' '(' STRING* ')'
+    | 'import' STRING
     ;

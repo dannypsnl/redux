@@ -14,6 +14,9 @@ type ReduxListener interface {
 	// EnterStat is called when entering the stat production.
 	EnterStat(c *StatContext)
 
+	// EnterFunction is called when entering the function production.
+	EnterFunction(c *FunctionContext)
+
 	// EnterReducer is called when entering the reducer production.
 	EnterReducer(c *ReducerContext)
 
@@ -38,11 +41,20 @@ type ReduxListener interface {
 	// EnterExpr is called when entering the expr production.
 	EnterExpr(c *ExprContext)
 
+	// EnterPackageStat is called when entering the packageStat production.
+	EnterPackageStat(c *PackageStatContext)
+
+	// EnterImportStat is called when entering the importStat production.
+	EnterImportStat(c *ImportStatContext)
+
 	// ExitProg is called when exiting the prog production.
 	ExitProg(c *ProgContext)
 
 	// ExitStat is called when exiting the stat production.
 	ExitStat(c *StatContext)
+
+	// ExitFunction is called when exiting the function production.
+	ExitFunction(c *FunctionContext)
 
 	// ExitReducer is called when exiting the reducer production.
 	ExitReducer(c *ReducerContext)
@@ -67,4 +79,10 @@ type ReduxListener interface {
 
 	// ExitExpr is called when exiting the expr production.
 	ExitExpr(c *ExprContext)
+
+	// ExitPackageStat is called when exiting the packageStat production.
+	ExitPackageStat(c *PackageStatContext)
+
+	// ExitImportStat is called when exiting the importStat production.
+	ExitImportStat(c *ImportStatContext)
 }
