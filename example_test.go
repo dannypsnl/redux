@@ -26,7 +26,6 @@ func Example() {
 		fmt.Println("Current State:", store.GetState("counter"))
 	})
 	store.Dispatch(redux.SendAction("INC"))
-
 	// Output:
 	// Current State: 1
 }
