@@ -7,6 +7,7 @@ import (
 // Action is a type for reducer to know what should it do by recognize Action::Type
 type Action struct {
 	Type string
+	Args map[string]interface{}
 }
 
 // SendAction give a simple way to pass pointer of Action, it will be clear and performance.

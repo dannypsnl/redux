@@ -47,3 +47,9 @@ func TestStore(t *testing.T) {
 	expectedState = 1
 	store.Dispatch(SendAction("INC"))
 }
+
+func TestGetReducerName(t *testing.T) {
+	if getReducerName(counter) != `counter` {
+		t.Error(`getReducerName didn't get correct name`)
+	}
+}

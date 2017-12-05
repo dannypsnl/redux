@@ -31,7 +31,7 @@ func main() {
     store := redux.NewStore(counter) // counter state be initial at here, it's 0
     // Subscribe's function will be invoke when Dispatch
     store.Subscribe(func() {
-        fmt.Printf("Now state is %v\n", store.GetState["counter"])
+        fmt.Printf("Now state is %v\n", store.GetState("counter"))
     })
     store.Dispatch(redux.SendAction("INC")) // state increase by action, now is 1
 }
