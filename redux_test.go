@@ -47,16 +47,3 @@ func TestStore(t *testing.T) {
 	expectedState = 1
 	store.Dispatch(SendAction("INC"))
 }
-
-func TestSubscribetorCannotInvokeDispatch(t *testing.T) {
-	store := NewStore(counter, jump)
-	defer func() {
-		if r := recover(); r == nil {
-			//t.Errorf("The code did not panic")
-		}
-	}()
-	store.Subscribe(func() {
-		//store.Dispatch(SendAction("INC"))
-	})
-	store.Dispatch(SendAction("INC"))
-}

@@ -30,8 +30,6 @@ type Store struct {
 	reducers []reducer
 	// subscribes contains those function we want to invoke at dispatch
 	subscribes []func()
-	// atSubscribe make sure we can't call Dispatch in Subscribed function
-	atSubscribe bool
 	// We use mu to Lock each Dispatch call
 	mu sync.Mutex
 }
@@ -39,8 +37,7 @@ type Store struct {
 // NewStore create a Store by reducers
 func NewStore(r reducer, reducers ...reducer) *Store {
 	s := &Store{
-		state:       make(map[string]interface{}),
-		atSubscribe: false,
+		state: make(map[string]interface{}),
 	}
 	s.newReducer(r)
 	for _, r := range reducers {
@@ -64,20 +61,15 @@ func (s *Store) GetState(key string) interface{} {
 func (s *Store) Dispatch(act *Action) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
-	if s.atSubscribe {
-		panic(`you're trying to invoke Dispatch inside the subscribed function`)
-	}
 	// we dispatch action to every reducer, and reducer update mapping state.
 	for _, r := range s.reducers {
 		funcName := getReducerName(r)
 		s.state[funcName] = r(s.state[funcName], *act)
 	}
 	// we call subscribed function after state updated.
-	s.atSubscribe = true
 	for _, subscribtor := range s.subscribes {
 		subscribtor()
 	}
-	s.atSubscribe = false
 }
 
 // Subscribe emit argument into subscribes chain, it will be invoked when Dispatch. !Warning, subscribed function can't invoke Dispatch, it will panic
