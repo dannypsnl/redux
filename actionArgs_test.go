@@ -7,6 +7,7 @@ import (
 )
 
 var users = map[string]int{
+	// trust me, I won't use 1234 to be my password
 	"danny": 1234,
 }
 
@@ -40,5 +41,6 @@ func Example_actionArgs() {
 		}
 	})
 	store.Dispatch(act)
-	// Output: danny Login
+	// Output:
+	// danny Login
 }
