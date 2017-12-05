@@ -1,0 +1,1 @@
+antlr4 -Dlanguage=Go Redux.g4

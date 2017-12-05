@@ -27,6 +27,6 @@ func main() {
 	stream := antlr.NewCommonTokenStream(lexer, 0)
 	p := parser.NewReduxParser(stream)
 	p.BuildParseTrees = true
-	tree := p.Reducer()
+	tree := p.Prog()
 	antlr.ParseTreeWalkerDefault.Walk(NewTreeShapeListener(), tree)
 }

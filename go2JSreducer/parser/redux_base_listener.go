@@ -21,6 +21,18 @@ func (s *BaseReduxListener) EnterEveryRule(ctx antlr.ParserRuleContext) {}
 // ExitEveryRule is called when any rule is exited.
 func (s *BaseReduxListener) ExitEveryRule(ctx antlr.ParserRuleContext) {}
 
+// EnterProg is called when production prog is entered.
+func (s *BaseReduxListener) EnterProg(ctx *ProgContext) {}
+
+// ExitProg is called when production prog is exited.
+func (s *BaseReduxListener) ExitProg(ctx *ProgContext) {}
+
+// EnterStat is called when production stat is entered.
+func (s *BaseReduxListener) EnterStat(ctx *StatContext) {}
+
+// ExitStat is called when production stat is exited.
+func (s *BaseReduxListener) ExitStat(ctx *StatContext) {}
+
 // EnterReducer is called when production reducer is entered.
 func (s *BaseReduxListener) EnterReducer(ctx *ReducerContext) {}
 

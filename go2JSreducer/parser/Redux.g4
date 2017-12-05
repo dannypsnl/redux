@@ -29,6 +29,11 @@ Letter: StartLetter
 fragment
 Digit: [0-9] ;
 
+prog: stat+ ;
+
+stat: reducer
+    ;
+    
 reducer:
     'func' Ident '(' Ident 'interface{}' ',' Ident 'Action' ')' 'interface{}' '{'
         Ident
