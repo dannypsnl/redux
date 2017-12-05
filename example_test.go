@@ -27,7 +27,5 @@ func Example() {
 	})
 	store.Dispatch(redux.SendAction("INC"))
 
-	// Output:
-	//
-	// Current State: 1
+	// Output: Current State: 1
 }

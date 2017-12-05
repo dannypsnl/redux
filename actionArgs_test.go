@@ -40,7 +40,5 @@ func Example_actionArgs() {
 		}
 	})
 	store.Dispatch(act)
-	// Output:
-	//
-	// danny Login
+	// Output: danny Login
 }
