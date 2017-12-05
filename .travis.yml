@@ -31,6 +31,7 @@ before_script:
   - GO_FILES=$(find . -iname '*.go' -type f | grep -v /vendor/) # All the .go files, excluding vendor/
   - go get github.com/dannypsnl/redux
   - go get golang.org/x/tools/cmd/cover
+  - go get github.com/antlr/antlr4/runtime/Go/antlr
   - go get github.com/mattn/goveralls
 
 # script always run to completion (set +e). All of these code checks are must haves
