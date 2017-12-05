@@ -39,6 +39,12 @@ func (s *BaseReduxListener) EnterReducer(ctx *ReducerContext) {}
 // ExitReducer is called when production reducer is exited.
 func (s *BaseReduxListener) ExitReducer(ctx *ReducerContext) {}
 
+// EnterCases is called when production cases is entered.
+func (s *BaseReduxListener) EnterCases(ctx *CasesContext) {}
+
+// ExitCases is called when production cases is exited.
+func (s *BaseReduxListener) ExitCases(ctx *CasesContext) {}
+
 // EnterMethod is called when production method is entered.
 func (s *BaseReduxListener) EnterMethod(ctx *MethodContext) {}
 

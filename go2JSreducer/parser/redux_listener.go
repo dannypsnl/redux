@@ -17,6 +17,9 @@ type ReduxListener interface {
 	// EnterReducer is called when entering the reducer production.
 	EnterReducer(c *ReducerContext)
 
+	// EnterCases is called when entering the cases production.
+	EnterCases(c *CasesContext)
+
 	// EnterMethod is called when entering the method production.
 	EnterMethod(c *MethodContext)
 
@@ -43,6 +46,9 @@ type ReduxListener interface {
 
 	// ExitReducer is called when exiting the reducer production.
 	ExitReducer(c *ReducerContext)
+
+	// ExitCases is called when exiting the cases production.
+	ExitCases(c *CasesContext)
 
 	// ExitMethod is called when exiting the method production.
 	ExitMethod(c *MethodContext)

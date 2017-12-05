@@ -16,66 +16,81 @@ var _ = reflect.Copy
 var _ = strconv.Itoa
 
 var parserATN = []uint16{
-	3, 24715, 42794, 33075, 47597, 16764, 15335, 30598, 22884, 3, 23, 108,
+	3, 24715, 42794, 33075, 47597, 16764, 15335, 30598, 22884, 3, 34, 139,
 	4, 2, 9, 2, 4, 3, 9, 3, 4, 4, 9, 4, 4, 5, 9, 5, 4, 6, 9, 6, 4, 7, 9, 7,
-	4, 8, 9, 8, 4, 9, 9, 9, 4, 10, 9, 10, 3, 2, 6, 2, 22, 10, 2, 13, 2, 14,
-	2, 23, 3, 3, 3, 3, 5, 3, 28, 10, 3, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4,
-	3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 5, 3, 5, 3, 5, 3, 5,
-	3, 5, 7, 5, 49, 10, 5, 12, 5, 14, 5, 52, 11, 5, 3, 5, 3, 5, 3, 5, 3, 6,
-	3, 6, 3, 6, 3, 7, 3, 7, 3, 7, 3, 7, 3, 7, 3, 7, 3, 7, 3, 7, 3, 7, 7, 7,
-	69, 10, 7, 12, 7, 14, 7, 72, 11, 7, 3, 7, 3, 7, 5, 7, 76, 10, 7, 3, 8,
-	3, 8, 3, 8, 3, 8, 3, 8, 3, 9, 3, 9, 3, 9, 3, 9, 3, 9, 3, 9, 3, 9, 5, 9,
-	90, 10, 9, 3, 10, 3, 10, 3, 10, 3, 10, 3, 10, 3, 10, 5, 10, 98, 10, 10,
-	3, 10, 3, 10, 3, 10, 7, 10, 103, 10, 10, 12, 10, 14, 10, 106, 11, 10, 3,
-	10, 2, 3, 18, 11, 2, 4, 6, 8, 10, 12, 14, 16, 18, 2, 3, 3, 2, 17, 20, 2,
-	109, 2, 21, 3, 2, 2, 2, 4, 27, 3, 2, 2, 2, 6, 29, 3, 2, 2, 2, 8, 43, 3,
-	2, 2, 2, 10, 56, 3, 2, 2, 2, 12, 75, 3, 2, 2, 2, 14, 77, 3, 2, 2, 2, 16,
-	89, 3, 2, 2, 2, 18, 97, 3, 2, 2, 2, 20, 22, 5, 4, 3, 2, 21, 20, 3, 2, 2,
-	2, 22, 23, 3, 2, 2, 2, 23, 21, 3, 2, 2, 2, 23, 24, 3, 2, 2, 2, 24, 3, 3,
-	2, 2, 2, 25, 28, 5, 6, 4, 2, 26, 28, 5, 16, 9, 2, 27, 25, 3, 2, 2, 2, 27,
-	26, 3, 2, 2, 2, 28, 5, 3, 2, 2, 2, 29, 30, 7, 3, 2, 2, 30, 31, 7, 22, 2,
-	2, 31, 32, 7, 4, 2, 2, 32, 33, 7, 22, 2, 2, 33, 34, 7, 5, 2, 2, 34, 35,
-	7, 6, 2, 2, 35, 36, 7, 22, 2, 2, 36, 37, 7, 7, 2, 2, 37, 38, 7, 8, 2, 2,
-	38, 39, 7, 5, 2, 2, 39, 40, 7, 9, 2, 2, 40, 41, 7, 22, 2, 2, 41, 42, 7,
-	10, 2, 2, 42, 7, 3, 2, 2, 2, 43, 44, 7, 22, 2, 2, 44, 45, 7, 4, 2, 2, 45,
-	50, 5, 12, 7, 2, 46, 47, 7, 6, 2, 2, 47, 49, 5, 12, 7, 2, 48, 46, 3, 2,
-	2, 2, 49, 52, 3, 2, 2, 2, 50, 48, 3, 2, 2, 2, 50, 51, 3, 2, 2, 2, 51, 53,
-	3, 2, 2, 2, 52, 50, 3, 2, 2, 2, 53, 54, 7, 8, 2, 2, 54, 55, 5, 12, 7, 2,
-	55, 9, 3, 2, 2, 2, 56, 57, 7, 22, 2, 2, 57, 58, 5, 12, 7, 2, 58, 11, 3,
-	2, 2, 2, 59, 76, 7, 22, 2, 2, 60, 61, 7, 11, 2, 2, 61, 62, 7, 9, 2, 2,
-	62, 63, 5, 10, 6, 2, 63, 64, 7, 10, 2, 2, 64, 76, 3, 2, 2, 2, 65, 66, 7,
-	12, 2, 2, 66, 70, 7, 9, 2, 2, 67, 69, 5, 8, 5, 2, 68, 67, 3, 2, 2, 2, 69,
-	72, 3, 2, 2, 2, 70, 68, 3, 2, 2, 2, 70, 71, 3, 2, 2, 2, 71, 73, 3, 2, 2,
-	2, 72, 70, 3, 2, 2, 2, 73, 76, 7, 10, 2, 2, 74, 76, 3, 2, 2, 2, 75, 59,
-	3, 2, 2, 2, 75, 60, 3, 2, 2, 2, 75, 65, 3, 2, 2, 2, 75, 74, 3, 2, 2, 2,
-	76, 13, 3, 2, 2, 2, 77, 78, 7, 22, 2, 2, 78, 79, 5, 12, 7, 2, 79, 80, 7,
-	13, 2, 2, 80, 81, 5, 18, 10, 2, 81, 15, 3, 2, 2, 2, 82, 83, 7, 14, 2, 2,
-	83, 90, 5, 14, 8, 2, 84, 85, 7, 15, 2, 2, 85, 90, 5, 14, 8, 2, 86, 87,
-	7, 16, 2, 2, 87, 88, 7, 22, 2, 2, 88, 90, 5, 12, 7, 2, 89, 82, 3, 2, 2,
-	2, 89, 84, 3, 2, 2, 2, 89, 86, 3, 2, 2, 2, 90, 17, 3, 2, 2, 2, 91, 92,
-	8, 10, 1, 2, 92, 93, 7, 4, 2, 2, 93, 94, 5, 18, 10, 2, 94, 95, 7, 8, 2,
-	2, 95, 98, 3, 2, 2, 2, 96, 98, 7, 23, 2, 2, 97, 91, 3, 2, 2, 2, 97, 96,
-	3, 2, 2, 2, 98, 104, 3, 2, 2, 2, 99, 100, 12, 5, 2, 2, 100, 101, 9, 2,
-	2, 2, 101, 103, 5, 18, 10, 6, 102, 99, 3, 2, 2, 2, 103, 106, 3, 2, 2, 2,
-	104, 102, 3, 2, 2, 2, 104, 105, 3, 2, 2, 2, 105, 19, 3, 2, 2, 2, 106, 104,
-	3, 2, 2, 2, 10, 23, 27, 50, 70, 75, 89, 97, 104,
+	4, 8, 9, 8, 4, 9, 9, 9, 4, 10, 9, 10, 4, 11, 9, 11, 3, 2, 6, 2, 24, 10,
+	2, 13, 2, 14, 2, 25, 3, 3, 3, 3, 5, 3, 30, 10, 3, 3, 4, 3, 4, 3, 4, 3,
+	4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3,
+	4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3,
+	4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 5, 3, 5, 3, 5, 3, 5, 3, 5, 3, 5, 6, 5, 70,
+	10, 5, 13, 5, 14, 5, 71, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 7, 6, 79, 10, 6,
+	12, 6, 14, 6, 82, 11, 6, 3, 6, 3, 6, 3, 6, 3, 7, 3, 7, 3, 7, 3, 8, 3, 8,
+	3, 8, 3, 8, 3, 8, 3, 8, 3, 8, 3, 8, 3, 8, 7, 8, 99, 10, 8, 12, 8, 14, 8,
+	102, 11, 8, 3, 8, 3, 8, 5, 8, 106, 10, 8, 3, 9, 3, 9, 3, 9, 3, 9, 3, 9,
+	3, 10, 3, 10, 3, 10, 3, 10, 3, 10, 3, 10, 3, 10, 5, 10, 120, 10, 10, 3,
+	11, 3, 11, 3, 11, 3, 11, 3, 11, 3, 11, 3, 11, 5, 11, 129, 10, 11, 3, 11,
+	3, 11, 3, 11, 7, 11, 134, 10, 11, 12, 11, 14, 11, 137, 11, 11, 3, 11, 2,
+	3, 20, 12, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 2, 3, 3, 2, 27, 30, 2, 141,
+	2, 23, 3, 2, 2, 2, 4, 29, 3, 2, 2, 2, 6, 31, 3, 2, 2, 2, 8, 69, 3, 2, 2,
+	2, 10, 73, 3, 2, 2, 2, 12, 86, 3, 2, 2, 2, 14, 105, 3, 2, 2, 2, 16, 107,
+	3, 2, 2, 2, 18, 119, 3, 2, 2, 2, 20, 128, 3, 2, 2, 2, 22, 24, 5, 4, 3,
+	2, 23, 22, 3, 2, 2, 2, 24, 25, 3, 2, 2, 2, 25, 23, 3, 2, 2, 2, 25, 26,
+	3, 2, 2, 2, 26, 3, 3, 2, 2, 2, 27, 30, 5, 6, 4, 2, 28, 30, 5, 18, 10, 2,
+	29, 27, 3, 2, 2, 2, 29, 28, 3, 2, 2, 2, 30, 5, 3, 2, 2, 2, 31, 32, 7, 3,
+	2, 2, 32, 33, 7, 33, 2, 2, 33, 34, 7, 4, 2, 2, 34, 35, 7, 33, 2, 2, 35,
+	36, 7, 5, 2, 2, 36, 37, 7, 6, 2, 2, 37, 38, 7, 33, 2, 2, 38, 39, 7, 7,
+	2, 2, 39, 40, 7, 8, 2, 2, 40, 41, 7, 5, 2, 2, 41, 42, 7, 9, 2, 2, 42, 43,
+	7, 10, 2, 2, 43, 44, 7, 33, 2, 2, 44, 45, 7, 11, 2, 2, 45, 46, 7, 12, 2,
+	2, 46, 47, 7, 9, 2, 2, 47, 48, 7, 13, 2, 2, 48, 49, 5, 20, 11, 2, 49, 50,
+	7, 14, 2, 2, 50, 51, 7, 15, 2, 2, 51, 52, 7, 33, 2, 2, 52, 53, 7, 16, 2,
+	2, 53, 54, 7, 17, 2, 2, 54, 55, 7, 9, 2, 2, 55, 56, 5, 8, 5, 2, 56, 57,
+	7, 18, 2, 2, 57, 58, 7, 19, 2, 2, 58, 59, 7, 13, 2, 2, 59, 60, 5, 20, 11,
+	2, 60, 61, 7, 14, 2, 2, 61, 62, 7, 14, 2, 2, 62, 7, 3, 2, 2, 2, 63, 64,
+	7, 20, 2, 2, 64, 65, 5, 20, 11, 2, 65, 66, 7, 19, 2, 2, 66, 67, 7, 13,
+	2, 2, 67, 68, 5, 20, 11, 2, 68, 70, 3, 2, 2, 2, 69, 63, 3, 2, 2, 2, 70,
+	71, 3, 2, 2, 2, 71, 69, 3, 2, 2, 2, 71, 72, 3, 2, 2, 2, 72, 9, 3, 2, 2,
+	2, 73, 74, 7, 33, 2, 2, 74, 75, 7, 4, 2, 2, 75, 80, 5, 14, 8, 2, 76, 77,
+	7, 6, 2, 2, 77, 79, 5, 14, 8, 2, 78, 76, 3, 2, 2, 2, 79, 82, 3, 2, 2, 2,
+	80, 78, 3, 2, 2, 2, 80, 81, 3, 2, 2, 2, 81, 83, 3, 2, 2, 2, 82, 80, 3,
+	2, 2, 2, 83, 84, 7, 8, 2, 2, 84, 85, 5, 14, 8, 2, 85, 11, 3, 2, 2, 2, 86,
+	87, 7, 33, 2, 2, 87, 88, 5, 14, 8, 2, 88, 13, 3, 2, 2, 2, 89, 106, 7, 33,
+	2, 2, 90, 91, 7, 21, 2, 2, 91, 92, 7, 9, 2, 2, 92, 93, 5, 12, 7, 2, 93,
+	94, 7, 14, 2, 2, 94, 106, 3, 2, 2, 2, 95, 96, 7, 22, 2, 2, 96, 100, 7,
+	9, 2, 2, 97, 99, 5, 10, 6, 2, 98, 97, 3, 2, 2, 2, 99, 102, 3, 2, 2, 2,
+	100, 98, 3, 2, 2, 2, 100, 101, 3, 2, 2, 2, 101, 103, 3, 2, 2, 2, 102, 100,
+	3, 2, 2, 2, 103, 106, 7, 14, 2, 2, 104, 106, 3, 2, 2, 2, 105, 89, 3, 2,
+	2, 2, 105, 90, 3, 2, 2, 2, 105, 95, 3, 2, 2, 2, 105, 104, 3, 2, 2, 2, 106,
+	15, 3, 2, 2, 2, 107, 108, 7, 33, 2, 2, 108, 109, 5, 14, 8, 2, 109, 110,
+	7, 23, 2, 2, 110, 111, 5, 20, 11, 2, 111, 17, 3, 2, 2, 2, 112, 113, 7,
+	24, 2, 2, 113, 120, 5, 16, 9, 2, 114, 115, 7, 25, 2, 2, 115, 120, 5, 16,
+	9, 2, 116, 117, 7, 26, 2, 2, 117, 118, 7, 33, 2, 2, 118, 120, 5, 14, 8,
+	2, 119, 112, 3, 2, 2, 2, 119, 114, 3, 2, 2, 2, 119, 116, 3, 2, 2, 2, 120,
+	19, 3, 2, 2, 2, 121, 122, 8, 11, 1, 2, 122, 123, 7, 4, 2, 2, 123, 124,
+	5, 20, 11, 2, 124, 125, 7, 8, 2, 2, 125, 129, 3, 2, 2, 2, 126, 129, 7,
+	34, 2, 2, 127, 129, 7, 32, 2, 2, 128, 121, 3, 2, 2, 2, 128, 126, 3, 2,
+	2, 2, 128, 127, 3, 2, 2, 2, 129, 135, 3, 2, 2, 2, 130, 131, 12, 6, 2, 2,
+	131, 132, 9, 2, 2, 2, 132, 134, 5, 20, 11, 7, 133, 130, 3, 2, 2, 2, 134,
+	137, 3, 2, 2, 2, 135, 133, 3, 2, 2, 2, 135, 136, 3, 2, 2, 2, 136, 21, 3,
+	2, 2, 2, 137, 135, 3, 2, 2, 2, 11, 25, 29, 71, 80, 100, 105, 119, 128,
+	135,
 }
 var deserializer = antlr.NewATNDeserializer(nil)
 var deserializedATN = deserializer.DeserializeFromUInt16(parserATN)
 
 var literalNames = []string{
 	"", "'func'", "'('", "'interface{}'", "','", "'Action'", "')'", "'{'",
-	"'}'", "'struct'", "'interface'", "'='", "'const'", "'var'", "'type'",
-	"'+'", "'-'", "'*'", "'/'",
+	"'if'", "'=='", "'nil'", "'return'", "'}'", "'switch'", "'.'", "'Type'",
+	"'default'", "':'", "'case'", "'struct'", "'interface'", "'='", "'const'",
+	"'var'", "'type'", "'+'", "'-'", "'*'", "'/'",
 }
 var symbolicNames = []string{
 	"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
-	"", "WS", "Ident", "Number",
+	"", "", "", "", "", "", "", "", "", "", "", "WS", "String", "Ident", "Number",
 }
 
 var ruleNames = []string{
-	"prog", "stat", "reducer", "method", "data", "typeFlow", "define", "defineGlobal",
-	"expr",
+	"prog", "stat", "reducer", "cases", "method", "data", "typeFlow", "define",
+	"defineGlobal", "expr",
 }
 var decisionToDFA = make([]*antlr.DFA, len(deserializedATN.DecisionToState))
 
@@ -124,9 +139,20 @@ const (
 	ReduxParserT__15  = 16
 	ReduxParserT__16  = 17
 	ReduxParserT__17  = 18
-	ReduxParserWS     = 19
-	ReduxParserIdent  = 20
-	ReduxParserNumber = 21
+	ReduxParserT__18  = 19
+	ReduxParserT__19  = 20
+	ReduxParserT__20  = 21
+	ReduxParserT__21  = 22
+	ReduxParserT__22  = 23
+	ReduxParserT__23  = 24
+	ReduxParserT__24  = 25
+	ReduxParserT__25  = 26
+	ReduxParserT__26  = 27
+	ReduxParserT__27  = 28
+	ReduxParserWS     = 29
+	ReduxParserString = 30
+	ReduxParserIdent  = 31
+	ReduxParserNumber = 32
 )
 
 // ReduxParser rules.
@@ -134,12 +160,13 @@ const (
 	ReduxParserRULE_prog         = 0
 	ReduxParserRULE_stat         = 1
 	ReduxParserRULE_reducer      = 2
-	ReduxParserRULE_method       = 3
-	ReduxParserRULE_data         = 4
-	ReduxParserRULE_typeFlow     = 5
-	ReduxParserRULE_define       = 6
-	ReduxParserRULE_defineGlobal = 7
-	ReduxParserRULE_expr         = 8
+	ReduxParserRULE_cases        = 3
+	ReduxParserRULE_method       = 4
+	ReduxParserRULE_data         = 5
+	ReduxParserRULE_typeFlow     = 6
+	ReduxParserRULE_define       = 7
+	ReduxParserRULE_defineGlobal = 8
+	ReduxParserRULE_expr         = 9
 )
 
 // IProgContext is an interface to support dynamic dispatch.
@@ -245,17 +272,17 @@ func (p *ReduxParser) Prog() (localctx IProgContext) {
 	}()
 
 	p.EnterOuterAlt(localctx, 1)
-	p.SetState(19)
+	p.SetState(21)
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
-	for ok := true; ok; ok = (((_la)&-(0x1f+1)) == 0 && ((1<<uint(_la))&((1<<ReduxParserT__0)|(1<<ReduxParserT__11)|(1<<ReduxParserT__12)|(1<<ReduxParserT__13))) != 0) {
+	for ok := true; ok; ok = (((_la)&-(0x1f+1)) == 0 && ((1<<uint(_la))&((1<<ReduxParserT__0)|(1<<ReduxParserT__21)|(1<<ReduxParserT__22)|(1<<ReduxParserT__23))) != 0) {
 		{
-			p.SetState(18)
+			p.SetState(20)
 			p.Stat()
 		}
 
-		p.SetState(21)
+		p.SetState(23)
 		p.GetErrorHandler().Sync(p)
 		_la = p.GetTokenStream().LA(1)
 	}
@@ -361,21 +388,21 @@ func (p *ReduxParser) Stat() (localctx IStatContext) {
 		}
 	}()
 
-	p.SetState(25)
+	p.SetState(27)
 	p.GetErrorHandler().Sync(p)
 
 	switch p.GetTokenStream().LA(1) {
 	case ReduxParserT__0:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(23)
+			p.SetState(25)
 			p.Reducer()
 		}
 
-	case ReduxParserT__11, ReduxParserT__12, ReduxParserT__13:
+	case ReduxParserT__21, ReduxParserT__22, ReduxParserT__23:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(24)
+			p.SetState(26)
 			p.DefineGlobal()
 		}
 
@@ -393,13 +420,20 @@ type IReducerContext interface {
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
+	// GetInitialState returns the initialState rule contexts.
+	GetInitialState() IExprContext
+
+	// SetInitialState sets the initialState rule contexts.
+	SetInitialState(IExprContext)
+
 	// IsReducerContext differentiates from other interfaces.
 	IsReducerContext()
 }
 
 type ReducerContext struct {
 	*antlr.BaseParserRuleContext
-	parser antlr.Parser
+	parser       antlr.Parser
+	initialState IExprContext
 }
 
 func NewEmptyReducerContext() *ReducerContext {
@@ -424,12 +458,49 @@ func NewReducerContext(parser antlr.Parser, parent antlr.ParserRuleContext, invo
 
 func (s *ReducerContext) GetParser() antlr.Parser { return s.parser }
 
+func (s *ReducerContext) GetInitialState() IExprContext { return s.initialState }
+
+func (s *ReducerContext) SetInitialState(v IExprContext) { s.initialState = v }
+
 func (s *ReducerContext) AllIdent() []antlr.TerminalNode {
 	return s.GetTokens(ReduxParserIdent)
 }
 
 func (s *ReducerContext) Ident(i int) antlr.TerminalNode {
 	return s.GetToken(ReduxParserIdent, i)
+}
+
+func (s *ReducerContext) Cases() ICasesContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*ICasesContext)(nil)).Elem(), 0)
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(ICasesContext)
+}
+
+func (s *ReducerContext) AllExpr() []IExprContext {
+	var ts = s.GetTypedRuleContexts(reflect.TypeOf((*IExprContext)(nil)).Elem())
+	var tst = make([]IExprContext, len(ts))
+
+	for i, t := range ts {
+		if t != nil {
+			tst[i] = t.(IExprContext)
+		}
+	}
+
+	return tst
+}
+
+func (s *ReducerContext) Expr(i int) IExprContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IExprContext)(nil)).Elem(), i)
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IExprContext)
 }
 
 func (s *ReducerContext) GetRuleContext() antlr.RuleContext {
@@ -474,16 +545,8 @@ func (p *ReduxParser) Reducer() (localctx IReducerContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(27)
-		p.Match(ReduxParserT__0)
-	}
-	{
-		p.SetState(28)
-		p.Match(ReduxParserIdent)
-	}
-	{
 		p.SetState(29)
-		p.Match(ReduxParserT__1)
+		p.Match(ReduxParserT__0)
 	}
 	{
 		p.SetState(30)
@@ -491,39 +554,259 @@ func (p *ReduxParser) Reducer() (localctx IReducerContext) {
 	}
 	{
 		p.SetState(31)
-		p.Match(ReduxParserT__2)
+		p.Match(ReduxParserT__1)
 	}
 	{
 		p.SetState(32)
-		p.Match(ReduxParserT__3)
+		p.Match(ReduxParserIdent)
 	}
 	{
 		p.SetState(33)
-		p.Match(ReduxParserIdent)
-	}
-	{
-		p.SetState(34)
-		p.Match(ReduxParserT__4)
-	}
-	{
-		p.SetState(35)
-		p.Match(ReduxParserT__5)
-	}
-	{
-		p.SetState(36)
 		p.Match(ReduxParserT__2)
 	}
 	{
-		p.SetState(37)
-		p.Match(ReduxParserT__6)
+		p.SetState(34)
+		p.Match(ReduxParserT__3)
 	}
 	{
-		p.SetState(38)
+		p.SetState(35)
 		p.Match(ReduxParserIdent)
 	}
 	{
+		p.SetState(36)
+		p.Match(ReduxParserT__4)
+	}
+	{
+		p.SetState(37)
+		p.Match(ReduxParserT__5)
+	}
+	{
+		p.SetState(38)
+		p.Match(ReduxParserT__2)
+	}
+	{
 		p.SetState(39)
+		p.Match(ReduxParserT__6)
+	}
+	{
+		p.SetState(40)
 		p.Match(ReduxParserT__7)
+	}
+	{
+		p.SetState(41)
+		p.Match(ReduxParserIdent)
+	}
+	{
+		p.SetState(42)
+		p.Match(ReduxParserT__8)
+	}
+	{
+		p.SetState(43)
+		p.Match(ReduxParserT__9)
+	}
+	{
+		p.SetState(44)
+		p.Match(ReduxParserT__6)
+	}
+	{
+		p.SetState(45)
+		p.Match(ReduxParserT__10)
+	}
+	{
+		p.SetState(46)
+
+		var _x = p.expr(0)
+
+		localctx.(*ReducerContext).initialState = _x
+	}
+	{
+		p.SetState(47)
+		p.Match(ReduxParserT__11)
+	}
+	{
+		p.SetState(48)
+		p.Match(ReduxParserT__12)
+	}
+	{
+		p.SetState(49)
+		p.Match(ReduxParserIdent)
+	}
+	{
+		p.SetState(50)
+		p.Match(ReduxParserT__13)
+	}
+	{
+		p.SetState(51)
+		p.Match(ReduxParserT__14)
+	}
+	{
+		p.SetState(52)
+		p.Match(ReduxParserT__6)
+	}
+	{
+		p.SetState(53)
+		p.Cases()
+	}
+	{
+		p.SetState(54)
+		p.Match(ReduxParserT__15)
+	}
+	{
+		p.SetState(55)
+		p.Match(ReduxParserT__16)
+	}
+	{
+		p.SetState(56)
+		p.Match(ReduxParserT__10)
+	}
+	{
+		p.SetState(57)
+		p.expr(0)
+	}
+	{
+		p.SetState(58)
+		p.Match(ReduxParserT__11)
+	}
+	{
+		p.SetState(59)
+		p.Match(ReduxParserT__11)
+	}
+
+	return localctx
+}
+
+// ICasesContext is an interface to support dynamic dispatch.
+type ICasesContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// IsCasesContext differentiates from other interfaces.
+	IsCasesContext()
+}
+
+type CasesContext struct {
+	*antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyCasesContext() *CasesContext {
+	var p = new(CasesContext)
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	p.RuleIndex = ReduxParserRULE_cases
+	return p
+}
+
+func (*CasesContext) IsCasesContext() {}
+
+func NewCasesContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *CasesContext {
+	var p = new(CasesContext)
+
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = ReduxParserRULE_cases
+
+	return p
+}
+
+func (s *CasesContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *CasesContext) AllExpr() []IExprContext {
+	var ts = s.GetTypedRuleContexts(reflect.TypeOf((*IExprContext)(nil)).Elem())
+	var tst = make([]IExprContext, len(ts))
+
+	for i, t := range ts {
+		if t != nil {
+			tst[i] = t.(IExprContext)
+		}
+	}
+
+	return tst
+}
+
+func (s *CasesContext) Expr(i int) IExprContext {
+	var t = s.GetTypedRuleContext(reflect.TypeOf((*IExprContext)(nil)).Elem(), i)
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IExprContext)
+}
+
+func (s *CasesContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *CasesContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *CasesContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(ReduxListener); ok {
+		listenerT.EnterCases(s)
+	}
+}
+
+func (s *CasesContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(ReduxListener); ok {
+		listenerT.ExitCases(s)
+	}
+}
+
+func (p *ReduxParser) Cases() (localctx ICasesContext) {
+	localctx = NewCasesContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 6, ReduxParserRULE_cases)
+	var _la int
+
+	defer func() {
+		p.ExitRule()
+	}()
+
+	defer func() {
+		if err := recover(); err != nil {
+			if v, ok := err.(antlr.RecognitionException); ok {
+				localctx.SetException(v)
+				p.GetErrorHandler().ReportError(p, v)
+				p.GetErrorHandler().Recover(p, v)
+			} else {
+				panic(err)
+			}
+		}
+	}()
+
+	p.EnterOuterAlt(localctx, 1)
+	p.SetState(67)
+	p.GetErrorHandler().Sync(p)
+	_la = p.GetTokenStream().LA(1)
+
+	for ok := true; ok; ok = _la == ReduxParserT__17 {
+		{
+			p.SetState(61)
+			p.Match(ReduxParserT__17)
+		}
+		{
+			p.SetState(62)
+			p.expr(0)
+		}
+		{
+			p.SetState(63)
+			p.Match(ReduxParserT__16)
+		}
+		{
+			p.SetState(64)
+			p.Match(ReduxParserT__10)
+		}
+		{
+			p.SetState(65)
+			p.expr(0)
+		}
+
+		p.SetState(69)
+		p.GetErrorHandler().Sync(p)
+		_la = p.GetTokenStream().LA(1)
 	}
 
 	return localctx
@@ -616,7 +899,7 @@ func (s *MethodContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *ReduxParser) Method() (localctx IMethodContext) {
 	localctx = NewMethodContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 6, ReduxParserRULE_method)
+	p.EnterRule(localctx, 8, ReduxParserRULE_method)
 	var _la int
 
 	defer func() {
@@ -637,41 +920,41 @@ func (p *ReduxParser) Method() (localctx IMethodContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(41)
+		p.SetState(71)
 		p.Match(ReduxParserIdent)
 	}
 	{
-		p.SetState(42)
+		p.SetState(72)
 		p.Match(ReduxParserT__1)
 	}
 	{
-		p.SetState(43)
+		p.SetState(73)
 		p.TypeFlow()
 	}
-	p.SetState(48)
+	p.SetState(78)
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
 	for _la == ReduxParserT__3 {
 		{
-			p.SetState(44)
+			p.SetState(74)
 			p.Match(ReduxParserT__3)
 		}
 		{
-			p.SetState(45)
+			p.SetState(75)
 			p.TypeFlow()
 		}
 
-		p.SetState(50)
+		p.SetState(80)
 		p.GetErrorHandler().Sync(p)
 		_la = p.GetTokenStream().LA(1)
 	}
 	{
-		p.SetState(51)
+		p.SetState(81)
 		p.Match(ReduxParserT__5)
 	}
 	{
-		p.SetState(52)
+		p.SetState(82)
 		p.TypeFlow()
 	}
 
@@ -752,7 +1035,7 @@ func (s *DataContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *ReduxParser) Data() (localctx IDataContext) {
 	localctx = NewDataContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 8, ReduxParserRULE_data)
+	p.EnterRule(localctx, 10, ReduxParserRULE_data)
 
 	defer func() {
 		p.ExitRule()
@@ -772,11 +1055,11 @@ func (p *ReduxParser) Data() (localctx IDataContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(54)
+		p.SetState(84)
 		p.Match(ReduxParserIdent)
 	}
 	{
-		p.SetState(55)
+		p.SetState(85)
 		p.TypeFlow()
 	}
 
@@ -880,7 +1163,7 @@ func (s *TypeFlowContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *ReduxParser) TypeFlow() (localctx ITypeFlowContext) {
 	localctx = NewTypeFlowContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 10, ReduxParserRULE_typeFlow)
+	p.EnterRule(localctx, 12, ReduxParserRULE_typeFlow)
 	var _la int
 
 	defer func() {
@@ -899,62 +1182,62 @@ func (p *ReduxParser) TypeFlow() (localctx ITypeFlowContext) {
 		}
 	}()
 
-	p.SetState(73)
+	p.SetState(103)
 	p.GetErrorHandler().Sync(p)
-	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 4, p.GetParserRuleContext()) {
+	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 5, p.GetParserRuleContext()) {
 	case 1:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(57)
+			p.SetState(87)
 			p.Match(ReduxParserIdent)
 		}
 
 	case 2:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(58)
-			p.Match(ReduxParserT__8)
+			p.SetState(88)
+			p.Match(ReduxParserT__18)
 		}
 		{
-			p.SetState(59)
+			p.SetState(89)
 			p.Match(ReduxParserT__6)
 		}
 		{
-			p.SetState(60)
+			p.SetState(90)
 			p.Data()
 		}
 		{
-			p.SetState(61)
-			p.Match(ReduxParserT__7)
+			p.SetState(91)
+			p.Match(ReduxParserT__11)
 		}
 
 	case 3:
 		p.EnterOuterAlt(localctx, 3)
 		{
-			p.SetState(63)
-			p.Match(ReduxParserT__9)
+			p.SetState(93)
+			p.Match(ReduxParserT__19)
 		}
 		{
-			p.SetState(64)
+			p.SetState(94)
 			p.Match(ReduxParserT__6)
 		}
-		p.SetState(68)
+		p.SetState(98)
 		p.GetErrorHandler().Sync(p)
 		_la = p.GetTokenStream().LA(1)
 
 		for _la == ReduxParserIdent {
 			{
-				p.SetState(65)
+				p.SetState(95)
 				p.Method()
 			}
 
-			p.SetState(70)
+			p.SetState(100)
 			p.GetErrorHandler().Sync(p)
 			_la = p.GetTokenStream().LA(1)
 		}
 		{
-			p.SetState(71)
-			p.Match(ReduxParserT__7)
+			p.SetState(101)
+			p.Match(ReduxParserT__11)
 		}
 
 	case 4:
@@ -1049,7 +1332,7 @@ func (s *DefineContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *ReduxParser) Define() (localctx IDefineContext) {
 	localctx = NewDefineContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 12, ReduxParserRULE_define)
+	p.EnterRule(localctx, 14, ReduxParserRULE_define)
 
 	defer func() {
 		p.ExitRule()
@@ -1069,19 +1352,19 @@ func (p *ReduxParser) Define() (localctx IDefineContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(75)
+		p.SetState(105)
 		p.Match(ReduxParserIdent)
 	}
 	{
-		p.SetState(76)
+		p.SetState(106)
 		p.TypeFlow()
 	}
 	{
-		p.SetState(77)
-		p.Match(ReduxParserT__10)
+		p.SetState(107)
+		p.Match(ReduxParserT__20)
 	}
 	{
-		p.SetState(78)
+		p.SetState(108)
 		p.expr(0)
 	}
 
@@ -1172,7 +1455,7 @@ func (s *DefineGlobalContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *ReduxParser) DefineGlobal() (localctx IDefineGlobalContext) {
 	localctx = NewDefineGlobalContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 14, ReduxParserRULE_defineGlobal)
+	p.EnterRule(localctx, 16, ReduxParserRULE_defineGlobal)
 
 	defer func() {
 		p.ExitRule()
@@ -1190,44 +1473,44 @@ func (p *ReduxParser) DefineGlobal() (localctx IDefineGlobalContext) {
 		}
 	}()
 
-	p.SetState(87)
+	p.SetState(117)
 	p.GetErrorHandler().Sync(p)
 
 	switch p.GetTokenStream().LA(1) {
-	case ReduxParserT__11:
+	case ReduxParserT__21:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(80)
-			p.Match(ReduxParserT__11)
+			p.SetState(110)
+			p.Match(ReduxParserT__21)
 		}
 		{
-			p.SetState(81)
+			p.SetState(111)
 			p.Define()
 		}
 
-	case ReduxParserT__12:
+	case ReduxParserT__22:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(82)
-			p.Match(ReduxParserT__12)
+			p.SetState(112)
+			p.Match(ReduxParserT__22)
 		}
 		{
-			p.SetState(83)
+			p.SetState(113)
 			p.Define()
 		}
 
-	case ReduxParserT__13:
+	case ReduxParserT__23:
 		p.EnterOuterAlt(localctx, 3)
 		{
-			p.SetState(84)
-			p.Match(ReduxParserT__13)
+			p.SetState(114)
+			p.Match(ReduxParserT__23)
 		}
 		{
-			p.SetState(85)
+			p.SetState(115)
 			p.Match(ReduxParserIdent)
 		}
 		{
-			p.SetState(86)
+			p.SetState(116)
 			p.TypeFlow()
 		}
 
@@ -1303,6 +1586,10 @@ func (s *ExprContext) Number() antlr.TerminalNode {
 	return s.GetToken(ReduxParserNumber, 0)
 }
 
+func (s *ExprContext) String() antlr.TerminalNode {
+	return s.GetToken(ReduxParserString, 0)
+}
+
 func (s *ExprContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
@@ -1333,8 +1620,8 @@ func (p *ReduxParser) expr(_p int) (localctx IExprContext) {
 	localctx = NewExprContext(p, p.GetParserRuleContext(), _parentState)
 	var _prevctx IExprContext = localctx
 	var _ antlr.ParserRuleContext = _prevctx // TODO: To prevent unused variable warning.
-	_startState := 16
-	p.EnterRecursionRule(localctx, 16, ReduxParserRULE_expr, _p)
+	_startState := 18
+	p.EnterRecursionRule(localctx, 18, ReduxParserRULE_expr, _p)
 	var _la int
 
 	defer func() {
@@ -1356,37 +1643,43 @@ func (p *ReduxParser) expr(_p int) (localctx IExprContext) {
 	var _alt int
 
 	p.EnterOuterAlt(localctx, 1)
-	p.SetState(95)
+	p.SetState(126)
 	p.GetErrorHandler().Sync(p)
 
 	switch p.GetTokenStream().LA(1) {
 	case ReduxParserT__1:
 		{
-			p.SetState(90)
+			p.SetState(120)
 			p.Match(ReduxParserT__1)
 		}
 		{
-			p.SetState(91)
+			p.SetState(121)
 			p.expr(0)
 		}
 		{
-			p.SetState(92)
+			p.SetState(122)
 			p.Match(ReduxParserT__5)
 		}
 
 	case ReduxParserNumber:
 		{
-			p.SetState(94)
+			p.SetState(124)
 			p.Match(ReduxParserNumber)
+		}
+
+	case ReduxParserString:
+		{
+			p.SetState(125)
+			p.Match(ReduxParserString)
 		}
 
 	default:
 		panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
 	}
 	p.GetParserRuleContext().SetStop(p.GetTokenStream().LT(-1))
-	p.SetState(102)
+	p.SetState(133)
 	p.GetErrorHandler().Sync(p)
-	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 7, p.GetParserRuleContext())
+	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 8, p.GetParserRuleContext())
 
 	for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 		if _alt == 1 {
@@ -1396,29 +1689,29 @@ func (p *ReduxParser) expr(_p int) (localctx IExprContext) {
 			_prevctx = localctx
 			localctx = NewExprContext(p, _parentctx, _parentState)
 			p.PushNewRecursionContext(localctx, _startState, ReduxParserRULE_expr)
-			p.SetState(97)
+			p.SetState(128)
 
-			if !(p.Precpred(p.GetParserRuleContext(), 3)) {
-				panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 3)", ""))
+			if !(p.Precpred(p.GetParserRuleContext(), 4)) {
+				panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 4)", ""))
 			}
-			p.SetState(98)
+			p.SetState(129)
 			_la = p.GetTokenStream().LA(1)
 
-			if !(((_la)&-(0x1f+1)) == 0 && ((1<<uint(_la))&((1<<ReduxParserT__14)|(1<<ReduxParserT__15)|(1<<ReduxParserT__16)|(1<<ReduxParserT__17))) != 0) {
+			if !(((_la)&-(0x1f+1)) == 0 && ((1<<uint(_la))&((1<<ReduxParserT__24)|(1<<ReduxParserT__25)|(1<<ReduxParserT__26)|(1<<ReduxParserT__27))) != 0) {
 				p.GetErrorHandler().RecoverInline(p)
 			} else {
 				p.GetErrorHandler().ReportMatch(p)
 				p.Consume()
 			}
 			{
-				p.SetState(99)
-				p.expr(4)
+				p.SetState(130)
+				p.expr(5)
 			}
 
 		}
-		p.SetState(104)
+		p.SetState(135)
 		p.GetErrorHandler().Sync(p)
-		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 7, p.GetParserRuleContext())
+		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 8, p.GetParserRuleContext())
 	}
 
 	return localctx
@@ -1426,7 +1719,7 @@ func (p *ReduxParser) expr(_p int) (localctx IExprContext) {
 
 func (p *ReduxParser) Sempred(localctx antlr.RuleContext, ruleIndex, predIndex int) bool {
 	switch ruleIndex {
-	case 8:
+	case 9:
 		var t *ExprContext = nil
 		if localctx != nil {
 			t = localctx.(*ExprContext)
@@ -1441,7 +1734,7 @@ func (p *ReduxParser) Sempred(localctx antlr.RuleContext, ruleIndex, predIndex i
 func (p *ReduxParser) Expr_Sempred(localctx antlr.RuleContext, predIndex int) bool {
 	switch predIndex {
 	case 0:
-		return p.Precpred(p.GetParserRuleContext(), 3)
+		return p.Precpred(p.GetParserRuleContext(), 4)
 
 	default:
 		panic("No predicate with index: " + fmt.Sprint(predIndex))

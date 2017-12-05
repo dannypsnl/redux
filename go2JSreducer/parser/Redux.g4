@@ -1,6 +1,9 @@
 grammar Redux;
 
 WS: [ \t\n\r]+ -> channel(HIDDEN) ;
+String: '"' .*? '"'
+    | '`' .*? '`'
+    ;
 Ident: StartLetter
     Letter*
     ;
@@ -38,10 +41,20 @@ stat: reducer
 
 reducer:
     'func' Ident '(' Ident 'interface{}' ',' Ident 'Action' ')' 'interface{}' '{'
-        Ident
+        'if' Ident '==' 'nil' '{'
+            'return' initialState=expr
+        '}'
+        'switch' Ident '.' 'Type' '{'
+        cases
+        'default' ':'
+            'return' expr
+        '}'
     '}'
     ;
-
+cases:
+    ('case' expr ':'
+        'return' expr)+
+    ;
 method:
     Ident '(' typeFlow (',' typeFlow)* ')' typeFlow
     ;
@@ -61,4 +74,5 @@ defineGlobal: 'const' define
 expr: expr ('+'|'-'|'*'|'/') expr
     | '(' expr ')'
     | Number
+    | String
     ;
