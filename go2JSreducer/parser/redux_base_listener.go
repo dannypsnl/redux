@@ -38,3 +38,39 @@ func (s *BaseReduxListener) EnterReducer(ctx *ReducerContext) {}
 
 // ExitReducer is called when production reducer is exited.
 func (s *BaseReduxListener) ExitReducer(ctx *ReducerContext) {}
+
+// EnterMethod is called when production method is entered.
+func (s *BaseReduxListener) EnterMethod(ctx *MethodContext) {}
+
+// ExitMethod is called when production method is exited.
+func (s *BaseReduxListener) ExitMethod(ctx *MethodContext) {}
+
+// EnterData is called when production data is entered.
+func (s *BaseReduxListener) EnterData(ctx *DataContext) {}
+
+// ExitData is called when production data is exited.
+func (s *BaseReduxListener) ExitData(ctx *DataContext) {}
+
+// EnterTypeFlow is called when production typeFlow is entered.
+func (s *BaseReduxListener) EnterTypeFlow(ctx *TypeFlowContext) {}
+
+// ExitTypeFlow is called when production typeFlow is exited.
+func (s *BaseReduxListener) ExitTypeFlow(ctx *TypeFlowContext) {}
+
+// EnterDefine is called when production define is entered.
+func (s *BaseReduxListener) EnterDefine(ctx *DefineContext) {}
+
+// ExitDefine is called when production define is exited.
+func (s *BaseReduxListener) ExitDefine(ctx *DefineContext) {}
+
+// EnterDefineGlobal is called when production defineGlobal is entered.
+func (s *BaseReduxListener) EnterDefineGlobal(ctx *DefineGlobalContext) {}
+
+// ExitDefineGlobal is called when production defineGlobal is exited.
+func (s *BaseReduxListener) ExitDefineGlobal(ctx *DefineGlobalContext) {}
+
+// EnterExpr is called when production expr is entered.
+func (s *BaseReduxListener) EnterExpr(ctx *ExprContext) {}
+
+// ExitExpr is called when production expr is exited.
+func (s *BaseReduxListener) ExitExpr(ctx *ExprContext) {}

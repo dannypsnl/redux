@@ -17,6 +17,24 @@ type ReduxListener interface {
 	// EnterReducer is called when entering the reducer production.
 	EnterReducer(c *ReducerContext)
 
+	// EnterMethod is called when entering the method production.
+	EnterMethod(c *MethodContext)
+
+	// EnterData is called when entering the data production.
+	EnterData(c *DataContext)
+
+	// EnterTypeFlow is called when entering the typeFlow production.
+	EnterTypeFlow(c *TypeFlowContext)
+
+	// EnterDefine is called when entering the define production.
+	EnterDefine(c *DefineContext)
+
+	// EnterDefineGlobal is called when entering the defineGlobal production.
+	EnterDefineGlobal(c *DefineGlobalContext)
+
+	// EnterExpr is called when entering the expr production.
+	EnterExpr(c *ExprContext)
+
 	// ExitProg is called when exiting the prog production.
 	ExitProg(c *ProgContext)
 
@@ -25,4 +43,22 @@ type ReduxListener interface {
 
 	// ExitReducer is called when exiting the reducer production.
 	ExitReducer(c *ReducerContext)
+
+	// ExitMethod is called when exiting the method production.
+	ExitMethod(c *MethodContext)
+
+	// ExitData is called when exiting the data production.
+	ExitData(c *DataContext)
+
+	// ExitTypeFlow is called when exiting the typeFlow production.
+	ExitTypeFlow(c *TypeFlowContext)
+
+	// ExitDefine is called when exiting the define production.
+	ExitDefine(c *DefineContext)
+
+	// ExitDefineGlobal is called when exiting the defineGlobal production.
+	ExitDefineGlobal(c *DefineGlobalContext)
+
+	// ExitExpr is called when exiting the expr production.
+	ExitExpr(c *ExprContext)
 }

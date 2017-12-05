@@ -26,16 +26,39 @@ Letter: StartLetter
     |   '\u0300'..'\u036F'
     |   '\u203F'..'\u2040'
     ;
+Number: Digit+;
 fragment
 Digit: [0-9] ;
 
 prog: stat+ ;
 
 stat: reducer
+    | defineGlobal
     ;
-    
+
 reducer:
     'func' Ident '(' Ident 'interface{}' ',' Ident 'Action' ')' 'interface{}' '{'
         Ident
     '}'
+    ;
+
+method:
+    Ident '(' typeFlow (',' typeFlow)* ')' typeFlow
+    ;
+
+data: Ident typeFlow;
+typeFlow: Ident 
+    | 'struct' '{' data '}'
+    | 'interface' '{' method* '}'
+    | 
+    ;
+define: Ident typeFlow '=' expr;
+defineGlobal: 'const' define
+    | 'var' define
+    | 'type' Ident typeFlow
+    ;
+
+expr: expr ('+'|'-'|'*'|'/') expr
+    | '(' expr ')'
+    | Number
     ;
