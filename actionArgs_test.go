@@ -25,7 +25,7 @@ func login(state interface{}, action redux.Action) interface{} {
 	}
 }
 
-func Example_actionArgs() {
+func ExampleExamples_actionArgs() {
 	store := redux.NewStore(login)
 	act := &redux.Action{
 		Type: "login",

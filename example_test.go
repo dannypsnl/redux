@@ -21,7 +21,6 @@ func counter(state interface{}, action redux.Action) interface{} {
 }
 
 func Example() {
-	// This Example show how to use redux
 	store := redux.NewStore(counter)
 	store.Subscribe(func() {
 		fmt.Println("Current State:", store.GetState("counter"))
