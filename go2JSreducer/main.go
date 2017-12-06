@@ -19,7 +19,7 @@ func NewTreeShapeListener() *TreeShapeListener {
 func (s *TreeShapeListener) EnterReducer(ctx *parser.ReducerContext) {
 	fmt.Println("reducer found!", ctx.ID(0).GetText())
 	fmt.Println("function", ctx.ID(0).GetText(), "(state =", ctx.GetInitialState().GetText(), ",action) {")
-	fmt.Printf("  switch (%s.type) {\n", ctx.ID(3).GetText())
+	fmt.Printf("  switch (%s.type) {\n", ctx.ID(4).GetText())
 }
 func (s *TreeShapeListener) EnterCases(ctx *parser.CasesContext) {
 	fmt.Println("  case", ctx.Expr(0).GetText(), ":")
