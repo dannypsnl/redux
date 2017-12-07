@@ -1,31 +1,29 @@
 package redux
 
 import (
-	_ "encoding/json"
+	"encoding/json"
 	"fmt"
 	"reflect"
 )
 
 // JSON serialize state of store to JSON format string
 func (s *Store) JSON() (str string) {
-	var b interface{}
+	var formatString string
 	str += "{\n"
 	for k, v := range s.state {
 		// TODO: fmt state is not useful, maybe use reflect get the type of state, then use json.Unmarshal jsonfy state.
 		rv := reflect.ValueOf(v)
 		switch rv.Kind() {
 		case reflect.Struct:
-		case reflect.Interface:
-			fmt.Println("everything is interface{}")
+			b, _ := json.Marshal(v)
+			formatString = fmt.Sprintf("%s", b)
+			formatString = fmt.Sprintf("%+v", v)
 		case reflect.Int:
-			//fmt.Println("int")
-			b = v
+			formatString = fmt.Sprintf("%#v", v)
 		case reflect.String:
-			b = v
+			formatString = fmt.Sprintf("%#v", v)
 		}
-		//b, _ := json.Marshal(v)
-		str += "  \"" + k + "\":" + fmt.Sprintf("%#v,\n", b)
-		// fmt.Sprintf("%#v,\n", v)
+		str += "  \"" + k + "\":" + formatString + ",\n"
 	}
 	str = str[:len(str)-2] + "\n"
 	str += "}"
