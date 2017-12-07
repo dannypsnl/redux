@@ -45,6 +45,7 @@ func main() {
     // Subscribe's function will be invoke when Dispatch
     store.Subscribe(func() {
         fmt.Printf("Now state is %v\n", store.GetState("counter"))
+        fmt.Printf("%s\n", store.JSON()) // Let's print out the json format of our store
     })
     store.Dispatch(redux.SendAction("INC")) // state increase by action, now is 1
 }
