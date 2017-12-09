@@ -28,8 +28,8 @@ func login(state interface{}, action Action) interface{} {
 func TestSerialize(t *testing.T) {
 	store := NewStore(counter, login)
 	expected := "{\n  \"counter\":0,\n  \"login\":\"Guest\"\n}"
-	if store.JSON() != expected {
-		t.Errorf("serialized result is not expected, expected: %s, actual: %s", expected, store.JSON())
+	if strings.Compare(store.JSON(), expected) != 0 {
+		t.Errorf("serialized result is not expected, expected:\n`%s`, actual:\n`%s`", expected, store.JSON())
 	}
 	store.Dispatch(SendAction("INC"))
 	store.Dispatch(SendAction("INC"))
@@ -41,8 +41,8 @@ func TestSerialize(t *testing.T) {
 		},
 	})
 	expected = "{\n  \"counter\":2,\n  \"login\":\"danny Login\"\n}"
-	if store.JSON() != expected {
-		t.Errorf("serialized result is not expected, expected: %s, actual: %s", expected, store.JSON())
+	if strings.Compare(store.JSON(), expected) != 0 {
+		t.Errorf("serialized result is not expected, expected:\n`%s`, actual:\n`%s`", expected, store.JSON())
 	}
 }
 
@@ -97,7 +97,7 @@ func TestSerializeStruct(t *testing.T) {
 	expected := `{
   "fileUpdator":{ext:elz mod:+x}
 }`
-	if store.JSON() != expected {
+	if strings.Compare(store.JSON(), expected) != 0 {
 		t.Errorf("expected: %s, actual: %s", expected, store.JSON())
 	}
 	store.Dispatch(&Action{
