@@ -17,7 +17,6 @@ func (s *Store) JSON() (str string) {
 		case reflect.Struct:
 			b, _ := json.Marshal(v)
 			formatString = fmt.Sprintf("%s", b)
-			formatString = fmt.Sprintf("%+v", v)
 		case reflect.Int:
 			formatString = fmt.Sprintf("%#v", v)
 		case reflect.String:
