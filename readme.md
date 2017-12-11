@@ -48,5 +48,6 @@ func main() {
         fmt.Printf("%s\n", store.JSON()) // Let's print out the json format of our store
     })
     store.Dispatch(redux.SendAction("INC")) // state increase by action, now is 1
+    fmt.Println(store.JSON()) // `{ counter: 1 }`
 }
 ```
