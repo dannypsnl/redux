@@ -110,7 +110,7 @@ func TestSerializeStruct(t *testing.T) {
 }
 
 type NestData struct {
-	I int `json: "integer"`
+	I int `json:"integer"`
 }
 
 type TestData struct {
@@ -124,7 +124,7 @@ func TestJson(t *testing.T) {
 	}
 	b, _ := json.Marshal(td)
 	formatString := fmt.Sprintf("%s", b)
-	expected := `{"nest":{"I":10}}`
+	expected := `{"nest":{"integer":10}}`
 	if strings.Compare(expected, formatString) != 0 {
 		t.Errorf("expected: %s, actual: %s", expected, formatString)
 	}
