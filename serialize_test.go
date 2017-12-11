@@ -1,7 +1,8 @@
 package redux
 
 import (
-	_ "fmt"
+	"encoding/json"
+	"fmt"
 	"strings"
 	"testing"
 )
@@ -47,42 +48,42 @@ func TestSerialize(t *testing.T) {
 }
 
 type file struct {
-	ext string
-	mod string
+	Ext string `json:"ext"`
+	Mod string `json:"mod"`
 	// two mod: +x, +d
 }
 
 func fileUpdator(state interface{}, act Action) interface{} {
 	if state == nil {
 		return file{
-			ext: "elz",
-			mod: "+x",
+			Ext: "elz",
+			Mod: "+x",
 		}
 	}
 	switch act.Type {
 	case "chmod":
-		if act.Args["mod"] == "+x" && !strings.Contains(state.(file).mod, "+x") {
+		if act.Args["mod"] == "+x" && !strings.Contains(state.(file).Mod, "+x") {
 			return file{
-				ext: state.(file).ext,
-				mod: state.(file).mod + "+x",
+				Ext: state.(file).Ext,
+				Mod: state.(file).Mod + "+x",
 			}
-		} else if act.Args["mod"] == "+d" && !strings.Contains(state.(file).mod, "+d") {
+		} else if act.Args["mod"] == "+d" && !strings.Contains(state.(file).Mod, "+d") {
 			return file{
-				ext: state.(file).ext,
-				mod: state.(file).mod + "+d",
+				Ext: state.(file).Ext,
+				Mod: state.(file).Mod + "+d",
 			}
 		} else if act.Args["mod"] == "-d" {
-			strings.Replace(state.(file).mod, "+d", "", -1)
+			strings.Replace(state.(file).Mod, "+d", "", -1)
 		} else if act.Args["mod"] == "-x" {
-			strings.Replace(state.(file).mod, "+x", "", -1)
+			strings.Replace(state.(file).Mod, "+x", "", -1)
 		} else {
 			return state
 		}
 	case "new ext":
-		if act.Args["ext"] != nil {
+		if act.Args["Ext"] != nil {
 			return file{
-				ext: act.Args["ext"].(string),
-				mod: state.(file).mod,
+				Ext: act.Args["Ext"].(string),
+				Mod: state.(file).Mod,
 			}
 		}
 		return state
@@ -95,7 +96,7 @@ func fileUpdator(state interface{}, act Action) interface{} {
 func TestSerializeStruct(t *testing.T) {
 	store := NewStore(fileUpdator)
 	expected := `{
-  "fileUpdator":{ext:elz mod:+x}
+  "fileUpdator":{"ext":"elz","mod":"+x"}
 }`
 	if strings.Compare(store.JSON(), expected) != 0 {
 		t.Errorf("expected: %s, actual: %s", expected, store.JSON())
@@ -106,4 +107,25 @@ func TestSerializeStruct(t *testing.T) {
 			"ext": "cpp",
 		},
 	})
+}
+
+type NestData struct {
+	I int `json: "integer"`
+}
+
+type TestData struct {
+	Nest NestData `json:"nest"`
+}
+
+// !!! If nest the struct, then the Marshal can't get the correct key
+func TestJson(t *testing.T) {
+	td := TestData{
+		Nest: NestData{I: 10},
+	}
+	b, _ := json.Marshal(td)
+	formatString := fmt.Sprintf("%s", b)
+	expected := `{"nest":{"I":10}}`
+	if strings.Compare(expected, formatString) != 0 {
+		t.Errorf("expected: %s, actual: %s", expected, formatString)
+	}
 }
