@@ -2,16 +2,22 @@ package redux
 
 import (
 	"testing"
-	"time"
+	_ "time"
 )
 
 func BenchmarkDispatch(b *testing.B) {
 	store := NewStore(counter, jump)
 	store.Subscribe(func() {
-		time.Sleep(10 * time.Millisecond)
+		expectedState := "TOP"
+		if store.GetState("jump") != expectedState {
+			b.Errorf("Expected: %v, Actual: %v", expectedState, store.GetState("jump"))
+		}
 	})
 	store.Subscribe(func() {
-		time.Sleep(10 * time.Millisecond)
+		expectedState := "TOP"
+		if store.GetState("jump") != expectedState {
+			b.Errorf("Expected: %v, Actual: %v", expectedState, store.GetState("jump"))
+		}
 	})
 	for i := 0; i < b.N; i++ {
 		store.Dispatch(SendAction("JUMP"))
