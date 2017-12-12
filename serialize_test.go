@@ -26,10 +26,17 @@ func login(state interface{}, action Action) interface{} {
 	}
 }
 
+type StoreByCounterLogin struct {
+	Counter int    `json:"counter"`
+	Login   string `json:"login"`
+}
+
 func TestSerialize(t *testing.T) {
 	store := NewStore(counter, login)
-	expected := "{\n  \"counter\":0,\n  \"login\":\"Guest\"\n}"
-	if strings.Compare(store.JSON(), expected) != 0 {
+	expected := []byte(`{"counter":0, "login":"Guest"}`)
+	expectedStore := &StoreByCounterLogin{}
+	json.Unmarshal(expected, expectedStore)
+	if store.GetState("counter") != expectedStore.Counter || store.GetState("login") != expectedStore.Login {
 		t.Errorf("serialized result is not expected, expected:\n`%s`, actual:\n`%s`", expected, store.JSON())
 	}
 	store.Dispatch(SendAction("INC"))
@@ -41,8 +48,10 @@ func TestSerialize(t *testing.T) {
 			"password": "1234",
 		},
 	})
-	expected = "{\n  \"counter\":2,\n  \"login\":\"danny Login\"\n}"
-	if strings.Compare(store.JSON(), expected) != 0 {
+	expected = []byte("{\n  \"counter\":2,\n  \"login\":\"danny Login\"\n}")
+	expectedStore = &StoreByCounterLogin{}
+	json.Unmarshal(expected, expectedStore)
+	if store.GetState("counter") != expectedStore.Counter || store.GetState("login") != expectedStore.Login {
 		t.Errorf("serialized result is not expected, expected:\n`%s`, actual:\n`%s`", expected, store.JSON())
 	}
 }
