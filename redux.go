@@ -71,10 +71,10 @@ func (s *Store) Dispatch(act *Action) {
 	// we call subscribed function after state updated.
 	for _, subscribtor := range s.subscribes {
 		wg.Add(1)
-		go func() {
+		go func(subscribtor func()) {
 			defer wg.Done()
 			subscribtor()
-		}()
+		}(subscribtor)
 	}
 	wg.Wait()
 }

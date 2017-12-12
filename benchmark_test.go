@@ -2,10 +2,10 @@ package redux
 
 import (
 	"testing"
-	_ "time"
+	"time"
 )
 
-func BenchmarkDispatch(b *testing.B) {
+func BenchmarkEasySubscribe(b *testing.B) {
 	store := NewStore(counter, jump)
 	store.Subscribe(func() {
 		expectedState := "TOP"
@@ -18,6 +18,19 @@ func BenchmarkDispatch(b *testing.B) {
 		if store.GetState("jump") != expectedState {
 			b.Errorf("Expected: %v, Actual: %v", expectedState, store.GetState("jump"))
 		}
+	})
+	for i := 0; i < b.N; i++ {
+		store.Dispatch(SendAction("JUMP"))
+	}
+}
+
+func BenchmarkHeavySubscribe(b *testing.B) {
+	store := NewStore(counter, jump)
+	store.Subscribe(func() {
+		time.Sleep(1 * time.Millisecond)
+	})
+	store.Subscribe(func() {
+		time.Sleep(1 * time.Millisecond)
 	})
 	for i := 0; i < b.N; i++ {
 		store.Dispatch(SendAction("JUMP"))
