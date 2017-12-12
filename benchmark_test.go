@@ -36,3 +36,14 @@ func BenchmarkHeavySubscribe(b *testing.B) {
 		store.Dispatch(SendAction("JUMP"))
 	}
 }
+
+func BenchmarkAlotEasySubscribe(b *testing.B) {
+	n := 0
+	store := NewStore(counter, jump)
+	for i := 0; i < 100000000; i++ {
+		n++
+	}
+	for i := 0; i < b.N; i++ {
+		store.Dispatch(SendAction("JUMP"))
+	}
+}

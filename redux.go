@@ -67,16 +67,10 @@ func (s *Store) Dispatch(act *Action) {
 		funcName := getReducerName(r)
 		s.state[funcName] = r(s.state[funcName], *act)
 	}
-	var wg sync.WaitGroup
 	// we call subscribed function after state updated.
 	for _, subscribtor := range s.subscribes {
-		wg.Add(1)
-		go func(subscribtor func()) {
-			defer wg.Done()
-			subscribtor()
-		}(subscribtor)
+		subscribtor()
 	}
-	wg.Wait()
 }
 
 // Subscribe emit argument into subscribes chain, it will be invoked when Dispatch. !Warning, subscribed function can't invoke Dispatch, it will panic
