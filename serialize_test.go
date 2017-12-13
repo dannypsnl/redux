@@ -33,12 +33,15 @@ type StoreByCounterLogin struct {
 
 func TestSerialize(t *testing.T) {
 	store := NewStore(counter, login)
-	expected := []byte(`{"counter":0, "login":"Guest"}`)
-	expectedStore := &StoreByCounterLogin{}
-	json.Unmarshal(expected, expectedStore)
-	if store.GetState("counter") != expectedStore.Counter || store.GetState("login") != expectedStore.Login {
-		t.Errorf("serialized result is not expected, expected:\n`%s`, actual:\n`%s`", expected, store.JSON())
-	}
+	store.Subscribe(func() {
+		// Use Subscribe to test is the most easy way to reduce lots of code
+		expected := []byte(store.JSON())
+		expectedStore := &StoreByCounterLogin{}
+		json.Unmarshal(expected, expectedStore)
+		if store.GetState("counter") != expectedStore.Counter || store.GetState("login") != expectedStore.Login {
+			t.Errorf("serialized result is not expected, expected:\n`%s`, actual:\n`%s`", expected, store.JSON())
+		}
+	})
 	store.Dispatch(SendAction("INC"))
 	store.Dispatch(SendAction("INC"))
 	store.Dispatch(&Action{
@@ -48,12 +51,6 @@ func TestSerialize(t *testing.T) {
 			"password": "1234",
 		},
 	})
-	expected = []byte("{\n  \"counter\":2,\n  \"login\":\"danny Login\"\n}")
-	expectedStore = &StoreByCounterLogin{}
-	json.Unmarshal(expected, expectedStore)
-	if store.GetState("counter") != expectedStore.Counter || store.GetState("login") != expectedStore.Login {
-		t.Errorf("serialized result is not expected, expected:\n`%s`, actual:\n`%s`", expected, store.JSON())
-	}
 }
 
 type file struct {
