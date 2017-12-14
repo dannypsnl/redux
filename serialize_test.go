@@ -26,12 +26,11 @@ func login(state interface{}, action Action) interface{} {
 	}
 }
 
-type StoreByCounterLogin struct {
-	Counter int    `json:"counter"`
-	Login   string `json:"login"`
-}
-
 func TestSerialize(t *testing.T) {
+	type StoreByCounterLogin struct {
+		Counter int    `json:"counter"`
+		Login   string `json:"login"`
+	}
 	store := NewStore(counter, login)
 	store.Subscribe(func() {
 		// Use Subscribe to test is the most easy way to reduce lots of code
@@ -54,14 +53,15 @@ func TestSerialize(t *testing.T) {
 }
 
 type file struct {
+	// Ext mean extension
 	Ext string `json:"ext"`
-	Mod string `json:"mod"`
 	// two mod: +x, +d
+	Mod string `json:"mod"`
 }
 
 func fileUpdator(state interface{}, act Action) interface{} {
 	if state == nil {
-		return file{
+		return &file{
 			Ext: "elz",
 			Mod: "+x",
 		}
@@ -69,12 +69,12 @@ func fileUpdator(state interface{}, act Action) interface{} {
 	switch act.Type {
 	case "chmod":
 		if act.Args["mod"] == "+x" && !strings.Contains(state.(file).Mod, "+x") {
-			return file{
+			return &file{
 				Ext: state.(file).Ext,
 				Mod: state.(file).Mod + "+x",
 			}
 		} else if act.Args["mod"] == "+d" && !strings.Contains(state.(file).Mod, "+d") {
-			return file{
+			return &file{
 				Ext: state.(file).Ext,
 				Mod: state.(file).Mod + "+d",
 			}
@@ -87,7 +87,7 @@ func fileUpdator(state interface{}, act Action) interface{} {
 		}
 	case "new ext":
 		if act.Args["Ext"] != nil {
-			return file{
+			return &file{
 				Ext: act.Args["Ext"].(string),
 				Mod: state.(file).Mod,
 			}
@@ -99,12 +99,13 @@ func fileUpdator(state interface{}, act Action) interface{} {
 	return state
 }
 
+// Make sure JSON can work with Struct Type
 func TestSerializeStruct(t *testing.T) {
 	store := NewStore(fileUpdator)
 	expected := `{
   "fileUpdator":{"ext":"elz","mod":"+x"}
 }`
-	if strings.Compare(store.JSON(), expected) != 0 {
+	if store.JSON() != expected {
 		t.Errorf("expected: %s, actual: %s", expected, store.JSON())
 	}
 	store.Dispatch(&Action{
@@ -115,23 +116,22 @@ func TestSerializeStruct(t *testing.T) {
 	})
 }
 
-type NestData struct {
-	I int `json:"integer"`
-}
-
-type TestData struct {
-	Nest NestData `json:"nest"`
-}
-
 // !!! If nest the struct, then the Marshal can't get the correct key
 func TestJson(t *testing.T) {
+	type NestData struct {
+		I int `json:"integer"`
+	}
+
+	type TestData struct {
+		Nest NestData `json:"nest"`
+	}
 	td := TestData{
 		Nest: NestData{I: 10},
 	}
 	b, _ := json.Marshal(td)
 	formatString := fmt.Sprintf("%s", b)
 	expected := `{"nest":{"integer":10}}`
-	if strings.Compare(expected, formatString) != 0 {
+	if expected != formatString {
 		t.Errorf("expected: %s, actual: %s", expected, formatString)
 	}
 }
