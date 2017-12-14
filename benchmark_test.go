@@ -1,6 +1,7 @@
 package redux
 
 import (
+	"sync"
 	"testing"
 	"time"
 )
@@ -45,5 +46,30 @@ func BenchmarkAlotEasySubscribe(b *testing.B) {
 	}
 	for i := 0; i < b.N; i++ {
 		store.Dispatch(SendAction("JUMP"))
+	}
+}
+
+func Benchmark10000workConcurrent(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		for i := 0; i < 10000; i++ {
+			var wg sync.WaitGroup
+			wg.Add(1)
+			go func() {
+				defer wg.Done()
+				time.Sleep(1 * time.Nanosecond)
+			}()
+			wg.Wait()
+		}
+	}
+}
+
+func Benchmark10000work(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		// If quest cost Nanosecond, sequence is faster than concurrency way.
+		// I think the problem is paging
+		// It about 3~4 time
+		for i := 0; i < 10000; i++ {
+			time.Sleep(1 * time.Nanosecond)
+		}
 	}
 }
