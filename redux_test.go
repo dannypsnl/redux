@@ -34,22 +34,28 @@ func jump(state interface{}, action Action) interface{} {
 }
 
 func TestStore(t *testing.T) {
-	testTarget := "jump"
+	thisState := "jump"
 	var expectedState interface{} = "TOP"
 	store := NewStore(counter, jump)
 	store.Subscribe(func() {
-		if store.GetState(testTarget) != expectedState {
-			t.Errorf("Expected: %v, Actual: %v", expectedState, store.GetState(testTarget))
+		if store.GetState(thisState) != expectedState {
+			t.Errorf("Expected: %v, Actual: %v", expectedState, store.GetState(thisState))
 		}
 	})
 	store.Dispatch(SendAction("JUMP"))
-	testTarget = "counter"
+	thisState = "counter"
 	expectedState = 1
 	store.Dispatch(SendAction("INC"))
 }
 
 func TestGetReducerName(t *testing.T) {
-	if getReducerName(counter) != `counter` {
-		t.Error(`getReducerName didn't get correct name`)
+	var testReducersName = map[string]reducer{
+		`counter`: counter,
+		`jump`:    jump,
+	}
+	for k, v := range testReducersName {
+		if getReducerName(v) != k {
+			t.Error(`getReducerName didn't get correct name`)
+		}
 	}
 }
