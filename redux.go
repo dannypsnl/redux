@@ -1,3 +1,4 @@
+// Package redux provides primitives for manage data by single way flow.
 package redux
 
 import (
@@ -31,6 +32,7 @@ func NewStore(r reducer, reducers ...reducer) *Store {
 	return s
 }
 
+// newReducer append r into Store's reducers
 func (s *Store) newReducer(r reducer) {
 	// initial state will be return when current state is nil, so we send nil at here.
 	s.state[getReducerName(r)] = r(nil, Action{})
