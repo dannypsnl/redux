@@ -22,8 +22,9 @@ Again, only reducer should use Args, so cast is safety.
 - `Subscribe` recieve a func without args will be invoked by every next Dispatch<br>
 And you should not call `Subscribe` in Subscribetor, you will get a panic warning.
 - `JSON` return state as JSON format string<br>
-
-Example
+### Example
+[Examples](https://github.com/dannypsnl/redux/tree/master/example)
+##### Basic Example
 ```go
 import "github.com/dannypsnl/redux"
 
