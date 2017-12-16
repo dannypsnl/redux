@@ -18,6 +18,8 @@ type Store struct {
 	subscribes []func()
 	// mu Lock each Dispatch call
 	mu sync.Mutex
+	// isDispatching make sure Subscribetor can't call Subscribe
+	isDispatching bool
 }
 
 // NewStore create a Store by reducers
@@ -53,13 +55,18 @@ func (s *Store) Dispatch(act *Action) {
 		funcName := getReducerName(r)
 		s.state[funcName] = r(s.state[funcName], *act)
 	}
+	s.isDispatching = true
 	// we call subscribed function after state updated.
 	for _, subscribtor := range s.subscribes {
 		subscribtor()
 	}
+	s.isDispatching = false
 }
 
 // Subscribe emit argument into subscribes chain, it will be invoked when Dispatch. !Warning, subscribed function can't invoke Dispatch, it will panic
 func (s *Store) Subscribe(subscribetor func()) {
+	if s.isDispatching {
+		panic(`You may not call store.subscribe() while the reducer is executing.`)
+	}
 	s.subscribes = append(s.subscribes, subscribetor)
 }

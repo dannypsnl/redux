@@ -59,3 +59,16 @@ func TestGetReducerName(t *testing.T) {
 		}
 	}
 }
+
+func TestSubscribetorShouldNotCallSubscribe(t *testing.T) {
+	defer func() {
+		if p := recover(); p == nil {
+			t.Error(`should panic when subscribetor trying to call store::subscribe`)
+		}
+	}()
+	store := NewStore(counter)
+	store.Subscribe(func() {
+		store.Subscribe(func() {})
+	})
+	store.Dispatch(SendAction("INC"))
+}
