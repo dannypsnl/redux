@@ -72,3 +72,21 @@ func (s *Store) Subscribe(subscribetor func()) {
 	}
 	s.subscribes = append(s.subscribes, subscribetor)
 }
+
+// DispatchC is the Concurrency version as Dispatch, considers at most of time sequential is faster than Concurrency version.
+// Provide this API
+func (s *Store) dispatchC(act *Action) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	// we dispatch action to every reducer, and reducer update mapping state.
+	for _, r := range s.reducers {
+		funcName := getReducerName(r)
+		s.state[funcName] = r(s.state[funcName], *act)
+	}
+	s.isDispatching = true
+	// we call subscribed function after state updated.
+	for _, subscribtor := range s.subscribes {
+		subscribtor()
+	}
+	s.isDispatching = false
+}

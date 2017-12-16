@@ -33,7 +33,7 @@ func jump(state interface{}, action Action) interface{} {
 	}
 }
 
-func TestStore(t *testing.T) {
+func TestStoreState(t *testing.T) {
 	thisState := "jump"
 	var expectedState interface{} = "TOP"
 	store := NewStore(counter, jump)
@@ -60,7 +60,7 @@ func TestGetReducerName(t *testing.T) {
 	}
 }
 
-func TestSubscribetorShouldNotCallSubscribe(t *testing.T) {
+func TestSubscribetorCallSubscribe(t *testing.T) {
 	defer func() {
 		if p := recover(); p == nil {
 			t.Error(`should panic when subscribetor trying to call store::subscribe`)
@@ -71,4 +71,27 @@ func TestSubscribetorShouldNotCallSubscribe(t *testing.T) {
 		store.Subscribe(func() {})
 	})
 	store.Dispatch(SendAction("INC"))
+}
+
+func TestSubscribetorCallSubscribeDispatchC(t *testing.T) {
+	defer func() {
+		if p := recover(); p == nil {
+			t.Error(`should panic when subscribetor trying to call store::subscribe`)
+		}
+	}()
+	store := NewStore(counter)
+	store.Subscribe(func() {
+		store.Subscribe(func() {})
+	})
+	store.dispatchC(SendAction("INC"))
+}
+
+func TestDispatchC(t *testing.T) {
+	store := NewStore(counter)
+	storeC := NewStore(counter)
+	store.Dispatch(SendAction("INC"))
+	storeC.dispatchC(SendAction("INC"))
+	if store.GetState("counter") != storeC.GetState("counter") {
+		t.Errorf("DispatchC & Dispatch have different result, Dispatch: %d, DispatchC: %d", store.GetState("counter"), storeC.GetState("counter"))
+	}
 }
