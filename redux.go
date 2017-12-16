@@ -16,7 +16,7 @@ type Store struct {
 	reducers []reducer
 	// subscribes contains those function we want to invoke at dispatch
 	subscribes []func()
-	// We use mu to Lock each Dispatch call
+	// mu Lock each Dispatch call
 	mu sync.Mutex
 }
 
