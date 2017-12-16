@@ -63,7 +63,9 @@ func (s *Store) Dispatch(act *Action) {
 	s.isDispatching = false
 }
 
-// Subscribe emit argument into subscribes chain, it will be invoked when Dispatch. !Warning, subscribed function can't invoke Dispatch, it will panic
+// Subscribe emit argument into subscribes chain, it will be invoked when Dispatch.
+// !Warning, subscribed function can't invoke Dispatch, it will deadlock
+// !Warning, subscribed function can't invoke Subscribe, it will panic
 func (s *Store) Subscribe(subscribetor func()) {
 	if s.isDispatching {
 		panic(`You may not call store.subscribe() while the reducer is executing.`)
