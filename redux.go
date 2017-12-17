@@ -18,6 +18,10 @@ type Store struct {
 	subscribes []func()
 	// mu Lock each Dispatch call
 	mu sync.Mutex
+	// mu2 Lock each Subscribe call
+	mu2 sync.Mutex
+	// panic log should process panic or not, because we have to help test cache it
+	panic bool
 	// isDispatching make sure Subscribetor can't call Subscribe
 	isDispatching bool
 }
@@ -67,6 +71,8 @@ func (s *Store) Dispatch(act *Action) {
 // !Warning, subscribed function can't invoke Dispatch, it will deadlock
 // !Warning, subscribed function can't invoke Subscribe, it will panic
 func (s *Store) Subscribe(subscribetor func()) {
+	s.mu2.Lock()
+	defer s.mu2.Unlock()
 	if s.isDispatching {
 		panic(`You may not call store.subscribe() while the reducer is executing.`)
 	}
@@ -84,9 +90,23 @@ func (s *Store) dispatchC(act *Action) {
 		s.state[funcName] = r(s.state[funcName], *act)
 	}
 	s.isDispatching = true
+	var wg sync.WaitGroup
 	// we call subscribed function after state updated.
 	for _, subscribtor := range s.subscribes {
-		subscribtor()
+		wg.Add(1)
+		go func(su func()) {
+			defer func() {
+				if p := recover(); p != nil {
+					s.panic = true
+				}
+				wg.Done()
+			}()
+			su()
+		}(subscribtor)
+	}
+	wg.Wait()
+	if s.panic {
+		panic(`You may not call store.subscribe() while the reducer is executing!`)
 	}
 	s.isDispatching = false
 }
