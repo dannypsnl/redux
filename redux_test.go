@@ -83,14 +83,14 @@ func TestSubscribetorCallSubscribeDispatchC(t *testing.T) {
 	store.Subscribe(func() {
 		store.Subscribe(func() {})
 	})
-	store.dispatchC(SendAction("INC"))
+	store.DispatchC(SendAction("INC"))
 }
 
 func TestDispatchC(t *testing.T) {
 	store := NewStore(counter)
 	storeC := NewStore(counter)
 	store.Dispatch(SendAction("INC"))
-	storeC.dispatchC(SendAction("INC"))
+	storeC.DispatchC(SendAction("INC"))
 	if store.GetState("counter") != storeC.GetState("counter") {
 		t.Errorf("DispatchC & Dispatch have different result, Dispatch: %d, DispatchC: %d", store.GetState("counter"), storeC.GetState("counter"))
 	}

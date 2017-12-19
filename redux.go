@@ -81,7 +81,7 @@ func (s *Store) Subscribe(subscribetor func()) {
 
 // DispatchC is the Concurrency version as Dispatch, considers at most of time sequential is faster than Concurrency version.
 // Provide this API
-func (s *Store) dispatchC(act *Action) {
+func (s *Store) DispatchC(act *Action) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	// we dispatch action to every reducer, and reducer update mapping state.

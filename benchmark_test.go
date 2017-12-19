@@ -38,7 +38,7 @@ func BenchmarkSleep1msSubscribeByDispatchC(b *testing.B) {
 		})
 	}
 	for i := 0; i < b.N; i++ {
-		store.dispatchC(SendAction("JUMP"))
+		store.DispatchC(SendAction("JUMP"))
 	}
 }
 
@@ -62,7 +62,7 @@ func BenchmarkALotSleep250nsSubscribeByDispatchC(b *testing.B) {
 		})
 	}
 	for i := 0; i < b.N; i++ {
-		store.dispatchC(SendAction("JUMP"))
+		store.DispatchC(SendAction("JUMP"))
 	}
 }
 
@@ -86,6 +86,6 @@ func BenchmarkALotSleep1nsSubscribeByDispatchC(b *testing.B) {
 		})
 	}
 	for i := 0; i < b.N; i++ {
-		store.dispatchC(SendAction("JUMP"))
+		store.DispatchC(SendAction("JUMP"))
 	}
 }
