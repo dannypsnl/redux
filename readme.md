@@ -12,6 +12,7 @@ $ go get https://github.com/dannypsnl/redux
 - `NewStore` Create New Store by reducers(at least one reducer)
 - `Dispatch` recieve then send your action object to every reducers to update state<br>
 And you should not call `Dispatch` in Subscribetor, you will get dead lock. I will trying to provide a better info.
+- `DispatchC` is Dispatch, but execute concurrency inside, it's useful when your Subscribetor came a lot or heavy, but must test it than decide to use this API.
 - `SendAction` recieve a string and return a pointer to Action for you<br>
 The reason for it is because we usually only need Type, so SendAction reduce the code for you and reduce the opportunity make fault<br>
 - `Action` is a type contain `Type` & `Args`<br>
