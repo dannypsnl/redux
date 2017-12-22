@@ -42,11 +42,11 @@ func BenchmarkSleep1msSubscribeByDispatchC(b *testing.B) {
 	}
 }
 
-func BenchmarkALotSleep250nsSubscribe(b *testing.B) {
+func BenchmarkALotSleep175nsSubscribe(b *testing.B) {
 	store := NewStore(counter, jump)
 	for i := 0; i < 10000; i++ {
 		store.Subscribe(func() {
-			time.Sleep(250 * time.Nanosecond)
+			time.Sleep(175 * time.Nanosecond)
 		})
 	}
 	for i := 0; i < b.N; i++ {
@@ -54,11 +54,11 @@ func BenchmarkALotSleep250nsSubscribe(b *testing.B) {
 	}
 }
 
-func BenchmarkALotSleep250nsSubscribeByDispatchC(b *testing.B) {
+func BenchmarkALotSleep175nsSubscribeByDispatchC(b *testing.B) {
 	store := NewStore(counter, jump)
 	for i := 0; i < 10000; i++ {
 		store.Subscribe(func() {
-			time.Sleep(250 * time.Nanosecond)
+			time.Sleep(175 * time.Nanosecond)
 		})
 	}
 	for i := 0; i < b.N; i++ {
