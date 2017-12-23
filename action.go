@@ -14,6 +14,3 @@ func SendAction(typ string) *Action {
 		Type: typ,
 	}
 }
-
-// reducer is a function get current state and a Action, return new state.
-type reducer func(interface{}, Action) interface{}

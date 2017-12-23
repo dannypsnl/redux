@@ -5,6 +5,9 @@ import (
 	"sync"
 )
 
+// reducer is a function get current state and a Action, return new state.
+type reducer func(interface{}, Action) interface{}
+
 // Store is a type manage our data
 type Store struct {
 	// state contain key map state
@@ -18,10 +21,10 @@ type Store struct {
 	subscribes []func()
 	// mu Lock each Dispatch call
 	mu sync.Mutex
-	// mu2 Lock each Subscribe call
-	mu2 sync.Mutex
-	// panic log should process panic or not, because we have to help test cache it
-	panic bool
+	// subMu Lock each Subscribe call
+	subMu sync.Mutex
+	// shouldPanic log should process panic or not, because we have to help test cache it
+	shouldPanic bool
 	// isDispatching make sure Subscribetor can't call Subscribe
 	isDispatching bool
 }
@@ -71,8 +74,8 @@ func (s *Store) Dispatch(act *Action) {
 // !Warning, subscribed function can't invoke Dispatch, it will deadlock
 // !Warning, subscribed function can't invoke Subscribe, it will panic
 func (s *Store) Subscribe(subscribetor func()) {
-	s.mu2.Lock()
-	defer s.mu2.Unlock()
+	s.subMu.Lock()
+	defer s.subMu.Unlock()
 	if s.isDispatching {
 		panic(`You may not call store.subscribe() while the reducer is executing.`)
 	}
@@ -97,7 +100,7 @@ func (s *Store) DispatchC(act *Action) {
 		go func(su func()) {
 			defer func() {
 				if p := recover(); p != nil {
-					s.panic = true
+					s.shouldPanic = true
 				}
 				wg.Done()
 			}()
@@ -105,7 +108,7 @@ func (s *Store) DispatchC(act *Action) {
 		}(subscribtor)
 	}
 	wg.Wait()
-	if s.panic {
+	if s.shouldPanic {
 		panic(`You may not call store.subscribe() while the reducer is executing!`)
 	}
 	s.isDispatching = false
