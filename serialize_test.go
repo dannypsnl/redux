@@ -102,9 +102,7 @@ func fileUpdator(state interface{}, act Action) interface{} {
 // Make sure JSON can work with Struct Type
 func TestSerializeStruct(t *testing.T) {
 	store := NewStore(fileUpdator)
-	expected := `{
-  "fileUpdator":{"ext":"elz","mod":"+x"}
-}`
+	expected := `{"fileUpdator":{"ext":"elz","mod":"+x"}}`
 	if store.JSON() != expected {
 		t.Errorf("expected: %s, actual: %s", expected, store.JSON())
 	}
