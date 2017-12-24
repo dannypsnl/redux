@@ -33,7 +33,6 @@ before_script:
   - go get golang.org/x/tools/cmd/cover
   - go get github.com/antlr/antlr4/runtime/Go/antlr
   - go get github.com/mattn/goveralls
-  - go get github.com/andlabs/ui
 
 # script always run to completion (set +e). All of these code checks are must haves
 # in a modern Go project.
