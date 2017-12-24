@@ -114,6 +114,23 @@ func TestSerializeStruct(t *testing.T) {
 	})
 }
 
+func foo(state interface{}, act Action) interface{} {
+	if state == nil {
+		return func() {}
+	}
+	return state
+}
+
+func TestJSONShouldPanic(t *testing.T) {
+	store := NewStore(foo)
+	defer func() {
+		if r := recover(); r == nil {
+			t.Error(`JSON didn't panic when data can't Marshal`)
+		}
+	}()
+	store.JSON()
+}
+
 // !!! If nest the struct, then the Marshal can't get the correct key
 func TestJson(t *testing.T) {
 	type NestData struct {
