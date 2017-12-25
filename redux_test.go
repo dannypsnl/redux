@@ -60,7 +60,7 @@ func TestGetReducerName(t *testing.T) {
 	}
 }
 
-func TestSubscribetorCallSubscribe(t *testing.T) {
+func TestSubscribetorCallSubscribeShouldPanic(t *testing.T) {
 	defer func() {
 		if p := recover(); p == nil {
 			t.Error(`should panic when subscribetor trying to call store::subscribe`)
@@ -73,7 +73,7 @@ func TestSubscribetorCallSubscribe(t *testing.T) {
 	store.Dispatch(SendAction("INC"))
 }
 
-func TestSubscribetorCallSubscribeDispatchC(t *testing.T) {
+func TestSubscribetorCallSubscribeDispatchCShouldPanic(t *testing.T) {
 	defer func() {
 		if p := recover(); p == nil {
 			t.Error(`should panic when subscribetor trying to call store::subscribe`)
