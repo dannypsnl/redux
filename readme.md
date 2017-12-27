@@ -6,7 +6,9 @@
 [![GoDoc](https://godoc.org/github.com/dannypsnl/redux?status.svg)](https://godoc.org/github.com/dannypsnl/redux)
 [![GitHub license](https://img.shields.io/github/license/dannypsnl/redux.svg)](https://github.com/dannypsnl/redux/blob/master/LICENSE)
 <br>
-This is a little try for redux in go.
+This is a redux implementation in Go.<br>
+I hope this project can help you manage the complex update flow in Go.<br>
+[Origin version](https://github.com/reactjs/redux)
 ## Install
 ```bash
 $ go get https://github.com/dannypsnl/redux
