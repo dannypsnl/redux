@@ -30,7 +30,8 @@ type Store struct {
 }
 
 // NewStore create a Store by reducers
-// Code:
+//
+// Usage:
 //   store := redux.NewStore(reducer...)
 func NewStore(r reducer, reducers ...reducer) *Store {
 	s := &Store{
@@ -51,6 +52,9 @@ func (s *Store) newReducer(r reducer) {
 }
 
 // GetState recieve string key to get the mapped state
+//
+// Usage:
+//  store.GetState("reducer_name")
 func (s *Store) GetState(key string) interface{} {
 	return s.state[key]
 }
