@@ -27,7 +27,7 @@ We need user & password to do this State update, so we will put user & password'
 Again, only reducer should use Args, so cast is safety.
 - `Subscribe` recieve a func without args will be invoked by every next Dispatch<br>
 And you should not call `Subscribe` in Subscribetor, you will get a panic warning.
-- `JSON` return state as JSON format string<br>
+- `Marshal` return state as JSON format string<br>
 ### Example
 [Examples](https://github.com/dannypsnl/redux/tree/master/example)
 ##### Basic Example
@@ -54,7 +54,7 @@ func main() {
     // Subscribe's function will be invoke when Dispatch
     store.Subscribe(func() {
         fmt.Printf("Now state is %v\n", store.GetState("counter"))
-        fmt.Printf("%s\n", store.JSON()) // `{ counter: 1 }`, 1 should be current state, Let's print out the json format of our store
+        fmt.Printf("%s\n", store.Marshal()) // `{ counter: 1 }`, 1 should be current state, Let's print out the json format of our store
     })
     store.Dispatch(redux.SendAction("INC")) // state increase by action, now is 1
 }

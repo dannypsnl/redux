@@ -34,11 +34,11 @@ func TestSerialize(t *testing.T) {
 	store := NewStore(counter, login)
 	store.Subscribe(func() {
 		// Use Subscribe to test is the most easy way to reduce lots of code
-		expected := []byte(store.JSON())
+		expected := []byte(store.Marshal())
 		expectedStore := &StoreByCounterLogin{}
 		json.Unmarshal(expected, expectedStore)
 		if store.GetState("counter") != expectedStore.Counter || store.GetState("login") != expectedStore.Login {
-			t.Errorf("serialized result is not expected, expected:\n`%s`, actual:\n`%s`", expected, store.JSON())
+			t.Errorf("serialized result is not expected, expected:\n`%s`, actual:\n`%s`", expected, store.Marshal())
 		}
 	})
 	store.Dispatch(SendAction("INC"))
@@ -99,12 +99,12 @@ func fileUpdator(state interface{}, act Action) interface{} {
 	return state
 }
 
-// Make sure JSON can work with Struct Type
+// Make sure Marshal can work with Struct Type
 func TestSerializeStruct(t *testing.T) {
 	store := NewStore(fileUpdator)
 	expected := `{"fileUpdator":{"ext":"elz","mod":"+x"}}`
-	if store.JSON() != expected {
-		t.Errorf("expected: %s, actual: %s", expected, store.JSON())
+	if store.Marshal() != expected {
+		t.Errorf("expected: %s, actual: %s", expected, store.Marshal())
 	}
 	store.Dispatch(&Action{
 		Type: "new ext",
@@ -121,14 +121,14 @@ func foo(state interface{}, act Action) interface{} {
 	return state
 }
 
-func TestJSONShouldPanic(t *testing.T) {
+func TestMarshalShouldPanic(t *testing.T) {
 	store := NewStore(foo)
 	defer func() {
 		if r := recover(); r == nil {
-			t.Error(`JSON didn't panic when data can't Marshal`)
+			t.Error(`Marshal didn't panic when data can't Marshal`)
 		}
 	}()
-	store.JSON()
+	store.Marshal()
 }
 
 // !!! If nest the struct, then the Marshal can't get the correct key

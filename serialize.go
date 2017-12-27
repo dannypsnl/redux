@@ -5,8 +5,8 @@ import (
 	"fmt"
 )
 
-// JSON serialize state of store to JSON format string
-func (s *Store) JSON() string {
+// Marshal serialize state of store to JSON format string
+func (s *Store) Marshal() string {
 	if b, err := json.Marshal(s.state); err != nil {
 		panic(err)
 	} else {
