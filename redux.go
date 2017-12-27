@@ -30,6 +30,8 @@ type Store struct {
 }
 
 // NewStore create a Store by reducers
+// Code:
+//   store := redux.NewStore(reducer...)
 func NewStore(r reducer, reducers ...reducer) *Store {
 	s := &Store{
 		state: make(map[string]interface{}),
@@ -71,7 +73,9 @@ func (s *Store) Dispatch(act *Action) {
 }
 
 // Subscribe emit argument into subscribes chain, it will be invoked when Dispatch.
+//
 // !Warning, subscribed function can't invoke Dispatch, it will deadlock
+//
 // !Warning, subscribed function can't invoke Subscribe, it will panic
 func (s *Store) Subscribe(subscribetor func()) {
 	s.subMu.Lock()
@@ -83,7 +87,6 @@ func (s *Store) Subscribe(subscribetor func()) {
 }
 
 // DispatchC is the Concurrency version as Dispatch, considers at most of time sequential is faster than Concurrency version.
-// Provide this API
 func (s *Store) DispatchC(act *Action) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
