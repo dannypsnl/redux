@@ -6,9 +6,10 @@ import (
 )
 
 // reducer is a function get current state and a Action, return new state.
+// Inter comment
 type reducer func(interface{}, Action) interface{}
 
-// Store is a type manage our data
+// Store is a type manage your data
 type Store struct {
 	// state contain key map state
 	// and we use key to spread reducer's state
@@ -45,6 +46,7 @@ func NewStore(r reducer, reducers ...reducer) *Store {
 }
 
 // newReducer append r into Store's reducers
+// Inter comment
 func (s *Store) newReducer(r reducer) {
 	// initial state will be return when current state is nil, so we send nil at here.
 	s.state[getReducerName(r)] = r(nil, Action{})

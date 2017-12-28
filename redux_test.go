@@ -48,22 +48,10 @@ func TestStoreState(t *testing.T) {
 	store.Dispatch(SendAction("INC"))
 }
 
-func TestGetReducerName(t *testing.T) {
-	var testReducersName = map[string]reducer{
-		`counter`: counter,
-		`jump`:    jump,
-	}
-	for k, v := range testReducersName {
-		if getReducerName(v) != k {
-			t.Error(`getReducerName didn't get correct name`)
-		}
-	}
-}
-
 func TestSubscribtorCallSubscribeShouldPanic(t *testing.T) {
 	defer func() {
 		if p := recover(); p == nil {
-			t.Error(`should panic when subscribetor trying to call store::subscribe`)
+			t.Error(`should panic when subscribetor trying to call store::Subscribe`)
 		}
 	}()
 	store := NewStore(counter)
@@ -76,7 +64,7 @@ func TestSubscribtorCallSubscribeShouldPanic(t *testing.T) {
 func TestSubscribtorCallSubscribeByDispatchCShouldPanic(t *testing.T) {
 	defer func() {
 		if p := recover(); p == nil {
-			t.Error(`should panic when subscribtor trying to call store::subscribe`)
+			t.Error(`should panic when subscribtor trying to call store::Subscribe`)
 		}
 	}()
 	store := NewStore(counter)
@@ -88,10 +76,14 @@ func TestSubscribtorCallSubscribeByDispatchCShouldPanic(t *testing.T) {
 
 func TestDispatchC(t *testing.T) {
 	store := NewStore(counter)
-	storeC := NewStore(counter)
+	store2 := NewStore(counter)
 	store.Dispatch(SendAction("INC"))
-	storeC.DispatchC(SendAction("INC"))
-	if store.GetState("counter") != storeC.GetState("counter") {
-		t.Errorf("DispatchC & Dispatch have different result, Dispatch: %d, DispatchC: %d", store.GetState("counter"), storeC.GetState("counter"))
+	store2.DispatchC(SendAction("INC"))
+	if store.GetState("counter") != store2.GetState("counter") {
+		t.Errorf(
+			"DispatchC & Dispatch are different, Dispatch: %d, DispatchC: %d",
+			store.GetState("counter"),
+			store2.GetState("counter"),
+		)
 	}
 }
