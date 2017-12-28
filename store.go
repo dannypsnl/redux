@@ -67,7 +67,7 @@ func (s *Store) Dispatch(act *Action) {
 	defer s.mu.Unlock()
 	// we dispatch action to every reducer, and reducer update mapping state.
 	for _, r := range s.reducers {
-		funcName := getReducerName(r)
+		funcName := getReducerName(r) // getReducerName in util.go
 		s.state[funcName] = r(s.state[funcName], *act)
 	}
 	s.isDispatching = true
@@ -78,7 +78,12 @@ func (s *Store) Dispatch(act *Action) {
 	s.isDispatching = false
 }
 
-// Subscribe emit argument into subscribes chain, it will be invoked when Dispatch.
+// Subscribe emit argument into subscribes chain, they will be invoked in Dispatch.
+//
+// Usage:
+//  store.Subscribe(func() {
+//      // Do something...
+//  })
 //
 // !Warning, subscribed function can't invoke Dispatch, it will deadlock
 //
@@ -98,7 +103,7 @@ func (s *Store) DispatchC(act *Action) {
 	defer s.mu.Unlock()
 	// we dispatch action to every reducer, and reducer update mapping state.
 	for _, r := range s.reducers {
-		funcName := getReducerName(r)
+		funcName := getReducerName(r) // getReducerName in util.go
 		s.state[funcName] = r(s.state[funcName], *act)
 	}
 	s.isDispatching = true
