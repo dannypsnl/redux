@@ -18,3 +18,14 @@ func New(typ string) *Action {
 		Args: make(map[string]interface{}),
 	}
 }
+
+// Arg help you append new Argument onto Action with fluent API
+//
+// Example:
+//   action.New("Type").
+//             Arg("author", "danny").
+//             Arg("age", 20)
+func (act *Action) Arg(key string, arg interface{}) *Action {
+	act.Args[key] = arg
+	return act
+}
