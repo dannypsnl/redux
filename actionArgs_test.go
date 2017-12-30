@@ -3,8 +3,8 @@ package redux_test
 import (
 	"fmt"
 
+	"github.com/dannypsnl/redux"
 	"github.com/dannypsnl/redux/action"
-	"github.com/dannypsnl/redux/store"
 )
 
 var users = map[string]int{
@@ -28,7 +28,7 @@ func login(state interface{}, action action.Action) interface{} {
 }
 
 func Example_actionArgs() {
-	store := store.NewStore(login)
+	store := redux.NewStore(login)
 	store.Subscribe(func() {
 		if store.GetState("login") != "Guest" {
 			fmt.Println(store.GetState("login"))
