@@ -6,8 +6,8 @@ import (
 	"sync"
 )
 
-// reducer is a function get current state and a Action, return new state.
 // Inter comment
+// reducer is a function get current state and a Action, return new state.
 type reducer func(interface{}, action.Action) interface{}
 
 // Store is a type manage your data
@@ -46,8 +46,8 @@ func New(r reducer, reducers ...reducer) *Store {
 	return s
 }
 
-// newReducer append r into Store's reducers
 // Inter comment
+// newReducer append r into Store's reducers
 func (s *Store) newReducer(r reducer) {
 	// initial state will be return when current state is nil, so we send nil at here.
 	s.state[getReducerName(r)] = r(nil, action.Action{})
@@ -63,6 +63,10 @@ func (s *Store) GetState(key string) interface{} {
 }
 
 // Dispatch send action to every reducer
+//
+// Usage:
+//  store.Dispatch(action.New("Type").
+//                        Arg("key", expression))
 func (s *Store) Dispatch(act *action.Action) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
