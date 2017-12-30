@@ -5,9 +5,10 @@ import (
 	"sync"
 
 	"github.com/dannypsnl/redux"
+	"github.com/dannypsnl/redux/action"
 )
 
-func counter(state interface{}, action redux.Action) interface{} {
+func counter(state interface{}, action action.Action) interface{} {
 	// initial state
 	if state == nil {
 		return 0
@@ -33,14 +34,14 @@ func main() {
 	for i := 0; i < 10; i++ {
 		wg.Add(1)
 		go func() {
-			store.Dispatch(redux.SendAction("INC"))
+			store.Dispatch(action.New("INC"))
 			wg.Done()
 		}()
 	}
 	for i := 0; i < 10; i++ {
 		wg.Add(1)
 		go func() {
-			store.Dispatch(redux.SendAction("DEC"))
+			store.Dispatch(action.New("DEC"))
 			wg.Done()
 		}()
 	}

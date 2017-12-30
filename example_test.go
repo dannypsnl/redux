@@ -4,9 +4,10 @@ import (
 	"fmt"
 
 	"github.com/dannypsnl/redux"
+	"github.com/dannypsnl/redux/action"
 )
 
-func counter(state interface{}, action redux.Action) interface{} {
+func counter(state interface{}, action action.Action) interface{} {
 	if state == nil {
 		return 0
 	}
@@ -25,7 +26,7 @@ func Example() {
 	store.Subscribe(func() {
 		fmt.Println("Current State:", store.GetState("counter"))
 	})
-	store.Dispatch(redux.SendAction("INC"))
+	store.Dispatch(action.New("INC"))
 	// Output:
 	// Current State: 1
 }

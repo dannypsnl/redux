@@ -3,9 +3,10 @@ package main
 import (
 	"fmt"
 	"github.com/dannypsnl/redux"
+	"github.com/dannypsnl/redux/action"
 )
 
-func counter(state interface{}, act redux.Action) interface{} {
+func counter(state interface{}, act action.Action) interface{} {
 	if state == nil {
 		return 0
 	}
@@ -24,5 +25,5 @@ func main() {
 	store.Subscribe(func() {
 		fmt.Println(store.GetState("counter"))
 	})
-	store.Dispatch(redux.SendAction("INC"))
+	store.Dispatch(action.New("INC"))
 }

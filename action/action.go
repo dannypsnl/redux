@@ -1,4 +1,4 @@
-package redux
+package action
 
 // Action is a type for reducer to know what should it do by recognize Action::Type
 type Action struct {
@@ -8,8 +8,11 @@ type Action struct {
 	Args map[string]interface{}
 }
 
-// SendAction give a simple way to pass pointer of Action, it will be clear and performance.
-func SendAction(typ string) *Action {
+// New create a new action and return a pointer to it.
+//
+// Example:
+//   action.New("Type")
+func New(typ string) *Action {
 	return &Action{
 		Type: typ,
 		Args: make(map[string]interface{}),

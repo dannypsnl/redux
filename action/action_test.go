@@ -1,4 +1,4 @@
-package redux
+package action
 
 import (
 	"testing"
@@ -10,6 +10,6 @@ func TestActionArgsInit(t *testing.T) {
 			t.Error(`Args did not be init`)
 		}
 	}()
-	act := SendAction("TEST_MESSAGE")
+	act := New("TEST_MESSAGE")
 	act.Args["author"] = "danny"
 }

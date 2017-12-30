@@ -1,10 +1,11 @@
 package redux
 
 import (
+	"github.com/dannypsnl/redux/action"
 	"testing"
 )
 
-func counter(state interface{}, action Action) interface{} {
+func counter(state interface{}, action action.Action) interface{} {
 	// The initial state
 	if state == nil {
 		return 0
@@ -19,7 +20,7 @@ func counter(state interface{}, action Action) interface{} {
 	}
 }
 
-func jump(state interface{}, action Action) interface{} {
+func jump(state interface{}, action action.Action) interface{} {
 	if state == nil {
 		return "TOP"
 	}
@@ -42,10 +43,10 @@ func TestStoreState(t *testing.T) {
 			t.Errorf("Expected: %v, Actual: %v", expectedState, store.GetState(thisState))
 		}
 	})
-	store.Dispatch(SendAction("JUMP"))
+	store.Dispatch(action.New("JUMP"))
 	thisState = "counter"
 	expectedState = 1
-	store.Dispatch(SendAction("INC"))
+	store.Dispatch(action.New("INC"))
 }
 
 func TestSubscribtorCallSubscribeShouldPanic(t *testing.T) {
@@ -58,7 +59,7 @@ func TestSubscribtorCallSubscribeShouldPanic(t *testing.T) {
 	store.Subscribe(func() {
 		store.Subscribe(func() {})
 	})
-	store.Dispatch(SendAction("INC"))
+	store.Dispatch(action.New("INC"))
 }
 
 func TestSubscribtorCallSubscribeByDispatchCShouldPanic(t *testing.T) {
@@ -71,14 +72,14 @@ func TestSubscribtorCallSubscribeByDispatchCShouldPanic(t *testing.T) {
 	store.Subscribe(func() {
 		store.Subscribe(func() {})
 	})
-	store.DispatchC(SendAction("INC"))
+	store.DispatchC(action.New("INC"))
 }
 
 func TestDispatchC(t *testing.T) {
 	store := NewStore(counter)
 	store2 := NewStore(counter)
-	store.Dispatch(SendAction("INC"))
-	store2.DispatchC(SendAction("INC"))
+	store.Dispatch(action.New("INC"))
+	store2.DispatchC(action.New("INC"))
 	if store.GetState("counter") != store2.GetState("counter") {
 		t.Errorf(
 			"DispatchC & Dispatch are different, Dispatch: %d, DispatchC: %d",

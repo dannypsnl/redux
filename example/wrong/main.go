@@ -2,9 +2,10 @@ package main
 
 import (
 	"github.com/dannypsnl/redux"
+	"github.com/dannypsnl/redux/action"
 )
 
-func counter(state interface{}, act redux.Action) interface{} {
+func counter(state interface{}, act action.Action) interface{} {
 	if state == nil {
 		return 0
 	}
@@ -21,8 +22,8 @@ func counter(state interface{}, act redux.Action) interface{} {
 func main() {
 	store := redux.NewStore(counter)
 	store.Subscribe(func() {
-		store.Dispatch(redux.SendAction("INC"))
+		store.Dispatch(action.New("INC"))
 		//store.Subscribe(func() {})
 	})
-	store.Dispatch(redux.SendAction("INC"))
+	store.Dispatch(action.New("INC"))
 }

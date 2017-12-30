@@ -3,6 +3,7 @@ package redux
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/dannypsnl/redux/action"
 	"strings"
 	"testing"
 )
@@ -11,7 +12,7 @@ var users = map[string]string{
 	"danny": "1234",
 }
 
-func login(state interface{}, action Action) interface{} {
+func login(state interface{}, action action.Action) interface{} {
 	if state == nil {
 		return "Guest"
 	}
@@ -41,9 +42,9 @@ func TestSerialize(t *testing.T) {
 			t.Errorf("serialized result is not expected, expected:\n`%s`, actual:\n`%s`", expected, store.Marshal())
 		}
 	})
-	store.Dispatch(SendAction("INC"))
-	store.Dispatch(SendAction("INC"))
-	store.Dispatch(&Action{
+	store.Dispatch(action.New("INC"))
+	store.Dispatch(action.New("INC"))
+	store.Dispatch(&action.Action{
 		Type: "login",
 		Args: map[string]interface{}{
 			"user":     "danny",
@@ -59,7 +60,7 @@ type file struct {
 	Mod string `json:"mod"`
 }
 
-func fileUpdator(state interface{}, act Action) interface{} {
+func fileUpdator(state interface{}, act action.Action) interface{} {
 	if state == nil {
 		return &file{
 			Ext: "elz",
@@ -106,7 +107,7 @@ func TestSerializeStruct(t *testing.T) {
 	if store.Marshal() != expected {
 		t.Errorf("expected: %s, actual: %s", expected, store.Marshal())
 	}
-	store.Dispatch(&Action{
+	store.Dispatch(&action.Action{
 		Type: "new ext",
 		Args: map[string]interface{}{
 			"ext": "cpp",
@@ -114,7 +115,7 @@ func TestSerializeStruct(t *testing.T) {
 	})
 }
 
-func foo(state interface{}, act Action) interface{} {
+func foo(state interface{}, act action.Action) interface{} {
 	if state == nil {
 		return func() {}
 	}

@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"github.com/andlabs/ui"
 	"github.com/dannypsnl/redux"
+	"github.com/dannypsnl/redux/action"
 )
 
-func counter(state interface{}, act redux.Action) interface{} {
+func counter(state interface{}, act action.Action) interface{} {
 	if state == nil {
 		return 0
 	}
@@ -33,12 +34,12 @@ func main() {
 		window := ui.NewWindow("Hello", 200, 100, false)
 		window.SetChild(box)
 		buttonInc.OnClicked(func(*ui.Button) {
-			store.Dispatch(redux.SendAction("INC"))
+			store.Dispatch(action.New("INC"))
 			s := fmt.Sprintf("Number is:%d", store.GetState("counter").(int))
 			number.SetText(s)
 		})
 		buttonDec.OnClicked(func(*ui.Button) {
-			store.Dispatch(redux.SendAction("DEC"))
+			store.Dispatch(action.New("DEC"))
 			s := fmt.Sprintf("Number is:%d", store.GetState("counter").(int))
 			number.SetText(s)
 		})

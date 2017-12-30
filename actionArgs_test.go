@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/dannypsnl/redux"
+	"github.com/dannypsnl/redux/action"
 )
 
 var users = map[string]int{
@@ -11,7 +12,7 @@ var users = map[string]int{
 	"danny": 1234,
 }
 
-func login(state interface{}, action redux.Action) interface{} {
+func login(state interface{}, action action.Action) interface{} {
 	if state == nil {
 		return "Guest"
 	}
@@ -28,7 +29,7 @@ func login(state interface{}, action redux.Action) interface{} {
 
 func Example_actionArgs() {
 	store := redux.NewStore(login)
-	act := &redux.Action{
+	act := &action.Action{
 		Type: "login",
 		Args: map[string]interface{}{
 			"user":     "danny",

@@ -1,6 +1,7 @@
 package redux
 
 import (
+	"github.com/dannypsnl/redux/action"
 	"testing"
 	"time"
 )
@@ -14,7 +15,7 @@ func BenchmarkANormalCaseSubscribe(b *testing.B) {
 		}
 	})
 	for i := 0; i < b.N; i++ {
-		store.Dispatch(SendAction("JUMP"))
+		store.Dispatch(action.New("JUMP"))
 	}
 }
 
@@ -26,7 +27,7 @@ func BenchmarkSleep1msSubscribe(b *testing.B) {
 		})
 	}
 	for i := 0; i < b.N; i++ {
-		store.Dispatch(SendAction("JUMP"))
+		store.Dispatch(action.New("JUMP"))
 	}
 }
 
@@ -38,7 +39,7 @@ func BenchmarkSleep1msSubscribeByDispatchC(b *testing.B) {
 		})
 	}
 	for i := 0; i < b.N; i++ {
-		store.DispatchC(SendAction("JUMP"))
+		store.DispatchC(action.New("JUMP"))
 	}
 }
 
@@ -50,7 +51,7 @@ func BenchmarkALotSleep175nsSubscribe(b *testing.B) {
 		})
 	}
 	for i := 0; i < b.N; i++ {
-		store.Dispatch(SendAction("JUMP"))
+		store.Dispatch(action.New("JUMP"))
 	}
 }
 
@@ -62,7 +63,7 @@ func BenchmarkALotSleep175nsSubscribeByDispatchC(b *testing.B) {
 		})
 	}
 	for i := 0; i < b.N; i++ {
-		store.DispatchC(SendAction("JUMP"))
+		store.DispatchC(action.New("JUMP"))
 	}
 }
 
@@ -74,7 +75,7 @@ func BenchmarkALotSleep1nsSubscribe(b *testing.B) {
 		})
 	}
 	for i := 0; i < b.N; i++ {
-		store.Dispatch(SendAction("JUMP"))
+		store.Dispatch(action.New("JUMP"))
 	}
 }
 
@@ -86,6 +87,6 @@ func BenchmarkALotSleep1nsSubscribeByDispatchC(b *testing.B) {
 		})
 	}
 	for i := 0; i < b.N; i++ {
-		store.DispatchC(SendAction("JUMP"))
+		store.DispatchC(action.New("JUMP"))
 	}
 }
