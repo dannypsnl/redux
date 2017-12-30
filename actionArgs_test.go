@@ -29,19 +29,15 @@ func login(state interface{}, action action.Action) interface{} {
 
 func Example_actionArgs() {
 	store := redux.NewStore(login)
-	act := &action.Action{
-		Type: "login",
-		Args: map[string]interface{}{
-			"user":     "danny",
-			"password": 1234,
-		},
-	}
 	store.Subscribe(func() {
 		if store.GetState("login") != "Guest" {
 			fmt.Println(store.GetState("login"))
 		}
 	})
-	store.Dispatch(act)
+	store.Dispatch(
+		action.New("login").
+			Arg("user", "danny").
+			Arg("password", 1234))
 	// Output:
 	// danny Login
 }

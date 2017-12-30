@@ -44,13 +44,10 @@ func TestSerialize(t *testing.T) {
 	})
 	store.Dispatch(action.New("INC"))
 	store.Dispatch(action.New("INC"))
-	store.Dispatch(&action.Action{
-		Type: "login",
-		Args: map[string]interface{}{
-			"user":     "danny",
-			"password": "1234",
-		},
-	})
+	store.Dispatch(
+		action.New("login").
+			Arg("user", "danny").
+			Arg("password", 1234))
 }
 
 type file struct {
@@ -107,12 +104,9 @@ func TestSerializeStruct(t *testing.T) {
 	if store.Marshal() != expected {
 		t.Errorf("expected: %s, actual: %s", expected, store.Marshal())
 	}
-	store.Dispatch(&action.Action{
-		Type: "new ext",
-		Args: map[string]interface{}{
-			"ext": "cpp",
-		},
-	})
+	store.Dispatch(
+		action.New("new ext").
+			Arg("ext", "cpp"))
 }
 
 func foo(state interface{}, act action.Action) interface{} {
