@@ -1,4 +1,4 @@
-package redux
+package store
 
 import (
 	"github.com/dannypsnl/redux/action"
@@ -7,7 +7,7 @@ import (
 )
 
 func BenchmarkANormalCaseSubscribe(b *testing.B) {
-	store := NewStore(counter, jump)
+	store := New(counter, jump)
 	store.Subscribe(func() {
 		expectedState := "TOP"
 		if store.GetState("jump") != expectedState {
@@ -20,7 +20,7 @@ func BenchmarkANormalCaseSubscribe(b *testing.B) {
 }
 
 func BenchmarkSleep1msSubscribe(b *testing.B) {
-	store := NewStore(counter, jump)
+	store := New(counter, jump)
 	for i := 0; i < 10; i++ {
 		store.Subscribe(func() {
 			time.Sleep(1 * time.Millisecond)
@@ -32,7 +32,7 @@ func BenchmarkSleep1msSubscribe(b *testing.B) {
 }
 
 func BenchmarkALotSleep175nsSubscribe(b *testing.B) {
-	store := NewStore(counter, jump)
+	store := New(counter, jump)
 	for i := 0; i < 10000; i++ {
 		store.Subscribe(func() {
 			time.Sleep(175 * time.Nanosecond)
@@ -44,7 +44,7 @@ func BenchmarkALotSleep175nsSubscribe(b *testing.B) {
 }
 
 func BenchmarkALotSleep1nsSubscribe(b *testing.B) {
-	store := NewStore(counter, jump)
+	store := New(counter, jump)
 	for i := 0; i < 10000; i++ {
 		store.Subscribe(func() {
 			time.Sleep(1 * time.Nanosecond)

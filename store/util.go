@@ -1,4 +1,4 @@
-package redux
+package store
 
 import (
 	"reflect"

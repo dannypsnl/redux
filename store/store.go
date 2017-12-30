@@ -1,5 +1,5 @@
-// Package redux provides primitives for manage data by single way flow.
-package redux
+// Package store provides the store implement for redux.
+package store
 
 import (
 	"github.com/dannypsnl/redux/action"
@@ -31,11 +31,11 @@ type Store struct {
 	isDispatching bool
 }
 
-// NewStore create a Store by reducers
+// New create a Store by reducers
 //
 // Usage:
-//   store := redux.NewStore(reducer...)
-func NewStore(r reducer, reducers ...reducer) *Store {
+//   store := redux.New(reducer...)
+func New(r reducer, reducers ...reducer) *Store {
 	s := &Store{
 		state: make(map[string]interface{}),
 	}

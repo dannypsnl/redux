@@ -1,4 +1,4 @@
-package redux
+package store
 
 import (
 	"github.com/dannypsnl/redux/action"
@@ -37,7 +37,7 @@ func jump(state interface{}, action action.Action) interface{} {
 func TestStoreState(t *testing.T) {
 	thisState := "jump"
 	var expectedState interface{} = "TOP"
-	store := NewStore(counter, jump)
+	store := New(counter, jump)
 	store.Subscribe(func() {
 		if store.GetState(thisState) != expectedState {
 			t.Errorf("Expected: %v, Actual: %v", expectedState, store.GetState(thisState))
@@ -55,7 +55,7 @@ func TestSubscribtorCallSubscribeShouldPanic(t *testing.T) {
 			t.Error(`should panic when subscribetor trying to call store::Subscribe`)
 		}
 	}()
-	store := NewStore(counter)
+	store := New(counter)
 	store.Subscribe(func() {
 		store.Subscribe(func() {})
 	})
