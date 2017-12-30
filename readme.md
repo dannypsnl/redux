@@ -1,5 +1,5 @@
 # redux
-[![version badges](https://img.shields.io/badge/version-0.5.1-blue.svg)](https://github.com/dannypsnl/redux/releases)
+[![version badges](https://img.shields.io/badge/version-0.6.0-blue.svg)](https://github.com/dannypsnl/redux/releases)
 [![Build Status](https://travis-ci.org/dannypsnl/redux.svg?branch=master)](https://travis-ci.org/dannypsnl/redux)
 [![Go Report Card](https://goreportcard.com/badge/github.com/dannypsnl/redux)](https://goreportcard.com/report/github.com/dannypsnl/redux)
 [![Coverage Status](https://coveralls.io/repos/github/dannypsnl/redux/badge.svg?branch=master)](https://coveralls.io/github/dannypsnl/redux?branch=master)
@@ -19,7 +19,6 @@ $ go get https://github.com/dannypsnl/redux
 - `NewStore` Create New Store by reducers(at least one reducer)
 - `Dispatch` recieve then send action to every reducers to update state<br>
 And you should not call `Dispatch` in Subscribetor, you will get dead lock. I will trying to provide a better info.
-- `DispatchC` is Dispatch, but execute concurrency inside, it's useful when your Subscribetor came a lot or heavy, but must test it than decide to use this API.
 - `Subscribe` recieve a func without args will be invoked by every next Dispatch<br>
 And you should not call `Subscribe` in Subscribetor, you will get a panic warning.
 - `Marshal` return state as JSON format string<br>

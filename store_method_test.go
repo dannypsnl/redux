@@ -61,30 +61,3 @@ func TestSubscribtorCallSubscribeShouldPanic(t *testing.T) {
 	})
 	store.Dispatch(action.New("INC"))
 }
-
-func TestSubscribtorCallSubscribeByDispatchCShouldPanic(t *testing.T) {
-	defer func() {
-		if p := recover(); p == nil {
-			t.Error(`should panic when subscribtor trying to call store::Subscribe`)
-		}
-	}()
-	store := NewStore(counter)
-	store.Subscribe(func() {
-		store.Subscribe(func() {})
-	})
-	store.DispatchC(action.New("INC"))
-}
-
-func TestDispatchC(t *testing.T) {
-	store := NewStore(counter)
-	store2 := NewStore(counter)
-	store.Dispatch(action.New("INC"))
-	store2.DispatchC(action.New("INC"))
-	if store.GetState("counter") != store2.GetState("counter") {
-		t.Errorf(
-			"DispatchC & Dispatch are different, Dispatch: %d, DispatchC: %d",
-			store.GetState("counter"),
-			store2.GetState("counter"),
-		)
-	}
-}

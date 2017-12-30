@@ -72,9 +72,23 @@ func (s *Store) Dispatch(act *action.Action) {
 		s.state[funcName] = r(s.state[funcName], *act)
 	}
 	s.isDispatching = true
+	var wg sync.WaitGroup
 	// we call subscribed function after state updated.
 	for _, subscribtor := range s.subscribes {
-		subscribtor()
+		wg.Add(1)
+		go func(su func()) {
+			defer func() {
+				if p := recover(); p != nil {
+					s.shouldPanic = true
+				}
+				wg.Done()
+			}()
+			su()
+		}(subscribtor)
+	}
+	wg.Wait()
+	if s.shouldPanic {
+		panic(`You may not call store.subscribe() while the reducer is executing!`)
 	}
 	s.isDispatching = false
 }
@@ -96,35 +110,4 @@ func (s *Store) Subscribe(subscribetor func()) {
 		panic(`You may not call store.subscribe() while the reducer is executing.`)
 	}
 	s.subscribes = append(s.subscribes, subscribetor)
-}
-
-// DispatchC is the Concurrency version as Dispatch, considers at most of time sequential is faster than Concurrency version.
-func (s *Store) DispatchC(act *action.Action) {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-	// we dispatch action to every reducer, and reducer update mapping state.
-	for _, r := range s.reducers {
-		funcName := getReducerName(r) // getReducerName in util.go
-		s.state[funcName] = r(s.state[funcName], *act)
-	}
-	s.isDispatching = true
-	var wg sync.WaitGroup
-	// we call subscribed function after state updated.
-	for _, subscribtor := range s.subscribes {
-		wg.Add(1)
-		go func(su func()) {
-			defer func() {
-				if p := recover(); p != nil {
-					s.shouldPanic = true
-				}
-				wg.Done()
-			}()
-			su()
-		}(subscribtor)
-	}
-	wg.Wait()
-	if s.shouldPanic {
-		panic(`You may not call store.subscribe() while the reducer is executing!`)
-	}
-	s.isDispatching = false
 }
