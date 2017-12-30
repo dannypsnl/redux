@@ -23,7 +23,10 @@ func main() {
 	store := redux.NewStore(counter)
 	store.Subscribe(func() {
 		store.Dispatch(action.New("INC"))
+		// store.Dispatch(redux.SendAction("INC"))
+		//       ^^^^^^^^ invoke Dispatch in Subscribe will cause deadlock
 		//store.Subscribe(func() {})
+		//      ^^^^^^^^^ invoke Subscribe in Subscribe will cause panic
 	})
 	store.Dispatch(action.New("INC"))
 }

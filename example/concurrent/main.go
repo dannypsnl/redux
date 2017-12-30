@@ -27,8 +27,6 @@ func main() {
 	store := redux.NewStore(counter)
 	store.Subscribe(func() {
 		fmt.Printf("State is %v\n", store.GetState("counter"))
-		// store.Dispatch(redux.SendAction("INC"))
-		//       ^^^^^^^^ invoke Dispatch in Subscribe will cause panic
 	})
 	var wg sync.WaitGroup
 	for i := 0; i < 10; i++ {
