@@ -39,16 +39,16 @@ func New(r reducer, reducers ...reducer) *Store {
 	s := &Store{
 		state: make(map[string]interface{}),
 	}
-	s.newReducer(r)
+	s.emit(r)
 	for _, r := range reducers {
-		s.newReducer(r)
+		s.emit(r)
 	}
 	return s
 }
 
 // Inter comment
-// newReducer append r into Store's reducers
-func (s *Store) newReducer(r reducer) {
+// emit append r into Store's reducers
+func (s *Store) emit(r reducer) {
 	// initial state will be return when current state is nil, so we send nil at here.
 	s.state[getReducerName(r)] = r(nil, action.Action{})
 	s.reducers = append(s.reducers, r)
