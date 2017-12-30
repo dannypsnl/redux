@@ -12,5 +12,6 @@ type Action struct {
 func SendAction(typ string) *Action {
 	return &Action{
 		Type: typ,
+		Args: make(map[string]interface{}),
 	}
 }
