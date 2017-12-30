@@ -41,6 +41,6 @@ script:
   - go test -v -covermode=count -coverprofile=coverage.out .                   # Run all the tests with the race detector enabled
   - $HOME/gopath/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken=ibfn8Gov1sjZJXyr32hPLrfWnjZTwDcVC
   - $COVERALLS_TOKEN
-  - go vet ./...                             # go vet is the official Go static analyzer
+  - go vet ./ ./action/ ./example/counter/ ./example/concurrent/               # go vet is the official Go static analyzer
   #- gocyclo -over 19 $GO_FILES               # forbid code with huge functions
 
