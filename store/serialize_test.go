@@ -2,7 +2,6 @@ package store
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/dannypsnl/redux/action"
 	"strings"
 	"testing"
@@ -100,13 +99,10 @@ func fileUpdator(state interface{}, act action.Action) interface{} {
 // Make sure Marshal can work with Struct Type
 func TestSerializeStruct(t *testing.T) {
 	store := New(fileUpdator)
-	expected := `{"fileUpdator":{"ext":"elz","mod":"+x"}}`
-	if store.Marshal() != expected {
+	expected := []byte(`{"fileUpdator":{"ext":"elz","mod":"+x"}}`)
+	if store.Marshal() != string(expected) {
 		t.Errorf("expected: %s, actual: %s", expected, store.Marshal())
 	}
-	store.Dispatch(
-		action.New("new ext").
-			Arg("ext", "cpp"))
 }
 
 func foo(state interface{}, act action.Action) interface{} {
@@ -124,24 +120,4 @@ func TestMarshalShouldPanic(t *testing.T) {
 		}
 	}()
 	store.Marshal()
-}
-
-// !!! If nest the struct, then the Marshal can't get the correct key
-func TestJson(t *testing.T) {
-	type NestData struct {
-		I int `json:"integer"`
-	}
-
-	type TestData struct {
-		Nest NestData `json:"nest"`
-	}
-	td := TestData{
-		Nest: NestData{I: 10},
-	}
-	b, _ := json.Marshal(td)
-	formatString := fmt.Sprintf("%s", b)
-	expected := `{"nest":{"integer":10}}`
-	if expected != formatString {
-		t.Errorf("expected: %s, actual: %s", expected, formatString)
-	}
 }
