@@ -35,10 +35,11 @@ Again, only reducer should use Args, so cast is safety.
 ### Example
 [Examples](https://github.com/dannypsnl/redux/tree/master/example)
 ##### Basic Example
+> Ignore other packages
 ```go
 import(
     "github.com/dannypsnl/redux"
-    "github.com/dannypsnl/redux"
+    "github.com/dannypsnl/redux/action"
  )
 
 func counter(state interface{}, action action.Action) interface{} {
