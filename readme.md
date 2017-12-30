@@ -39,7 +39,7 @@ Again, only reducer should use Args, so cast is safety.
 import(
     "github.com/dannypsnl/redux/store"
     "github.com/dannypsnl/redux/action"
- )
+)
 
 func counter(state interface{}, action action.Action) interface{} {
     // Initial State
@@ -57,7 +57,7 @@ func counter(state interface{}, action action.Action) interface{} {
 }
 
 func main() {
-    store := store.NewStore(counter) // counter state be initial at here, it's 0
+    store := store.New(counter) // counter state be initial at here, it's 0
     // Subscribe's function will be invoke when Dispatch
     store.Subscribe(func() {
         fmt.Printf("Now state is %v\n", store.GetState("counter"))
