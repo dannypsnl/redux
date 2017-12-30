@@ -34,7 +34,7 @@ type Store struct {
 // New create a Store by reducers
 //
 // Usage:
-//   store := redux.New(reducer...)
+//   store := store.New(reducer...)
 func New(r reducer, reducers ...reducer) *Store {
 	s := &Store{
 		state: make(map[string]interface{}),
