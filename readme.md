@@ -1,5 +1,5 @@
 # redux
-[![version badges](https://img.shields.io/badge/version-0.4.1-blue.svg)](https://github.com/dannypsnl/redux/releases)
+[![version badges](https://img.shields.io/badge/version-0.5.0-blue.svg)](https://github.com/dannypsnl/redux/releases)
 [![Build Status](https://travis-ci.org/dannypsnl/redux.svg?branch=master)](https://travis-ci.org/dannypsnl/redux)
 [![Go Report Card](https://goreportcard.com/badge/github.com/dannypsnl/redux)](https://goreportcard.com/report/github.com/dannypsnl/redux)
 [![Coverage Status](https://coveralls.io/repos/github/dannypsnl/redux/badge.svg?branch=master)](https://coveralls.io/github/dannypsnl/redux?branch=master)
@@ -14,27 +14,33 @@ I hope this project can help you manage the complex update flow in Go.<br>
 $ go get https://github.com/dannypsnl/redux
 ```
 ## Usage
+### pkgs
+#### redux
 - `NewStore` Create New Store by reducers(at least one reducer)
-- `Dispatch` recieve then send your action object to every reducers to update state<br>
+- `Dispatch` recieve then send action to every reducers to update state<br>
 And you should not call `Dispatch` in Subscribetor, you will get dead lock. I will trying to provide a better info.
 - `DispatchC` is Dispatch, but execute concurrency inside, it's useful when your Subscribetor came a lot or heavy, but must test it than decide to use this API.
-- `SendAction` recieve a string and return a pointer to Action for you<br>
-The reason for it is because we usually only need Type, so SendAction reduce the code for you and reduce the opportunity make fault<br>
+- `Subscribe` recieve a func without args will be invoked by every next Dispatch<br>
+And you should not call `Subscribe` in Subscribetor, you will get a panic warning.
+- `Marshal` return state as JSON format string<br>
+#### redux/action
+By this module, we can have a better 
+- `action.New` recieve a string and return a pointer to Action for you<br>
 - `Action` is a type contain `Type` & `Args`<br>
 `Type` is just a string help reducer juage what should them do.<br>
 `Args` is a `map[string]interface{}` contain a lot values, think about we Dispatch login Action<br>
 We need user & password to do this State update, so we will put user & password's value in the Action::Args<br>
 Again, only reducer should use Args, so cast is safety.
-- `Subscribe` recieve a func without args will be invoked by every next Dispatch<br>
-And you should not call `Subscribe` in Subscribetor, you will get a panic warning.
-- `Marshal` return state as JSON format string<br>
 ### Example
 [Examples](https://github.com/dannypsnl/redux/tree/master/example)
 ##### Basic Example
 ```go
-import "github.com/dannypsnl/redux"
+import(
+    "github.com/dannypsnl/redux"
+    "github.com/dannypsnl/redux"
+ )
 
-func counter(state interface{}, action redux.Action) interface{} {
+func counter(state interface{}, action action.Action) interface{} {
     // Initial State
     if state == nil {
         return 0
@@ -56,6 +62,6 @@ func main() {
         fmt.Printf("Now state is %v\n", store.GetState("counter"))
         fmt.Printf("%s\n", store.Marshal()) // `{ counter: 1 }`, 1 should be current state, Let's print out the json format of our store
     })
-    store.Dispatch(redux.SendAction("INC")) // state increase by action, now is 1
+    store.Dispatch(action.New("INC")) // state increase by action, now is 1
 }
 ```
