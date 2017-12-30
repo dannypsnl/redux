@@ -1,5 +1,5 @@
 # redux
-[![version badges](https://img.shields.io/badge/version-0.6.0-blue.svg)](https://github.com/dannypsnl/redux/releases)
+[![version badges](https://img.shields.io/badge/version-0.7.0-blue.svg)](https://github.com/dannypsnl/redux/releases)
 [![Build Status](https://travis-ci.org/dannypsnl/redux.svg?branch=master)](https://travis-ci.org/dannypsnl/redux)
 [![Go Report Card](https://goreportcard.com/badge/github.com/dannypsnl/redux)](https://goreportcard.com/report/github.com/dannypsnl/redux)
 [![Coverage Status](https://coveralls.io/repos/github/dannypsnl/redux/badge.svg?branch=master)](https://coveralls.io/github/dannypsnl/redux?branch=master)
@@ -11,20 +11,20 @@ I hope this project can help you manage the complex update flow in Go.<br>
 [Origin version](https://github.com/reactjs/redux)
 ## Install
 ```bash
-$ go get https://github.com/dannypsnl/redux
+$ go get https://github.com/dannypsnl/redux/...
 ```
 ## Usage
 ### pkgs
-#### redux
-- `NewStore` Create New Store by reducers(at least one reducer)
+#### redux/store
+- `New` Create New Store by reducers(at least one reducer)
 - `Dispatch` recieve then send action to every reducers to update state<br>
-And you should not call `Dispatch` in Subscribetor, you will get dead lock. I will trying to provide a better info.
+And you should not call `Dispatch` in Subscribetor, you will get dead lock.
 - `Subscribe` recieve a func without args will be invoked by every next Dispatch<br>
 And you should not call `Subscribe` in Subscribetor, you will get a panic warning.
 - `Marshal` return state as JSON format string<br>
 #### redux/action
-By this module, we can have a better 
-- `action.New` recieve a string and return a pointer to Action for you<br>
+By this module, we can have a better
+- `New` recieve a string and return a pointer to Action for you<br>
 - `Action` is a type contain `Type` & `Args`<br>
 `Type` is just a string help reducer juage what should them do.<br>
 `Args` is a `map[string]interface{}` contain a lot values, think about we Dispatch login Action<br>
@@ -37,7 +37,7 @@ Again, only reducer should use Args, so cast is safety.
 > Ignore other packages
 ```go
 import(
-    "github.com/dannypsnl/redux"
+    "github.com/dannypsnl/redux/store"
     "github.com/dannypsnl/redux/action"
  )
 
@@ -57,7 +57,7 @@ func counter(state interface{}, action action.Action) interface{} {
 }
 
 func main() {
-    store := redux.NewStore(counter) // counter state be initial at here, it's 0
+    store := store.NewStore(counter) // counter state be initial at here, it's 0
     // Subscribe's function will be invoke when Dispatch
     store.Subscribe(func() {
         fmt.Printf("Now state is %v\n", store.GetState("counter"))

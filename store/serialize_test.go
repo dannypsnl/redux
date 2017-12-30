@@ -1,4 +1,4 @@
-package redux
+package store
 
 import (
 	"encoding/json"
@@ -32,7 +32,7 @@ func TestSerialize(t *testing.T) {
 		Counter int    `json:"counter"`
 		Login   string `json:"login"`
 	}
-	store := NewStore(counter, login)
+	store := New(counter, login)
 	store.Subscribe(func() {
 		// Use Subscribe to test is the most easy way to reduce lots of code
 		expected := []byte(store.Marshal())
@@ -99,7 +99,7 @@ func fileUpdator(state interface{}, act action.Action) interface{} {
 
 // Make sure Marshal can work with Struct Type
 func TestSerializeStruct(t *testing.T) {
-	store := NewStore(fileUpdator)
+	store := New(fileUpdator)
 	expected := `{"fileUpdator":{"ext":"elz","mod":"+x"}}`
 	if store.Marshal() != expected {
 		t.Errorf("expected: %s, actual: %s", expected, store.Marshal())
@@ -117,7 +117,7 @@ func foo(state interface{}, act action.Action) interface{} {
 }
 
 func TestMarshalShouldPanic(t *testing.T) {
-	store := NewStore(foo)
+	store := New(foo)
 	defer func() {
 		if r := recover(); r == nil {
 			t.Error(`Marshal didn't panic when data can't Marshal`)

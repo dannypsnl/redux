@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/dannypsnl/redux"
 	"github.com/dannypsnl/redux/action"
+	"github.com/dannypsnl/redux/store"
 )
 
 func counter(state interface{}, act action.Action) interface{} {
@@ -21,7 +21,7 @@ func counter(state interface{}, act action.Action) interface{} {
 }
 
 func main() {
-	store := redux.NewStore(counter)
+	store := store.New(counter)
 	store.Subscribe(func() {
 		fmt.Println(store.GetState("counter"))
 	})

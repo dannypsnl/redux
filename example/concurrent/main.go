@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/dannypsnl/redux"
 	"github.com/dannypsnl/redux/action"
+	"github.com/dannypsnl/redux/store"
 )
 
 func counter(state interface{}, action action.Action) interface{} {
@@ -24,7 +24,7 @@ func counter(state interface{}, action action.Action) interface{} {
 }
 
 func main() {
-	store := redux.NewStore(counter)
+	store := store.New(counter)
 	store.Subscribe(func() {
 		fmt.Printf("State is %v\n", store.GetState("counter"))
 	})
