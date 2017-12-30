@@ -25,7 +25,7 @@ func New(typ string) *Action {
 //   action.New("Type").
 //             Arg("author", "danny").
 //             Arg("age", 20)
-func (act *Action) Arg(key string, arg interface{}) *Action {
-	act.Args[key] = arg
+func (act *Action) Arg(arg string, val interface{}) *Action {
+	act.Args[arg] = val
 	return act
 }
