@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/andlabs/ui"
-	"github.com/dannypsnl/redux"
 	"github.com/dannypsnl/redux/action"
+	"github.com/dannypsnl/redux/store"
 )
 
 func counter(state interface{}, act action.Action) interface{} {
@@ -22,7 +22,7 @@ func counter(state interface{}, act action.Action) interface{} {
 }
 
 func main() {
-	store := redux.NewStore(counter)
+	st := store.Newst(counter)
 	err := ui.Main(func() {
 		buttonInc := ui.NewButton("+")
 		buttonDec := ui.NewButton("-")
@@ -34,13 +34,13 @@ func main() {
 		window := ui.NewWindow("Hello", 200, 100, false)
 		window.SetChild(box)
 		buttonInc.OnClicked(func(*ui.Button) {
-			store.Dispatch(action.New("INC"))
-			s := fmt.Sprintf("Number is:%d", store.GetState("counter").(int))
+			st.Dispatch(action.New("INC"))
+			s := fmt.Sprintf("Number is:%d", st.GetState("counter").(int))
 			number.SetText(s)
 		})
 		buttonDec.OnClicked(func(*ui.Button) {
-			store.Dispatch(action.New("DEC"))
-			s := fmt.Sprintf("Number is:%d", store.GetState("counter").(int))
+			st.Dispatch(action.New("DEC"))
+			s := fmt.Sprintf("Number is:%d", st.GetState("counter").(int))
 			number.SetText(s)
 		})
 		window.OnClosing(func(*ui.Window) bool {

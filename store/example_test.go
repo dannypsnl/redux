@@ -3,8 +3,8 @@ package redux_test
 import (
 	"fmt"
 
-	"github.com/dannypsnl/redux"
 	"github.com/dannypsnl/redux/action"
+	"github.com/dannypsnl/redux/store"
 )
 
 func counter(state interface{}, action action.Action) interface{} {
@@ -22,7 +22,7 @@ func counter(state interface{}, action action.Action) interface{} {
 }
 
 func Example() {
-	store := redux.NewStore(counter)
+	store := store.NewStore(counter)
 	store.Subscribe(func() {
 		fmt.Println("Current State:", store.GetState("counter"))
 	})
