@@ -6,7 +6,6 @@ import (
 )
 
 func counter(state interface{}, action action.Action) interface{} {
-	// The initial state
 	if state == nil {
 		return 0
 	}
@@ -37,15 +36,18 @@ func jump(state interface{}, action action.Action) interface{} {
 func TestStoreState(t *testing.T) {
 	thisState := "jump"
 	var expectedState interface{} = "TOP"
-	store := New(counter, jump)
+
+	store := /*store.*/ New(counter, jump)
 	store.Subscribe(func() {
 		if store.GetState(thisState) != expectedState {
 			t.Errorf("Expected: %v, Actual: %v", expectedState, store.GetState(thisState))
 		}
 	})
 	store.Dispatch(action.New("JUMP"))
+
 	thisState = "counter"
 	expectedState = 1
+
 	store.Dispatch(action.New("INC"))
 }
 
@@ -55,9 +57,11 @@ func TestSubscribtorCallSubscribeShouldPanic(t *testing.T) {
 			t.Error(`should panic when subscribetor trying to call store::Subscribe`)
 		}
 	}()
-	store := New(counter)
+
+	store := /*store.*/ New(counter)
 	store.Subscribe(func() {
 		store.Subscribe(func() {})
 	})
+
 	store.Dispatch(action.New("INC"))
 }

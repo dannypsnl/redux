@@ -31,7 +31,8 @@ func TestSerialize(t *testing.T) {
 		Counter int    `json:"counter"`
 		Login   string `json:"login"`
 	}
-	store := New(counter, login)
+
+	store := /*store.*/ New(counter, login)
 	store.Subscribe(func() {
 		// Use Subscribe to test is the most easy way to reduce lots of code
 		expected := []byte(store.Marshal())
@@ -41,6 +42,7 @@ func TestSerialize(t *testing.T) {
 			t.Errorf("serialized result is not expected, expected:\n`%s`, actual:\n`%s`", expected, store.Marshal())
 		}
 	})
+
 	store.Dispatch(action.New("INC"))
 	store.Dispatch(action.New("INC"))
 	store.Dispatch(
@@ -98,8 +100,9 @@ func fileUpdator(state interface{}, act action.Action) interface{} {
 
 // Make sure Marshal can work with Struct Type
 func TestSerializeStruct(t *testing.T) {
-	store := New(fileUpdator)
+	store := /*store.*/ New(fileUpdator)
 	expected := []byte(`{"fileUpdator":{"ext":"elz","mod":"+x"}}`)
+
 	if store.Marshal() != string(expected) {
 		t.Errorf("expected: %s, actual: %s", expected, store.Marshal())
 	}
@@ -112,8 +115,9 @@ func foo(state interface{}, act action.Action) interface{} {
 	return state
 }
 
-func TestMarshalShouldPanic(t *testing.T) {
-	store := New(foo)
+func TestMarshalPanicIfDataIsInvalid(t *testing.T) {
+	// At here, we have function in state
+	store := /*store.*/ New(foo)
 	defer func() {
 		if r := recover(); r == nil {
 			t.Error(`Marshal didn't panic when data can't Marshal`)

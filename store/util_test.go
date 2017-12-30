@@ -9,8 +9,8 @@ func TestGetReducerName(t *testing.T) {
 		`counter`: counter,
 		`jump`:    jump,
 	}
-	for k, v := range testReducersName {
-		if getReducerName(v) != k {
+	for expected, reducer := range testReducersName {
+		if getReducerName(reducer) != expected {
 			t.Error(`getReducerName didn't get correct name`)
 		}
 	}
