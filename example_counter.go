@@ -21,7 +21,7 @@ func counter(state interface{}, action action.Action) interface{} {
 	}
 }
 
-func Example() {
+func Example_counter() {
 	store := store.New(counter)
 	store.Subscribe(func() {
 		fmt.Println("Current State:", store.GetState("counter"))
