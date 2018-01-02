@@ -5,7 +5,7 @@ Just few points have to note:<br>
 - You can create issue to show what do you want to do, or your needs
 - Having basic Go knowledge can help you a lot
 ### Structure of redux
-- `store.go` type redux::Store & constructor function & it's core API method(Dispatch, Subscribe)
-- `serialize.go` method of redux::Store, about serialize
-- `util.go` helper function of redux(these are core inner function)
-- `action.go` type redux::Action & it's helper function(these are core API)
+- `store/store.go` type store::Store & constructor function & it's core API method(Dispatch, Subscribe)
+- `store/serialize.go` method of store::Store, about serialize
+- `store/util.go` helper function for store
+- `action/action.go` type action::Action & it's core API
