@@ -21,14 +21,14 @@ type Store struct {
 	reducers []reducer
 	// subscribes contains those function we want to invoke at dispatch
 	subscribes []func()
-	// mu Lock each Dispatch call
-	mu sync.Mutex
+	// disMu Lock each Dispatch call
+	disMu sync.Mutex
 	// subMu Lock each Subscribe call
 	subMu sync.Mutex
 	// shouldPanic log should process panic or not, because we have to help test cache it
-	shouldPanic bool
-	// isDispatching make sure Subscribetor can't call Subscribe
-	isDispatching bool
+	shouldPanic bool // FIXME: choose a better name for me.
+	// onDispatching make sure Subscribetor can't call Subscribe
+	onDispatching bool
 }
 
 // New create a Store by reducers
@@ -68,14 +68,14 @@ func (s *Store) GetState(key string) interface{} {
 //  store.Dispatch(action.New("Type").
 //                        Arg("key", expression))
 func (s *Store) Dispatch(act *action.Action) {
-	s.mu.Lock()
-	defer s.mu.Unlock()
+	s.disMu.Lock()
+	defer s.disMu.Unlock()
 	// we dispatch action to every reducer, and reducer update mapping state.
 	for _, r := range s.reducers {
 		funcName := getReducerName(r) // getReducerName in util.go
 		s.state[funcName] = r(s.state[funcName], *act)
 	}
-	s.isDispatching = true
+	s.onDispatching = true
 	var wg sync.WaitGroup
 	// we call subscribed function after state updated.
 	for _, subscribtor := range s.subscribes {
@@ -94,7 +94,7 @@ func (s *Store) Dispatch(act *action.Action) {
 	if s.shouldPanic {
 		panic(`You may not call store.subscribe() while the reducer is executing!`)
 	}
-	s.isDispatching = false
+	s.onDispatching = false
 }
 
 // Subscribe emit argument into subscribes chain, they will be invoked in Dispatch.
@@ -110,7 +110,7 @@ func (s *Store) Dispatch(act *action.Action) {
 func (s *Store) Subscribe(subscribetor func()) {
 	s.subMu.Lock()
 	defer s.subMu.Unlock()
-	if s.isDispatching {
+	if s.onDispatching {
 		panic(`You may not call store.subscribe() while the reducer is executing.`)
 	}
 	s.subscribes = append(s.subscribes, subscribetor)
