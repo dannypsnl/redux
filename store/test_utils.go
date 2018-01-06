@@ -31,3 +31,10 @@ func jump(state interface{}, action action.Action) interface{} {
 		return state
 	}
 }
+
+func foo(state interface{}, act action.Action) interface{} {
+	if state == nil {
+		return func() {}
+	}
+	return state
+}
