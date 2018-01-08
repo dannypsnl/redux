@@ -19,11 +19,11 @@ func BenchmarkANormalCaseSubscribe(b *testing.B) {
 	}
 }
 
-func BenchmarkSleep1msSubscribe(b *testing.B) {
+func BenchmarkSleep1nsSubscribe(b *testing.B) {
 	store := New(counter, jump)
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 10000; i++ {
 		store.Subscribe(func() {
-			time.Sleep(1 * time.Millisecond)
+			time.Sleep(1 * time.Nanosecond)
 		})
 	}
 	for i := 0; i < b.N; i++ {
@@ -31,7 +31,7 @@ func BenchmarkSleep1msSubscribe(b *testing.B) {
 	}
 }
 
-func BenchmarkALotSleep175nsSubscribe(b *testing.B) {
+func BenchmarkSleep175nsSubscribe(b *testing.B) {
 	store := New(counter, jump)
 	for i := 0; i < 10000; i++ {
 		store.Subscribe(func() {
@@ -43,11 +43,11 @@ func BenchmarkALotSleep175nsSubscribe(b *testing.B) {
 	}
 }
 
-func BenchmarkALotSleep1nsSubscribe(b *testing.B) {
+func BenchmarkSleep1msSubscribe(b *testing.B) {
 	store := New(counter, jump)
-	for i := 0; i < 10000; i++ {
+	for i := 0; i < 10; i++ {
 		store.Subscribe(func() {
-			time.Sleep(1 * time.Nanosecond)
+			time.Sleep(1 * time.Millisecond)
 		})
 	}
 	for i := 0; i < b.N; i++ {
