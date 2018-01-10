@@ -5,6 +5,14 @@ import (
 	"testing"
 )
 
+func TestHowManyReducerWeHave(t *testing.T) {
+	store := /*store.*/ New(counter, counter)
+	store.Dispatch(action.New("INC"))
+	if store.GetState("counter") != 1 && len(store.reducers) != 1 {
+		t.Error(`We have duplicated reducer`, store.GetState("counter"), len(store.reducers))
+	}
+}
+
 func TestStoreState(t *testing.T) {
 	thisState := "jump"
 	var expectedState interface{} = "TOP"
