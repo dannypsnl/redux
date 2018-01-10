@@ -50,6 +50,9 @@ func New(r reducer, reducers ...reducer) *Store {
 // emit append r into Store's reducers
 func (s *Store) emit(r reducer) {
 	// initial state will be return when current state is nil, so we send nil at here.
+	if s.state[getReducerName(r)] != nil {
+		panic("You can not create duplicated reducer")
+	}
 	s.state[getReducerName(r)] = r(nil, action.Action{})
 	s.reducers = append(s.reducers, r)
 }

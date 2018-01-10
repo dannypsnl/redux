@@ -5,12 +5,14 @@ import (
 	"testing"
 )
 
-func TestHowManyReducerWeHave(t *testing.T) {
+func TestDuplicatedReducerShouldCausePanic(t *testing.T) {
+	defer func() {
+		if p := recover(); p == nil {
+			t.Error(`duplicated reducer should break the process`)
+		}
+	}()
 	store := /*store.*/ New(counter, counter)
 	store.Dispatch(action.New("INC"))
-	if store.GetState("counter") != 1 && len(store.reducers) != 1 {
-		t.Error(`We have duplicated reducer`, store.GetState("counter"), len(store.reducers))
-	}
 }
 
 func TestStoreState(t *testing.T) {
