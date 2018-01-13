@@ -25,8 +25,8 @@ type Store struct {
 	disMu sync.Mutex
 	// subMu Lock each Subscribe call
 	subMu sync.Mutex
-	// shouldPanic log should process panic or not, because we have to help test cache it
-	shouldPanic bool // FIXME: choose a better name for me.
+	// invokeSubscribeInSubscribtor log should process panic or not, because we have to help test cache it
+	invokeSubscribeInSubscribtor bool
 	// onDispatching make sure Subscribetor can't call Subscribe
 	onDispatching bool
 }
@@ -86,7 +86,7 @@ func (s *Store) Dispatch(act *action.Action) {
 		go func(su func()) {
 			defer func() {
 				if p := recover(); p != nil {
-					s.shouldPanic = true
+					s.invokeSubscribeInSubscribtor = true
 				}
 				wg.Done()
 			}()
@@ -94,7 +94,7 @@ func (s *Store) Dispatch(act *action.Action) {
 		}(subscribtor)
 	}
 	wg.Wait()
-	if s.shouldPanic {
+	if s.invokeSubscribeInSubscribtor {
 		panic(`You may not call store.subscribe() while the reducer is executing!`)
 	}
 	s.onDispatching = false
