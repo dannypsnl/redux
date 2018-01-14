@@ -94,6 +94,8 @@ func (s *Store) Dispatch(act *action.Action) {
 		}(subscribtor)
 	}
 	wg.Wait()
+	// Have to check at here then panic is because recover can't recover second level's panic
+	// We need to test this part's code, so have recover then panic at here
 	if s.invokeSubscribeInSubscribtor {
 		panic(`You may not call store.subscribe() while the reducer is executing!`)
 	}
