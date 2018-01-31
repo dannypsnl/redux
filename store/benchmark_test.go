@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func BenchmarkANormalCaseSubscribe(b *testing.B) {
+func Benchmark_2_Reducers_1_Subscribe(b *testing.B) {
 	store := New(counter, jump)
 	store.Subscribe(func() {
 		expectedState := "TOP"
