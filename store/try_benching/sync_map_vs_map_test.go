@@ -49,3 +49,25 @@ func BenchmarkSyncMapInsert(b *testing.B) {
 		syncMapInsert()
 	}
 }
+
+func BenchmarkMapRead(b *testing.B) {
+	v := 0
+	m := map[int]int{}
+	for i := 0; i < 10000; i++ {
+		m[i] = 1
+	}
+	for n := 0; n < b.N; n++ {
+		v = m[8000]
+	}
+	print(v)
+}
+
+func BenchmarkSyncMapRead(b *testing.B) {
+	smap := sync.Map{}
+	for i := 0; i < 10000; i++ {
+		smap.Store(i, 1)
+	}
+	for n := 0; n < b.N; n++ {
+		smap.Load(8000)
+	}
+}
