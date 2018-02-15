@@ -11,7 +11,7 @@ func TestGetReducerName(t *testing.T) {
 	}
 	for expected, reducer := range testReducersName {
 		if getReducerName(reducer) != expected {
-			t.Error(`getReducerName didn't get correct name`)
+			t.Errorf(`getReducerName didn't get correct name, expected: %s, actual %s`, expected, getReducerName(reducer))
 		}
 	}
 }
