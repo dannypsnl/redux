@@ -18,11 +18,13 @@ func TestArgsHadBeenInit(t *testing.T) {
 }
 
 func TestArgCanWork(t *testing.T) {
+	tr := &Tester{t}
 	act := New("TEST_MESSAGE").
 		Arg("author", "danny").
 		Arg("age", 20)
 	if act.Args["author"] != "danny" ||
 		act.Args["age"] != 20 {
-		t.Error(`Arg API can't work`)
 	}
+	tr.Assert_EQ("danny", act.Args["author"])
+	tr.Assert_EQ(20, act.Args["age"])
 }
