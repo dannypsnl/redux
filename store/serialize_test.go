@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestSerializeThenUnmarshalBackIsSame(t *testing.T) {
+func TestMarshalAndUnmarshal(t *testing.T) {
 	type StoreByCounterLogin struct {
 		Counter int    `json:"counter"`
 		Login   string `json:"login"`
@@ -32,7 +32,7 @@ func TestSerializeThenUnmarshalBackIsSame(t *testing.T) {
 }
 
 // Make sure Marshal can work with Struct Type
-func TestSerializeFunction(t *testing.T) {
+func TestMarshalFunction(t *testing.T) {
 	store := /*store.*/ New(fileUpdator)
 	expected := []byte(`{"fileUpdator":{"ext":"elz","mod":"+x"}}`)
 
@@ -41,7 +41,7 @@ func TestSerializeFunction(t *testing.T) {
 	}
 }
 
-func TestMarshalPanicIfDataIsInvalid(t *testing.T) {
+func TestMarshalWillPanicIfDataIsInvalid(t *testing.T) {
 	// At here, we have function in state
 	store := /*store.*/ New(foo)
 	defer func() {
