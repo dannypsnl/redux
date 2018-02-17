@@ -15,25 +15,19 @@ func TestDuplicatedReducerShouldCausePanic(t *testing.T) {
 	store.Dispatch(action.New("INC"))
 }
 
-func TestStoreState(t *testing.T) {
+func TestStoreStateCanBeUpdateByDispatch(t *testing.T) {
 	thisState := "jump"
-	var expectedState interface{} = "TOP"
+	expectedState := "TOP"
 
 	store := /*store.*/ New(counter, jump)
-	store.Subscribe(func() {
-		if store.GetState(thisState) != expectedState {
-			t.Errorf("Expected: %v, Actual: %v", expectedState, store.GetState(thisState))
-		}
-	})
 	store.Dispatch(action.New("JUMP"))
 
-	thisState = "counter"
-	expectedState = 1
-
-	store.Dispatch(action.New("INC"))
+	if store.GetState(thisState) != expectedState {
+		t.Errorf("Expected: %v, Actual: %v", expectedState, store.GetState(thisState))
+	}
 }
 
-func TestSubscribtorCallSubscribeShouldPanic(t *testing.T) {
+func TestCallSubscribeInSubscribtorShouldPanic(t *testing.T) {
 	defer func() {
 		if p := recover(); p == nil {
 			t.Error(`should panic when subscribetor trying to call store::Subscribe`)
