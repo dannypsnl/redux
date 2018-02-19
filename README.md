@@ -11,7 +11,7 @@ I hope this project can help you manage the complex update flow in Go.<br>
 [Origin version](https://github.com/reactjs/redux)
 ## Install
 ```bash
-$ go get https://github.com/dannypsnl/redux
+$ go get github.com/dannypsnl/redux
 ```
 ## Usage
 ### pkgs
