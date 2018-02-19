@@ -74,12 +74,7 @@ func (s *Store) GetState(key string) interface{} {
 func (s *Store) Dispatch(act *action.Action) {
 	s.disMu.Lock()
 	defer s.disMu.Unlock()
-	// we dispatch action to every reducer, and reducer update mapping state.
-	for _, r := range s.reducers {
-		funcName := getReducerName(r) // getReducerName in util.go
-		nowState := s.state[funcName]
-		s.state[funcName] = r(nowState, *act)
-	}
+	s.updateState(act)
 	s.onDispatching = true
 	var wg sync.WaitGroup
 	// we call subscribed function after state updated.
@@ -102,6 +97,15 @@ func (s *Store) Dispatch(act *action.Action) {
 		panic(`You may not call store.subscribe() while the reducer is executing!`)
 	}
 	s.onDispatching = false
+}
+
+func (s *Store) updateState(act *action.Action) {
+	// we dispatch action to every reducer, and reducer update mapping state.
+	for _, r := range s.reducers {
+		funcName := getReducerName(r) // getReducerName in util.go
+		nowState := s.state[funcName]
+		s.state[funcName] = r(nowState, *act)
+	}
 }
 
 // Subscribe emit argument into subscribes chain, they will be invoked in Dispatch.
