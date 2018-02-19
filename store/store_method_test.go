@@ -2,6 +2,7 @@ package store
 
 import (
 	"github.com/dannypsnl/redux/action"
+	"sync"
 	"testing"
 )
 
@@ -13,6 +14,23 @@ func TestDuplicatedReducerShouldCausePanic(t *testing.T) {
 	}()
 	store := /*store.*/ New(counter, counter)
 	store.Dispatch(action.New("INC"))
+}
+
+func TestDispatchInConcurrencyIsSafe(t *testing.T) {
+	store := /*store.*/ New(counter)
+	n := 1000
+	var wg sync.WaitGroup
+	wg.Add(n)
+	for i := 0; i < n; i++ {
+		go func() {
+			defer wg.Done()
+			store.Dispatch(action.New("INC"))
+		}()
+	}
+	wg.Wait()
+	if store.GetState("counter") != 1000 {
+		t.Errorf("Expected: %d, Actual: %d", 1000, store.GetState("counter"))
+	}
 }
 
 func TestStoreStateCanBeUpdateByDispatch(t *testing.T) {
