@@ -72,14 +72,17 @@ func (s *Store) GetState(key string) interface{} {
 //  store.Dispatch(action.New("Type").
 //                        Arg("key", expression))
 func (s *Store) Dispatch(act *action.Action) {
+	// Make sure dispatch process won't be terminated
 	s.disMu.Lock()
 	defer s.disMu.Unlock()
+
 	s.updateState(act)
 	s.onDispatching = true
+
 	var wg sync.WaitGroup
 	// we call subscribed function after state updated.
+	wg.Add(len(s.subscribes))
 	for _, subscribtor := range s.subscribes {
-		wg.Add(1)
 		go func(su func()) {
 			defer func() {
 				if p := recover(); p != nil {
@@ -100,7 +103,7 @@ func (s *Store) Dispatch(act *action.Action) {
 }
 
 func (s *Store) updateState(act *action.Action) {
-	// we dispatch action to every reducer, and reducer update mapping state.
+	// dispatch action to every reducer, then reducer update it's mapping state.
 	for _, r := range s.reducers {
 		funcName := getReducerName(r) // getReducerName in util.go
 		nowState := s.state[funcName]
