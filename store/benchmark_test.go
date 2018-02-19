@@ -54,3 +54,28 @@ func BenchmarkSleep1msSubscribe(b *testing.B) {
 		store.Dispatch(action.New("JUMP"))
 	}
 }
+
+func BenchmarkStoreUpdateState(b *testing.B) {
+	store := New(counter)
+	for i := 0; i < b.N; i++ {
+		store.updateState(action.New("INC"))
+	}
+}
+
+func (s *Store) updateStateReduceCode(act *action.Action) {
+	// dispatch action to every reducer, then reducer update it's mapping state.
+	for _, r := range s.reducers {
+		funcName := getReducerName(r) // getReducerName in util.go
+		s.state[funcName] = r(s.state[funcName], *act)
+	}
+}
+
+// This one is a little bit slower(usually)
+// And more important issue is harder to read
+// So keep this solution, make sure everyone won't consider it again
+func BenchmarkStoreUpdateStateReduceCode(b *testing.B) {
+	store := New(counter)
+	for i := 0; i < b.N; i++ {
+		store.updateStateReduceCode(action.New("INC"))
+	}
+}
