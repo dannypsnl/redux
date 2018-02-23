@@ -66,3 +66,5 @@ func main() {
     store.Dispatch(action.New("INC")) // state increase by action, now is 1
 }
 ```
+## Changelogs
+[Changelogs](https://github.com/dannypsnl/redux/blob/master/CHANGELOG.md)
