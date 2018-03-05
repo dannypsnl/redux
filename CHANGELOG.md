@@ -1,4 +1,24 @@
 
+<a name="v1.3.1"></a>
+## [v1.3.1](https://github.com/dannypsnl/redux/compare/v1.3.0...v1.3.1)
+
+> 2018-03-06
+
+### Clean
+
+* format
+* update doc, add usage for ApplyMiddleware
+* update changelogs
+* move panic tests to independent file
+* update `ApplyMiddleware` doc
+* update readme
+* Add package doc of middleware
+
+### Fix
+
+* ApplyMiddleware should return *Store
+
+
 <a name="v1.3.0"></a>
 ## [v1.3.0](https://github.com/dannypsnl/redux/compare/v1.2.2...v1.3.0)
 
