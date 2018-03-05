@@ -2,6 +2,7 @@ package store
 
 import (
 	"github.com/dannypsnl/redux/action"
+	"github.com/dannypsnl/redux/middleware"
 	"sync"
 	"testing"
 )
@@ -58,4 +59,27 @@ func TestCallSubscribeInSubscribtorShouldPanic(t *testing.T) {
 	})
 
 	store.Dispatch(action.New("INC"))
+}
+
+func increaseToDec(store *Store) middleware.Middleware {
+	return func(next middleware.Next) middleware.Next {
+		return func(act *action.Action) *action.Action {
+			switch act.Type {
+			case "INC":
+				return action.New("DEC")
+			default:
+				return next(act)
+			}
+		}
+	}
+}
+
+func TestMiddlewareFirstTry(t *testing.T) {
+	store := /*store.*/ New(counter)
+	store.ApplyMiddleware(increaseToDec)
+	store.Dispatch(action.New("INC"))
+
+	if store.GetState("counter") != -1 {
+		t.Error("error")
+	}
 }

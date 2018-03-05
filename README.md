@@ -31,6 +31,23 @@ By this module, we can have a better experience about create a new action
 We need user & password to do this State update, so we will put user & password's value in the Action::Args<br>
 Again, only reducer should use Args, so cast is safety.
 - `Arg` help you append Argument onto Action with fluent API.<br>
+#### redux/middleware
+- `Middleware`
+- `Next`
+
+Two types both is for reducing code. Help user define middleware as:
+```go
+func CounterLogger(s *store.Store) middleware.Middleware {
+    return func (next middleware.Next) middleware.Next {
+        return func(act *action.Action) *action.Action {
+            fmt.Printf("Dispatching %v\n", act)
+            r := next(act)
+            fmt.Printf("After dispatching, value is: %v", s.GetState("counter"))
+            return r // final Next is store::doMiddleware
+        }
+    }
+}
+```
 ### Example
 [Examples](https://github.com/dannypsnl/redux/tree/master/example)
 ##### Basic Example
