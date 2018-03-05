@@ -29,6 +29,7 @@ type Store struct {
 	invokeSubscribeInSubscribtor bool
 	// onDispatching make sure Subscribetor can't call Subscribe
 	onDispatching bool
+	middleware    Next
 }
 
 // New create a Store by reducers
@@ -37,7 +38,8 @@ type Store struct {
 //   store := store.New(reducer...)
 func New(r reducer, reducers ...reducer) *Store {
 	s := &Store{
-		state: make(map[string]interface{}),
+		state:      make(map[string]interface{}),
+		middleware: func(a *action.Action) *action.Action { return a },
 	}
 	s.emit(r)
 	for _, r := range reducers {
@@ -107,7 +109,8 @@ func (s *Store) updateState(act *action.Action) {
 	for _, r := range s.reducers {
 		funcName := getReducerName(r) // getReducerName in util.go
 		nowState := s.state[funcName]
-		s.state[funcName] = r(nowState, *act)
+		a := s.middleware(act)
+		s.state[funcName] = r(nowState, *a)
 	}
 }
 
@@ -128,4 +131,15 @@ func (s *Store) Subscribe(subscribetor func()) {
 		panic(`You may not call store.subscribe() while the reducer is executing.`)
 	}
 	s.subscribes = append(s.subscribes, subscribetor)
+}
+
+type Middleware func(Next) Next
+type Next func(*action.Action) *action.Action
+type middleware func(*Store) Middleware
+
+// ApplyMiddleware expected middlewares and use it update store's middleware to control action
+func (s *Store) ApplyMiddleware(middlewares ...middleware) {
+	for _, middleware := range middlewares {
+		s.middleware = middleware(s)(s.middleware)
+	}
 }
