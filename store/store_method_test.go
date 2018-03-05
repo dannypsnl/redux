@@ -41,6 +41,7 @@ func increaseToDec(store *Store) middleware.Middleware {
 		return func(act *action.Action) *action.Action {
 			switch act.Type {
 			case "INC":
+				println("meet INC")
 				return action.New("DEC")
 			default:
 				return next(act)
@@ -55,6 +56,6 @@ func TestMiddlewareFirstTry(t *testing.T) {
 	store.Dispatch(action.New("INC"))
 
 	if store.GetState("counter") != -1 {
-		t.Error("error")
+		t.Errorf("error, actual: %v", store.GetState("counter"))
 	}
 }
