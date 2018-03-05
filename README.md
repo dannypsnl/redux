@@ -17,9 +17,10 @@ $ go get github.com/dannypsnl/redux
 ### pkgs
 #### redux/store
 - `New` Create New Store by reducers(at least one reducer)
-- `Dispatch` recieve then send action to every reducers to update state<br>
+- `ApplyMiddleware` chain the receiving middlewares than use it modify action for each Dispatch
+- `Dispatch` receive then send action to every reducers to update state<br>
 And you should not call `Dispatch` in Subscribetor, you will get dead lock.
-- `Subscribe` recieve a func without args will be invoked by every next Dispatch<br>
+- `Subscribe` receive a func without args will be invoked by every next Dispatch<br>
 And you should not call `Subscribe` in Subscribetor, you will get a panic warning.
 - `Marshal` return state as JSON format string<br>
 #### redux/action
