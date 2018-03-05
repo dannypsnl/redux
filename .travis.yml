@@ -38,7 +38,7 @@ before_script:
 script:
   - test -z $(gofmt -s -l $GO_FILES)         # Fail if a .go file hasn't been formatted with gofmt
   - go test -v ./ ./action/ ./store/
-  - go test -covermode=count -coverprofile=coverage.out .                   # Run all the tests with the race detector enabled
+  - go test -v -covermode=count -coverprofile=coverage.out ./...                   # Run all the tests with the race detector enabled
   - $HOME/gopath/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken=ibfn8Gov1sjZJXyr32hPLrfWnjZTwDcVC
   - $COVERALLS_TOKEN
   - go vet ./ ./action/ ./store/ ./example/counter/ ./example/concurrent/               # go vet is the official Go static analyzer
