@@ -1,4 +1,19 @@
 
+<a name="v1.3.3"></a>
+## [v1.3.3](https://github.com/dannypsnl/redux/compare/v1.3.2...v1.3.3)
+
+> 2018-03-06
+
+### Clean
+
+* release v1.3.3
+* update CHANGLOGS
+
+### Fix
+
+* Bug [#33](https://github.com/dannypsnl/redux/issues/33), repeat update the state when have middleware
+
+
 <a name="v1.3.2"></a>
 ## [v1.3.2](https://github.com/dannypsnl/redux/compare/v1.3.1...v1.3.2)
 
