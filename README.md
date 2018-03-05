@@ -23,7 +23,7 @@ And you should not call `Dispatch` in Subscribetor, you will get dead lock.
 And you should not call `Subscribe` in Subscribetor, you will get a panic warning.
 - `Marshal` return state as JSON format string<br>
 #### redux/action
-By this module, we can have a better
+By this module, we can have a better experience about create a new action
 - `New` recieve a string and return a pointer to Action for you<br>
 - `Action` is a type contain `Type` & `Args`<br>
 `Type` is just a string help reducer juage what should them do.<br>
