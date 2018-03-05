@@ -41,10 +41,9 @@ func increaseToDec(store *Store) middleware.Middleware {
 		return func(act *action.Action) *action.Action {
 			switch act.Type {
 			case "INC":
-				println("meet INC")
-				return action.New("DEC")
+				return next(action.New("DEC"))
 			default:
-				return next(act)
+				return next(action.New("INC"))
 			}
 		}
 	}
