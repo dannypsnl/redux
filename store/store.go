@@ -142,8 +142,9 @@ type middlewareType func(*Store) middleware.Middleware
 // Expected Usage:
 //  store := store.New(reducer).
 //                 ApplyMiddleware(middleware)
-func (s *Store) ApplyMiddleware(middlewares ...middlewareType) {
+func (s *Store) ApplyMiddleware(middlewares ...middlewareType) *Store {
 	for _, middleware := range middlewares {
 		s.doMiddleware = middleware(s)(s.doMiddleware)
 	}
+	return s
 }
