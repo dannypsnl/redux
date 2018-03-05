@@ -3,6 +3,7 @@ package store
 
 import (
 	"github.com/dannypsnl/redux/action"
+	"github.com/dannypsnl/redux/middleware"
 	"sync"
 )
 
@@ -29,7 +30,7 @@ type Store struct {
 	invokeSubscribeInSubscribtor bool
 	// onDispatching make sure Subscribetor can't call Subscribe
 	onDispatching bool
-	middleware    Next
+	middleware    middleware.Next
 }
 
 // New create a Store by reducers
@@ -133,12 +134,11 @@ func (s *Store) Subscribe(subscribetor func()) {
 	s.subscribes = append(s.subscribes, subscribetor)
 }
 
-type Middleware func(Next) Next
-type Next func(*action.Action) *action.Action
-type middleware func(*Store) Middleware
+// middlewareType is real middleware shape
+type middlewareType func(*Store) middleware.Middleware
 
 // ApplyMiddleware expected middlewares and use it update store's middleware to control action
-func (s *Store) ApplyMiddleware(middlewares ...middleware) {
+func (s *Store) ApplyMiddleware(middlewares ...middlewareType) {
 	for _, middleware := range middlewares {
 		s.middleware = middleware(s)(s.middleware)
 	}

@@ -2,6 +2,7 @@ package store
 
 import (
 	"github.com/dannypsnl/redux/action"
+	"github.com/dannypsnl/redux/middleware"
 	"sync"
 	"testing"
 )
@@ -60,8 +61,8 @@ func TestCallSubscribeInSubscribtorShouldPanic(t *testing.T) {
 	store.Dispatch(action.New("INC"))
 }
 
-func increaseToDec(store *Store) Middleware {
-	return func(next Next) Next {
+func increaseToDec(store *Store) middleware.Middleware {
+	return func(next middleware.Next) middleware.Next {
 		return func(act *action.Action) *action.Action {
 			switch act.Type {
 			case "INC":
