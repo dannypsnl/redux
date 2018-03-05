@@ -42,6 +42,7 @@ func New(r reducer, reducers ...reducer) *Store {
 		state:        make(map[string]interface{}),
 		doMiddleware: func(a *action.Action) *action.Action { return a },
 	}
+	s.doMiddleware = s.updateState
 	s.emit(r)
 	for _, r := range reducers {
 		s.emit(r)
@@ -79,8 +80,7 @@ func (s *Store) Dispatch(act *action.Action) {
 	s.disMu.Lock()
 	defer s.disMu.Unlock()
 
-	act = s.doMiddleware(act)
-	s.updateState(act)
+	s.doMiddleware(act)
 	s.onDispatching = true
 
 	var wg sync.WaitGroup
