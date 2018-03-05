@@ -50,8 +50,8 @@ func increaseToDec(store *Store) middleware.Middleware {
 }
 
 func TestMiddlewareFirstTry(t *testing.T) {
-	store := /*store.*/ New(counter)
-	store.ApplyMiddleware(increaseToDec)
+	store := /*store.*/ New(counter).
+		ApplyMiddleware(increaseToDec)
 	store.Dispatch(action.New("INC"))
 
 	if store.GetState("counter") != -1 {
