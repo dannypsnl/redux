@@ -1,4 +1,19 @@
 
+<a name="v1.3.2"></a>
+## [v1.3.2](https://github.com/dannypsnl/redux/compare/v1.3.1...v1.3.2)
+
+> 2018-03-06
+
+### Clean
+
+* release v1.3.2 for bug fix
+* udpate changelogs
+
+### Fix
+
+* expected should update state after call `next`
+
+
 <a name="v1.3.1"></a>
 ## [v1.3.1](https://github.com/dannypsnl/redux/compare/v1.3.0...v1.3.1)
 
