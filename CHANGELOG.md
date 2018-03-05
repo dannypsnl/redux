@@ -6,6 +6,9 @@
 
 ### Clean
 
+* release v1.3.1 for fix bug
+* update changelogs
+* format
 * format
 * update doc, add usage for ApplyMiddleware
 * update changelogs
