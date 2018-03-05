@@ -36,6 +36,15 @@ func TestStoreStateCanBeUpdateByDispatch(t *testing.T) {
 	}
 }
 
+func TestFall(t *testing.T) {
+	store := /*store.*/ New(jump)
+	store.Dispatch(action.New("FALL"))
+
+	if store.GetState("jump") != "DOWN" {
+		t.Error("Wow! You can fly")
+	}
+}
+
 func increaseToDec(store *Store) middleware.Middleware {
 	return func(next middleware.Next) middleware.Next {
 		return func(act *action.Action) *action.Action {
