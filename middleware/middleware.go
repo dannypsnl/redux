@@ -1,3 +1,4 @@
+// Package middleware provides middleware helper type for redux
 package middleware
 
 import (
