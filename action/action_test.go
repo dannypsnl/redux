@@ -18,10 +18,13 @@ func TestArgsHadBeenInit(t *testing.T) {
 }
 
 func TestArgCanWork(t *testing.T) {
-	tr := &Tester{t}
 	act := New("TEST_MESSAGE").
 		Arg("author", "danny").
 		Arg("age", 20)
-	tr.Assert_EQ("danny", act.Args["author"])
-	tr.Assert_EQ(20, act.Args["age"])
+
+	expected := "danny"
+	actual := act.Args["author"]
+	if expected != actual {
+		t.Errorf("expected: %v, actual: %v", expected, actual)
+	}
 }
