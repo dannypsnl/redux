@@ -79,6 +79,7 @@ func (s *Store) Dispatch(act *action.Action) {
 	s.disMu.Lock()
 	defer s.disMu.Unlock()
 
+	act = s.doMiddleware(act)
 	s.updateState(act)
 	s.onDispatching = true
 
@@ -105,14 +106,14 @@ func (s *Store) Dispatch(act *action.Action) {
 	s.onDispatching = false
 }
 
-func (s *Store) updateState(act *action.Action) {
+func (s *Store) updateState(act *action.Action) *action.Action {
 	// dispatch action to every reducer, then reducer update it's mapping state.
 	for _, r := range s.reducers {
 		funcName := getReducerName(r) // getReducerName in util.go
 		nowState := s.state[funcName]
-		a := s.doMiddleware(act)
-		s.state[funcName] = r(nowState, *a)
+		s.state[funcName] = r(nowState, *act)
 	}
+	return act
 }
 
 // Subscribe emit argument into subscribes chain, they will be invoked in Dispatch.
@@ -143,6 +144,7 @@ type middlewareType func(*Store) middleware.Middleware
 //  store := store.New(reducer).
 //                 ApplyMiddleware(middleware)
 func (s *Store) ApplyMiddleware(middlewares ...middlewareType) *Store {
+	s.doMiddleware = s.updateState
 	for _, middleware := range middlewares {
 		s.doMiddleware = middleware(s)(s.doMiddleware)
 	}
