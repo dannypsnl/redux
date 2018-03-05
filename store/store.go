@@ -138,6 +138,10 @@ func (s *Store) Subscribe(subscribetor func()) {
 type middlewareType func(*Store) middleware.Middleware
 
 // ApplyMiddleware chain the receiving middlewares than use it modify action for each Dispatch
+//
+// Expected Usage:
+//  store := store.New(reducer).
+//                ApplyMiddleware(middleware)
 func (s *Store) ApplyMiddleware(middlewares ...middlewareType) {
 	for _, middleware := range middlewares {
 		s.doMiddleware = middleware(s)(s.doMiddleware)
