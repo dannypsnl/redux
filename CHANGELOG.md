@@ -1,4 +1,24 @@
 
+<a name="v1.3.0"></a>
+## [v1.3.0](https://github.com/dannypsnl/redux/compare/v1.2.2...v1.3.0)
+
+> 2018-03-06
+
+### Add
+
+* detect middleware API
+* middleware impl
+
+### Clean
+
+* patch version for middleware, v1.3.0
+* fix README typo, patch some text
+* update Readme, and refactoring the code
+* update readme
+* generate changelogs
+* remove left test code
+
+
 <a name="v1.2.2"></a>
 ## [v1.2.2](https://github.com/dannypsnl/redux/compare/v1.2.1...v1.2.2)
 
