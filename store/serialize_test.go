@@ -41,6 +41,13 @@ func TestMarshalFunction(t *testing.T) {
 	}
 }
 
+func foo(state interface{}, act action.Action) interface{} {
+	if state == nil {
+		return func() {}
+	}
+	return state
+}
+
 func TestMarshalWillPanicIfDataIsInvalid(t *testing.T) {
 	// At here, we have function in state
 	store := /*store.*/ New(foo)

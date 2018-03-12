@@ -52,13 +52,6 @@ func login(state interface{}, action action.Action) interface{} {
 	}
 }
 
-func foo(state interface{}, act action.Action) interface{} {
-	if state == nil {
-		return func() {}
-	}
-	return state
-}
-
 type file struct {
 	// Ext mean extension
 	Ext string `json:"ext"`
