@@ -31,16 +31,6 @@ func TestMarshalAndUnmarshal(t *testing.T) {
 			Arg("password", 1234))
 }
 
-// Make sure Marshal can work with Struct Type
-func TestMarshalFunction(t *testing.T) {
-	store := /*store.*/ New(fileUpdator)
-	expected := []byte(`{"fileUpdator":{"ext":"elz","mod":"+x"}}`)
-
-	if store.Marshal() != string(expected) {
-		t.Errorf("expected: %s, actual: %s", expected, store.Marshal())
-	}
-}
-
 func foo(state interface{}, act action.Action) interface{} {
 	if state == nil {
 		return func() {}
@@ -50,7 +40,11 @@ func foo(state interface{}, act action.Action) interface{} {
 
 func TestMarshalWillPanicIfDataIsInvalid(t *testing.T) {
 	// At here, we have function in state
-	store := /*store.*/ New(foo)
+	store := /*store.*/ &Store{
+		state:        make(map[string]interface{}),
+		doMiddleware: func(a *action.Action) *action.Action { return a },
+	}
+	store.state["not_important"] = func() {} // func can't be Marshal
 	defer func() {
 		if r := recover(); r == nil {
 			t.Error(`Marshal didn't panic when data can't Marshal`)
