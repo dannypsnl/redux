@@ -19,20 +19,6 @@ func counter(state interface{}, action action.Action) interface{} {
 	}
 }
 
-//func jump(state interface{}, action action.Action) interface{} {
-//if state == nil {
-//return "TOP"
-//}
-//switch action.Type {
-//case "JUMP":
-//return "TOP"
-//case "FALL":
-//return "DOWN"
-//default:
-//return state
-//}
-//}
-
 var users = map[string]string{
 	"danny": "1234",
 }
