@@ -67,3 +67,11 @@ func TestMiddlewareFirstTry(t *testing.T) {
 		t.Errorf("error, actual: %v", store.GetState("counter"))
 	}
 }
+
+func TestLoginReducer(t *testing.T) {
+	store := /*store.*/ New(login)
+	store.Dispatch(
+		action.New("login").
+			Arg("user", "danny").
+			Arg("password", "1234"))
+}
