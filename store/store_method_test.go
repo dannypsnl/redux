@@ -25,23 +25,23 @@ func TestDispatchInConcurrencyIsSafe(t *testing.T) {
 }
 
 func TestStoreStateCanBeUpdateByDispatch(t *testing.T) {
-	thisState := "jump"
-	expectedState := "TOP"
+	thisState := "counter"
+	expectedState := 1
 
-	store := /*store.*/ New(counter, jump)
-	store.Dispatch(action.New("JUMP"))
+	store := /*store.*/ New(counter)
+	store.Dispatch(action.New("INC"))
 
 	if store.GetState(thisState) != expectedState {
 		t.Errorf("Expected: %v, Actual: %v", expectedState, store.GetState(thisState))
 	}
 }
 
-func TestFall(t *testing.T) {
-	store := /*store.*/ New(jump)
-	store.Dispatch(action.New("FALL"))
+func TestINC(t *testing.T) {
+	store := /*store.*/ New(counter)
+	store.Dispatch(action.New("INC"))
 
-	if store.GetState("jump") != "DOWN" {
-		t.Error("Wow! You can fly")
+	if store.GetState("counter") != 1 {
+		t.Error("State  error")
 	}
 }
 
