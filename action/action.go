@@ -1,4 +1,3 @@
-// Package action provides Action implementation for redux
 package action
 
 // Action is a type for reducer to know what should it do by recognize Action::Type
