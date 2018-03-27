@@ -1,4 +1,3 @@
-// Package store provides the store implement for redux.
 package store
 
 import (
@@ -54,8 +53,7 @@ func New(r reducer, reducers ...reducer) *Store {
 // emit append r into Store's reducers
 func (s *Store) emit(r reducer) {
 	// initial state will be return when current state is nil, so we send nil at here.
-	reducerState := s.state[getReducerName(r)]
-	if reducerState != nil {
+	if _, exists := s.state[getReducerName(r)]; exists {
 		panic("You can not create duplicated reducer")
 	}
 	s.state[getReducerName(r)] = r(nil, action.Action{})
@@ -88,6 +86,7 @@ func (s *Store) Dispatch(act *action.Action) {
 	wg.Add(len(s.subscribes))
 	for _, subscribtor := range s.subscribes {
 		go func(su func()) {
+			// detect each subscribe won't cause crash
 			defer func() {
 				if p := recover(); p != nil {
 					s.invokeSubscribeInSubscribtor = true
