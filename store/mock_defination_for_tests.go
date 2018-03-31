@@ -18,11 +18,10 @@ func counter(state interface{}, action action.Action) interface{} {
 	}
 }
 
-var users = map[string]string{
-	"danny": "1234",
-}
-
 func login(state interface{}, action action.Action) interface{} {
+	users := map[string]string{
+		"danny": "1234",
+	}
 	if state == nil {
 		return "Guest"
 	}
