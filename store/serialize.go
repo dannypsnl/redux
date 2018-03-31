@@ -7,9 +7,9 @@ import (
 
 // Marshal serialize state of store to JSON format string
 func (s *Store) Marshal() string {
-	if b, err := json.Marshal(s.state); err != nil {
+	b, err := json.Marshal(s.state)
+	if err != nil {
 		panic(err)
-	} else {
-		return fmt.Sprintf("%s", b)
 	}
+	return fmt.Sprintf("%s", b)
 }
