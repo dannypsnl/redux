@@ -20,41 +20,27 @@ func Benchmark_2_Reducers_1_Subscribe(b *testing.B) {
 	}
 }
 
-func BenchmarkSleep1nsSubscribe(b *testing.B) {
+func sleepNnsSubscribe(n int64, b *testing.B) {
 	store := New(counter)
 	for i := 0; i < 10000; i++ {
 		store.Subscribe(func() {
-			time.Sleep(1 * time.Nanosecond)
+			time.Sleep(time.Duration(n) * time.Nanosecond)
 		})
 	}
 	for i := 0; i < b.N; i++ {
+		// Subscribtor can only invoke by Dispatch routine
 		store.Dispatch(action.New("INC"))
 	}
 }
 
-func BenchmarkSleep175nsSubscribe(b *testing.B) {
-	store := New(counter)
-	for i := 0; i < 10000; i++ {
-		store.Subscribe(func() {
-			time.Sleep(175 * time.Nanosecond)
-		})
-	}
-	for i := 0; i < b.N; i++ {
-		store.Dispatch(action.New("INC"))
-	}
-}
-
-func BenchmarkSleep1msSubscribe(b *testing.B) {
-	store := New(counter)
-	for i := 0; i < 10; i++ {
-		store.Subscribe(func() {
-			time.Sleep(1 * time.Millisecond)
-		})
-	}
-	for i := 0; i < b.N; i++ {
-		store.Dispatch(action.New("INC"))
-	}
-}
+func BenchmarkSleep1nsSubscribe(b *testing.B)     { sleepNnsSubscribe(1, b) }
+func BenchmarkSleep175nsSubscribe(b *testing.B)   { sleepNnsSubscribe(175, b) }
+func BenchmarkSleep375nsSubscribe(b *testing.B)   { sleepNnsSubscribe(375, b) }
+func BenchmarkSleep575nsSubscribe(b *testing.B)   { sleepNnsSubscribe(575, b) }
+func BenchmarkSleep775nsSubscribe(b *testing.B)   { sleepNnsSubscribe(775, b) }
+func BenchmarkSleep1000nsSubscribe(b *testing.B)  { sleepNnsSubscribe(1000, b) }
+func BenchmarkSleep1500nsSubscribe(b *testing.B)  { sleepNnsSubscribe(1500, b) }
+func BenchmarkSleep10000nsSubscribe(b *testing.B) { sleepNnsSubscribe(10000, b) }
 
 func BenchmarkStoreUpdateState(b *testing.B) {
 	store := New(counter)
