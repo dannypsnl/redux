@@ -32,6 +32,7 @@ func TestRematchReducer(t *testing.T) {
 	}
 	testInit(t, counter)
 	testAction(t, counter)
+	testNotExistAction(t, counter)
 }
 
 func testInit(t *testing.T, counter Reducer) {
@@ -44,4 +45,12 @@ func testAction(t *testing.T, counter Reducer) {
 	if act.Type != "INC" || act.Args["payload"] != 10 {
 		t.Error("rematch::Reducer can't generate correct action")
 	}
+}
+func testNotExistAction(t *testing.T, counter Reducer) {
+	defer func() {
+		if r := recover(); r == nil {
+			t.Error("generate the action not existing in rematch::Reducer should cause panic")
+		}
+	}()
+	counter.Action("PLUS")
 }
