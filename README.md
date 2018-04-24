@@ -1,5 +1,5 @@
 # redux
-[![version badges](https://img.shields.io/badge/version-1.4.0-blue.svg)](https://github.com/dannypsnl/redux/releases)
+[![version badges](https://img.shields.io/badge/version-1.5.0-blue.svg)](https://github.com/dannypsnl/redux/releases)
 [![Build Status](https://travis-ci.org/dannypsnl/redux.svg?branch=master)](https://travis-ci.org/dannypsnl/redux)
 [![Build status](https://ci.appveyor.com/api/projects/status/l2cqebl1svcgyrpo?svg=true)](https://ci.appveyor.com/project/dannypsnl/redux)
 [![Go Report Card](https://goreportcard.com/badge/github.com/dannypsnl/redux)](https://goreportcard.com/report/github.com/dannypsnl/redux)
