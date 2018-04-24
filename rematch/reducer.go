@@ -12,7 +12,7 @@ type Reducer struct {
 	Reducers Reducers
 }
 
-func (r *Reducer) Reducer() func(interface{}, action.Action) interface{} {
+func (r *Reducer) Reduce() func(interface{}, action.Action) interface{} {
 	return func(state interface{}, act action.Action) interface{} {
 		if state == nil {
 			return r.State

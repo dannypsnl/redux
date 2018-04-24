@@ -51,7 +51,7 @@ func testNotExistAction(t *testing.T, counter Reducer) {
 }
 
 func counter(s interface{}, a action.Action) interface{} {
-	return c.Reducer()(s, a)
+	return c.Reduce()(s, a)
 }
 
 func testWorkWithStore(t *testing.T) {
