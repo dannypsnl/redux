@@ -57,6 +57,11 @@ func counter(s interface{}, a action.Action) interface{} {
 func testWorkWithStore(t *testing.T) {
 	store := store.New(counter)
 	if store.GetState("counter") != 0 {
-		t.Error("store can't work with rematch reducer")
+		t.Error("store::New can't work with rematch::Reducer")
+	}
+
+	store.Dispatch(c.Action("INC").Arg("payload", 10))
+	if store.GetState("counter") != 10 {
+		t.Error("store::Dispatch can't work with rematch::Reducer")
 	}
 }
