@@ -6,7 +6,6 @@ clone_folder: c:\gopath\src\github.com\dannypsnl\redux
 
 environment:
   GOPATH: c:\gopath
-  Path: c:\gopath\bin\%Path%
 
 build: false
 deploy: false
@@ -17,5 +16,5 @@ install:
   - go get github.com/mattn/goveralls
 
 test_script:
-  - overalls -project=github.com/dannypsnl/redux
-  - goveralls -coverprofile=overalls.coverprofile -service=travis-ci -repotoken ibfn8Gov1sjZJXyr32hPLrfWnjZTwDcVC
+  - %GOPATH%\bin\overalls -project=github.com/dannypsnl/redux
+  - %GOPATH%\bin\goveralls -coverprofile=overalls.coverprofile -service=travis-ci -repotoken ibfn8Gov1sjZJXyr32hPLrfWnjZTwDcVC
