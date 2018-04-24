@@ -3,12 +3,12 @@ package action
 // Args help action define more flexible
 //
 // Example:
-// act := action.Action {
-//     Type: "INC",
-//     Args: action.Args {
-//         "payload": 3,
-//     },
-// }
+//   act := action.Action {
+//       Type: "INC",
+//       Args: action.Args {
+//           "payload": 3,
+//       },
+//   }
 type Args map[string]interface{}
 
 // Action is a type for reducer to know what should it do by recognize Action::Type
