@@ -16,14 +16,10 @@ $ go get github.com/dannypsnl/redux
 ```
 ## Usage
 ### pkgs
-#### redux/store
-[![GoDoc](https://godoc.org/github.com/dannypsnl/redux/store?status.svg)](https://godoc.org/github.com/dannypsnl/redux/store)
-#### redux/action
-[![GoDoc](https://godoc.org/github.com/dannypsnl/redux/action?status.svg)](https://godoc.org/github.com/dannypsnl/redux/action)
-#### redux/middleware
-[![GoDoc](https://godoc.org/github.com/dannypsnl/redux/middleware?status.svg)](https://godoc.org/github.com/dannypsnl/redux/middleware)
-#### redux/rematch
-[![GoDoc](https://godoc.org/github.com/dannypsnl/redux/rematch?status.svg)](https://godoc.org/github.com/dannypsnl/redux/rematch)
+- [![store](https://godoc.org/github.com/dannypsnl/redux/store?status.svg)](https://godoc.org/github.com/dannypsnl/redux/store)
+- [![action](https://godoc.org/github.com/dannypsnl/redux/action?status.svg)](https://godoc.org/github.com/dannypsnl/redux/action)
+- [![middleware](https://godoc.org/github.com/dannypsnl/redux/middleware?status.svg)](https://godoc.org/github.com/dannypsnl/redux/middleware)
+- [![rematch](https://godoc.org/github.com/dannypsnl/redux/rematch?status.svg)](https://godoc.org/github.com/dannypsnl/redux/rematch)
 
 ### Example
 [Examples](https://github.com/dannypsnl/redux/tree/master/example)
