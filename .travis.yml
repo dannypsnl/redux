@@ -28,16 +28,15 @@ matrix:
 # flunk the build and immediately stop. It's sorta like having
 # set -e enabled in bash.
 before_script:
-  - GO_FILES=$(find . -iname '*.go' -type f | grep -v /vendor/) # All the .go files, excluding vendor/
   - go get github.com/dannypsnl/redux
   - go get golang.org/x/tools/cmd/cover
+  - go get github.com/go-playground/overalls
   - go get github.com/mattn/goveralls
 
 # script always run to completion (set +e). All of these code checks are must haves
 # in a modern Go project.
 script:
-  - test -z $(gofmt -s -l $GO_FILES)         # Fail if a .go file hasn't been formatted with gofmt
-  - script/coverage --coveralls
+  - overalls -project=github.com/dannypsnl/redux
+  - goveralls -coverprofile=overalls.coverprofile -service=travis-ci -repotoken ibfn8Gov1sjZJXyr32hPLrfWnjZTwDcVC
   - go vet ./ ./action/ ./store/ ./example/counter/ ./example/concurrent/               # go vet is the official Go static analyzer
-  #- gocyclo -over 19 $GO_FILES               # forbid code with huge functions
 
