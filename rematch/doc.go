@@ -6,10 +6,10 @@
 //       Reducers: rematch.Reducers {
 //           "INC": func(state interface{}, act action.Action) interface{} {
 //                return state.(int)+act.Args["payload"].(int)
-//            }),
+//            },
 //            "DEC": func(state interface{}, act action.Action) interface{} {
 //                return state.(int)-act.Args["payload"].(int)
-//            }),
+//            },
 //       }
 //   }
 //   store := store.New(counter)
