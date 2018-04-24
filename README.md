@@ -15,11 +15,13 @@ I hope this project can help you manage the complex update flow in Go.<br>
 $ go get github.com/dannypsnl/redux
 ```
 ## Usage
-### pkgs
-- store [![store](https://godoc.org/github.com/dannypsnl/redux/store?status.svg)](https://godoc.org/github.com/dannypsnl/redux/store)
-- action [![action](https://godoc.org/github.com/dannypsnl/redux/action?status.svg)](https://godoc.org/github.com/dannypsnl/redux/action)
-- middleware [![middleware](https://godoc.org/github.com/dannypsnl/redux/middleware?status.svg)](https://godoc.org/github.com/dannypsnl/redux/middleware)
-- rematch [![rematch](https://godoc.org/github.com/dannypsnl/redux/rematch?status.svg)](https://godoc.org/github.com/dannypsnl/redux/rematch)
+
+pkgs       | reference
+-----------|--------------------------------------------------------------------------------------------------
+store      | [![store](https://godoc.org/github.com/dannypsnl/redux/store?status.svg)](https://godoc.org/github.com/dannypsnl/redux/store)
+action     | [![action](https://godoc.org/github.com/dannypsnl/redux/action?status.svg)](https://godoc.org/github.com/dannypsnl/redux/action)
+middleware | [![middleware](https://godoc.org/github.com/dannypsnl/redux/middleware?status.svg)](https://godoc.org/github.com/dannypsnl/redux/middleware)
+rematch    | [![rematch](https://godoc.org/github.com/dannypsnl/redux/rematch?status.svg)](https://godoc.org/github.com/dannypsnl/redux/rematch)
 
 ### Example
 [Examples](https://github.com/dannypsnl/redux/tree/master/example)
