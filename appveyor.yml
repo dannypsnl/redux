@@ -10,5 +10,11 @@ environment:
 build: false
 deploy: false
 
+install:
+  - go get golang.org/x/tools/cmd/cover
+  - go get github.com/go-playground/overalls
+  - go get github.com/mattn/goveralls
+
 test_script:
-  - go test -v ./...
+  - overalls -project=github.com/dannypsnl/redux
+  - goveralls -coverprofile=overalls.coverprofile -service=travis-ci -repotoken ibfn8Gov1sjZJXyr32hPLrfWnjZTwDcVC
