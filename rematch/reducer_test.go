@@ -31,6 +31,7 @@ func TestRematchReducer(t *testing.T) {
 		},
 	}
 	testInit(t, counter)
+	testAction(t, counter)
 }
 
 func testInit(t *testing.T, counter Reducer) {
@@ -41,6 +42,6 @@ func testInit(t *testing.T, counter Reducer) {
 func testAction(t *testing.T, counter Reducer) {
 	act := counter.Action("INC").Arg("payload", 10)
 	if act.Type != "INC" || act.Args["payload"] != 10 {
-		t.Error()
+		t.Error("rematch::Reducer can't generate correct action")
 	}
 }
