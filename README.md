@@ -25,19 +25,6 @@ $ go get github.com/dannypsnl/redux
 #### redux/rematch
 [![GoDoc](https://godoc.org/github.com/dannypsnl/redux/rematch?status.svg)](https://godoc.org/github.com/dannypsnl/redux/rematch)
 
-Two types both is for reducing code. Help user define middleware as:
-```go
-func CounterLogger(s *store.Store) middleware.Middleware {
-    return func (next middleware.Next) middleware.Next {
-        return func(act *action.Action) *action.Action {
-            fmt.Printf("Dispatching %v\n", act)
-            r := next(act)
-            fmt.Printf("After dispatching, value is: %v", s.GetState("counter"))
-            return r // final Next is store::doMiddleware
-        }
-    }
-}
-```
 ### Example
 [Examples](https://github.com/dannypsnl/redux/tree/master/example)
 ##### Basic Example
