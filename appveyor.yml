@@ -16,5 +16,5 @@ install:
   - go get github.com/mattn/goveralls
 
 test_script:
-  - %GOPATH%\bin\overalls -project=github.com/dannypsnl/redux
-  - %GOPATH%\bin\goveralls -coverprofile=overalls.coverprofile -service=travis-ci -repotoken ibfn8Gov1sjZJXyr32hPLrfWnjZTwDcVC
+  - c:\gopath\bin\overalls -project=github.com/dannypsnl/redux
+  - c:\gopath\bin\goveralls -coverprofile=overalls.coverprofile -service=travis-ci -repotoken ibfn8Gov1sjZJXyr32hPLrfWnjZTwDcVC
