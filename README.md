@@ -17,25 +17,13 @@ $ go get github.com/dannypsnl/redux
 ## Usage
 ### pkgs
 #### redux/store
-- `New` Create New Store by reducers(at least one reducer)
-- `ApplyMiddleware` chain the receiving middlewares than use it modify action for each Dispatch
-- `Dispatch` receive then send action to every reducers to update state<br>
-And you should not call `Dispatch` in Subscribetor, you will get dead lock.
-- `Subscribe` receive a func without args will be invoked by every next Dispatch<br>
-And you should not call `Subscribe` in Subscribetor, you will get a panic warning.
-- `Marshal` return state as JSON format string<br>
+[![GoDoc](https://godoc.org/github.com/dannypsnl/redux/store?status.svg)](https://godoc.org/github.com/dannypsnl/redux/store)
 #### redux/action
-By this module, we can have a better experience about create a new action
-- `New` recieve a string and return a pointer to Action for you<br>
-- `Action` is a type contain `Type` & `Args`<br>
-`Type` is just a string help reducer juage what should them do.<br>
-`Args` is a `map[string]interface{}` contain a lot values, think about we Dispatch login Action<br>
-We need user & password to do this State update, so we will put user & password's value in the Action::Args<br>
-Again, only reducer should use Args, so cast is safety.
-- `Arg` help you append Argument onto Action with fluent API.<br>
+[![GoDoc](https://godoc.org/github.com/dannypsnl/redux/action?status.svg)](https://godoc.org/github.com/dannypsnl/redux/action)
 #### redux/middleware
-- `Middleware`
-- `Next`
+[![GoDoc](https://godoc.org/github.com/dannypsnl/redux/middleware?status.svg)](https://godoc.org/github.com/dannypsnl/redux/middleware)
+#### redux/rematch
+[![GoDoc](https://godoc.org/github.com/dannypsnl/redux/rematch?status.svg)](https://godoc.org/github.com/dannypsnl/redux/rematch)
 
 Two types both is for reducing code. Help user define middleware as:
 ```go
