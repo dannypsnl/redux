@@ -56,12 +56,20 @@ func counter(s interface{}, a action.Action) interface{} {
 
 func testWorkWithStore(t *testing.T) {
 	store := store.New(counter)
+
+	testInitStore(t, store)
+	testDispatch(t, store, c.Action("INC").Arg("payload", 10), 10)
+	testDispatch(t, store, action.New("PLUS"), 10)
+}
+
+func testInitStore(t *testing.T, store *store.Store) {
 	if store.GetState("counter") != 0 {
 		t.Error("store::New can't work with rematch::Reducer")
 	}
-
-	store.Dispatch(c.Action("INC").Arg("payload", 10))
-	if store.GetState("counter") != 10 {
+}
+func testDispatch(t *testing.T, store *store.Store, act *action.Action, expected interface{}) {
+	store.Dispatch(act)
+	if store.GetState("counter") != expected {
 		t.Error("store::Dispatch can't work with rematch::Reducer")
 	}
 }
