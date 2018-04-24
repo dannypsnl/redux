@@ -1,6 +1,7 @@
 package rematch
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/dannypsnl/redux"
@@ -13,7 +14,12 @@ type Reducer struct {
 }
 
 func (r *Reducer) Action(typ string) *action.Action {
-	return action.New(typ)
+	for k, _ := range r.Reducers {
+		if k == typ {
+			return action.New(typ)
+		}
+	}
+	panic(fmt.Sprintf("Action %s is not legal action for this rematch reducer", typ))
 }
 
 type Reducers map[string]redux.Reducer
