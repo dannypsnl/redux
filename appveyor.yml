@@ -1,0 +1,14 @@
+version: {build}
+
+platform: x64
+
+clone_folder: c:\gopath\src\github.com\dannypsnl\redux
+
+environment:
+  GOPATH: c:\gopath
+
+build: false
+deploy: false
+
+test_script:
+  - go test -v ./...
