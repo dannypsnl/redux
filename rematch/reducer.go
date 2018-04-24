@@ -34,7 +34,7 @@ type Reducer struct {
 //   func reducer(s interface{}, a action.Action) interface{} {
 //       return r.Reduce()(s, a)
 //   }
-func (r *Reducer) Reduce() func(interface{}, action.Action) interface{} {
+func (r *Reducer) Reduce() redux.Reducer {
 	return func(state interface{}, act action.Action) interface{} {
 		if state == nil {
 			return r.State
