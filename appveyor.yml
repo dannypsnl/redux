@@ -6,7 +6,7 @@ clone_folder: c:\gopath\src\github.com\dannypsnl\redux
 
 environment:
   GOPATH: c:\gopath
-  PATH: c:\gopath\bin\%PATH%
+  Path: c:\gopath\bin\%Path%
 
 build: false
 deploy: false
