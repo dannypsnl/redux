@@ -4,10 +4,13 @@ import (
 	"testing"
 
 	"github.com/dannypsnl/redux/action"
+	"github.com/dannypsnl/redux/store"
 )
 
-func TestRematchReducer(t *testing.T) {
-	counter := Reducer{
+var c Reducer
+
+func init() {
+	c = Reducer{
 		State: 0,
 		Reducers: Reducers{
 			"INC": func(state interface{}, act action.Action) interface{} {
@@ -18,9 +21,13 @@ func TestRematchReducer(t *testing.T) {
 			},
 		},
 	}
-	testInit(t, counter)
-	testAction(t, counter)
-	testNotExistAction(t, counter)
+}
+
+func TestRematchReducer(t *testing.T) {
+	testInit(t, c)
+	testAction(t, c)
+	testNotExistAction(t, c)
+	testWorkWithStore(t)
 }
 
 func testInit(t *testing.T, counter Reducer) {
@@ -41,4 +48,15 @@ func testNotExistAction(t *testing.T, counter Reducer) {
 		}
 	}()
 	counter.Action("PLUS")
+}
+
+func counter(s interface{}, a action.Action) interface{} {
+	return c.Reducer()(s, a)
+}
+
+func testWorkWithStore(t *testing.T) {
+	store := store.New(counter)
+	if store.GetState("counter") != 0 {
+		t.Error("store can't work with rematch reducer")
+	}
 }

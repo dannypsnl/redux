@@ -12,6 +12,19 @@ type Reducer struct {
 	Reducers Reducers
 }
 
+func (r *Reducer) Reducer() func(interface{}, action.Action) interface{} {
+	return func(state interface{}, act action.Action) interface{} {
+		if state == nil {
+			return r.State
+		}
+		r, ok := r.Reducers[act.Type]
+		if ok {
+			return r(state, act)
+		}
+		return state
+	}
+}
+
 func (r *Reducer) Action(typ string) *action.Action {
 	for k, _ := range r.Reducers {
 		if k == typ {
