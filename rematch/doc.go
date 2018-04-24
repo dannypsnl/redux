@@ -19,7 +19,7 @@
 //   }
 //   func main() {
 //       store := store.New(counter)
-//       store.Dispatch(counter.
+//       store.Dispatch(reCounter.
 //           Action("INC").
 //               Arg("payload", 10))
 //   }
