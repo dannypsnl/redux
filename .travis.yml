@@ -36,6 +36,7 @@ before_script:
 # script always run to completion (set +e). All of these code checks are must haves
 # in a modern Go project.
 script:
+  - go test ./... -v
   - overalls -project=github.com/dannypsnl/redux
   - goveralls -coverprofile=overalls.coverprofile -service=travis-ci -repotoken ibfn8Gov1sjZJXyr32hPLrfWnjZTwDcVC
   - go vet ./ ./action/ ./store/ ./example/counter/ ./example/concurrent/               # go vet is the official Go static analyzer
