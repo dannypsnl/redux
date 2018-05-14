@@ -39,17 +39,26 @@ func TestStoreNew(t *testing.T) {
 }
 
 func TestStoreDispatch(t *testing.T) {
-	store := /*store.*/ New(counter)
+	store := /*store.*/ New(counter, payload)
 	store.Dispatch("INC")
 	if store.state["counter"].Interface() != 1 {
 		t.Error("counter can not work")
 	}
+
+	store.Dispatch(withPayload{
+		typ:     "INC",
+		payload: 10,
+	})
+	if store.GetState("payload") != 10 {
+		t.Error("payload should increase by payload")
+	}
 }
 
 func TestStoreGetState(t *testing.T) {
-	store := /*store.*/ New(counter, payload)
+	store := /*store.*/ New(counter)
 	store.Dispatch("DEC")
 	if store.GetState("counter") != -1 {
 		t.Error("GetState should return reducer's state")
 	}
+
 }
