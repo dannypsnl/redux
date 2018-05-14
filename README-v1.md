@@ -4,7 +4,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/l2cqebl1svcgyrpo?svg=true)](https://ci.appveyor.com/project/dannypsnl/redux)
 [![Go Report Card](https://goreportcard.com/badge/github.com/dannypsnl/redux)](https://goreportcard.com/report/github.com/dannypsnl/redux)
 [![Coverage Status](https://coveralls.io/repos/github/dannypsnl/redux/badge.svg?branch=master)](https://coveralls.io/github/dannypsnl/redux?branch=master)
-[![GoDoc](https://godoc.org/github.com/dannypsnl/redux?status.svg)](https://godoc.org/github.com/dannypsnl/redux)
+[![GoDoc](https://godoc.org/github.com/dannypsnl/redux/v1?status.svg)](https://godoc.org/github.com/dannypsnl/redux/v1)
 [![GitHub license](https://img.shields.io/github/license/dannypsnl/redux.svg)](https://github.com/dannypsnl/redux/blob/master/LICENSE)
 
 This is a redux implementation in Go.<br>
@@ -18,19 +18,21 @@ $ go get github.com/dannypsnl/redux
 
 pkgs       | reference
 -----------|--------------------------------------------------------------------------------------------------
-store      | [![store](https://godoc.org/github.com/dannypsnl/redux/store?status.svg)](https://godoc.org/github.com/dannypsnl/redux/store)
-action     | [![action](https://godoc.org/github.com/dannypsnl/redux/action?status.svg)](https://godoc.org/github.com/dannypsnl/redux/action)
-middleware | [![middleware](https://godoc.org/github.com/dannypsnl/redux/middleware?status.svg)](https://godoc.org/github.com/dannypsnl/redux/middleware)
-rematch    | [![rematch](https://godoc.org/github.com/dannypsnl/redux/rematch?status.svg)](https://godoc.org/github.com/dannypsnl/redux/rematch)
+store      | [![store](https://godoc.org/github.com/dannypsnl/redux/v1/store?status.svg)](https://godoc.org/github.com/dannypsnl/redux/v1/store)
+action     | [![action](https://godoc.org/github.com/dannypsnl/redux/v1/action?status.svg)](https://godoc.org/github.com/dannypsnl/redux/v1/action)
+middleware | [![middleware](https://godoc.org/github.com/dannypsnl/redux/v1/middleware?status.svg)](https://godoc.org/github.com/dannypsnl/redux/v1/middleware)
+rematch    | [![rematch](https://godoc.org/github.com/dannypsnl/redux/v1/rematch?status.svg)](https://godoc.org/github.com/dannypsnl/redux/v1/rematch)
 
 ### Example
-[Examples](https://github.com/dannypsnl/redux/tree/master/example)
+
+[Examples](https://github.com/dannypsnl/redux/tree/master/v1/example)
+
 ##### Basic Example
 > Ignore other packages
 ```go
 import(
-    "github.com/dannypsnl/redux/store"
-    "github.com/dannypsnl/redux/action"
+    "github.com/dannypsnl/redux/v1/store"
+    "github.com/dannypsnl/redux/v1/action"
 )
 
 func counter(state interface{}, action action.Action) interface{} {
