@@ -4,12 +4,16 @@ import (
 	"testing"
 
 	"reflect"
+	"runtime"
+	"strings"
 )
 
 type Store struct {
+	reducers map[string]reflect.Value
 }
 
 func New(reducers ...interface{}) *Store {
+	rmap := make(map[string]reflect.Value)
 	for _, reducer := range reducers {
 		r := reflect.ValueOf(reducer)
 		if r.Kind() == reflect.Invalid {
@@ -26,8 +30,14 @@ func New(reducers ...interface{}) *Store {
 		if r.Type().In(0) != r.Type().Out(0) {
 			panic("reducer should own state with the same type at anytime, if you want have variant value, please using interface")
 		}
+
+		reducerName := runtime.FuncForPC(r.Pointer()).Name()
+		rmap[reducerName[strings.LastIndexByte(reducerName, '.'):]] = r
 	}
-	return &Store{}
+	s := &Store{
+		reducers: rmap,
+	}
+	return s
 }
 
 func counter(state int, action string) int {
