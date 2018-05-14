@@ -63,6 +63,10 @@ func (s *Store) Dispatch(action interface{}) {
 	}
 }
 
+func (s *Store) GetState(rName string) interface{} {
+	return s.state[rName].Interface()
+}
+
 func counter(state int, action string) int {
 	switch action {
 	case "INC":
@@ -86,5 +90,13 @@ func TestStoreDispatch(t *testing.T) {
 	store.Dispatch("INC")
 	if store.state["counter"].Interface() != 1 {
 		t.Error("counter can not work")
+	}
+}
+
+func TestStoreGetState(t *testing.T) {
+	store := /*store.*/ New(counter)
+	store.Dispatch("DEC")
+	if store.GetState("counter") != -1 {
+		t.Error("GetState should return reducer's state")
 	}
 }
