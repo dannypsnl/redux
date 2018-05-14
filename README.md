@@ -1,6 +1,6 @@
 # redux
 
-[![version badges](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/dannypsnl/redux/releases)
+[![version badges](https://img.shields.io/badge/version-2.0.0-a0-blue.svg)](https://github.com/dannypsnl/redux/releases)
 [![Build Status](https://travis-ci.org/dannypsnl/redux.svg?branch=master)](https://travis-ci.org/dannypsnl/redux)
 [![Build status](https://ci.appveyor.com/api/projects/status/l2cqebl1svcgyrpo?svg=true)](https://ci.appveyor.com/project/dannypsnl/redux)
 [![Go Report Card](https://goreportcard.com/badge/github.com/dannypsnl/redux)](https://goreportcard.com/report/github.com/dannypsnl/redux)
@@ -13,6 +13,12 @@ This is a redux implementation in Go.
 I hope this project can help you manage the complex update flow in Go.
 
 [Origin version](https://github.com/reactjs/redux)
+
+## Warning
+
+v2 is still at experiment stage, if you want to use this library, use the v1
+
+[![GoDoc](https://godoc.org/github.com/dannypsnl/redux/v1?status.svg)](https://godoc.org/github.com/dannypsnl/redux/v1)
 
 ## Install
 
