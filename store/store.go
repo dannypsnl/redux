@@ -6,28 +6,16 @@ import (
 	"strings"
 )
 
+// Store is a type manage your data
 type Store struct {
 	reducers []reflect.Value
 	state    map[string]reflect.Value
 }
 
-func checkReducer(r reflect.Value) {
-	if r.Kind() == reflect.Invalid {
-		panic("It's an invalid value")
-	}
-
-	// reducer :: (state, action) -> state
-	if r.Type().NumIn() != 2 {
-		panic("reducer should have state & action two parameter, not thing more")
-	}
-	if r.Type().NumOut() != 1 {
-		panic("reducer should return state only")
-	}
-	if r.Type().In(0) != r.Type().Out(0) {
-		panic("reducer should own state with the same type at anytime, if you want have variant value, please using interface")
-	}
-}
-
+// New create a Store by reducers
+//
+// Usage:
+//   store := store.New(reducer...)
 func New(reducers ...interface{}) *Store {
 	rs := make([]reflect.Value, 0)
 	initState := make(map[string]reflect.Value)
@@ -51,6 +39,12 @@ func New(reducers ...interface{}) *Store {
 	}
 }
 
+// Dispatch send action to all reducer in Store to update state
+//
+// In v2, action can be anything you want, it's more powerful rather than v1
+//
+// Usage:
+//   store.Dispatch("INC")
 func (s *Store) Dispatch(action interface{}) {
 	for _, r := range s.reducers {
 		rName := runtime.FuncForPC(r.Pointer()).Name()
@@ -64,6 +58,25 @@ func (s *Store) Dispatch(action interface{}) {
 	}
 }
 
+// GetState return the reducer name matches state
 func (s *Store) GetState(rName string) interface{} {
 	return s.state[rName].Interface()
+}
+
+// checkReducer reject all unexpected reducer format
+func checkReducer(r reflect.Value) {
+	if r.Kind() == reflect.Invalid {
+		panic("It's an invalid value")
+	}
+
+	// reducer :: (state, action) -> state
+	if r.Type().NumIn() != 2 {
+		panic("reducer should have state & action two parameter, not thing more")
+	}
+	if r.Type().NumOut() != 1 {
+		panic("reducer should return state only")
+	}
+	if r.Type().In(0) != r.Type().Out(0) {
+		panic("reducer should own state with the same type at anytime, if you want have variant value, please using interface")
+	}
 }
