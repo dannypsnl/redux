@@ -2,12 +2,17 @@ package store
 
 import (
 	"testing"
+
+	"reflect"
 )
 
 type Store struct {
 }
 
-func New(reducer ...interface{}) *Store {
+func New(reducers ...interface{}) *Store {
+	for _, r := range reducers {
+		reflect.ValueOf(r)
+	}
 	return &Store{}
 }
 
