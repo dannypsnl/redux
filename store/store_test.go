@@ -15,6 +15,22 @@ func counter(state int, action string) int {
 	}
 }
 
+type withPayload struct {
+	typ     string
+	payload int
+}
+
+func payload(state int, action withPayload) int {
+	switch action.typ {
+	case "INC":
+		return state + action.payload
+	case "DEC":
+		return state - action.payload
+	default:
+		return state
+	}
+}
+
 func TestStoreNew(t *testing.T) {
 	store := /*store.*/ New(counter)
 	if store == nil {
@@ -31,7 +47,7 @@ func TestStoreDispatch(t *testing.T) {
 }
 
 func TestStoreGetState(t *testing.T) {
-	store := /*store.*/ New(counter)
+	store := /*store.*/ New(counter, payload)
 	store.Dispatch("DEC")
 	if store.GetState("counter") != -1 {
 		t.Error("GetState should return reducer's state")

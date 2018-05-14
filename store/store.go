@@ -49,12 +49,13 @@ func (s *Store) Dispatch(action interface{}) {
 	for _, r := range s.reducers {
 		rName := runtime.FuncForPC(r.Pointer()).Name()
 		rName = rName[strings.LastIndexByte(rName, '.')+1:]
-		res := r.Call(
-			[]reflect.Value{
-				s.state[rName],
-				reflect.ValueOf(action)})
-
-		s.state[rName] = res[0]
+		if reflect.ValueOf(action).Kind() == r.Type().In(1).Kind() {
+			res := r.Call(
+				[]reflect.Value{
+					s.state[rName],
+					reflect.ValueOf(action)})
+			s.state[rName] = res[0]
+		}
 	}
 }
 
