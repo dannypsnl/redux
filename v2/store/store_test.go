@@ -9,11 +9,13 @@ import (
 )
 
 type Store struct {
-	reducers map[string]reflect.Value
+	reducers []reflect.Value
+	state    map[string]interface{}
 }
 
 func New(reducers ...interface{}) *Store {
-	rmap := make(map[string]reflect.Value)
+	rs := make([]reflect.Value, 0)
+	stateInit := make(map[string]interface{})
 	for _, reducer := range reducers {
 		r := reflect.ValueOf(reducer)
 		if r.Kind() == reflect.Invalid {
@@ -31,13 +33,26 @@ func New(reducers ...interface{}) *Store {
 			panic("reducer should own state with the same type at anytime, if you want have variant value, please using interface")
 		}
 
+		stateType := r.Type().In(0)
+		rs = append(rs, r)
+
 		reducerName := runtime.FuncForPC(r.Pointer()).Name()
-		rmap[reducerName[strings.LastIndexByte(reducerName, '.'):]] = r
+		stateInit[reducerName[strings.LastIndexByte(reducerName, '.'):]] =
+			r.Call(
+				[]reflect.Value{
+					reflect.Zero(stateType),
+					reflect.ValueOf("")})
 	}
 	s := &Store{
-		reducers: rmap,
+		reducers: rs,
+		state:    stateInit,
 	}
 	return s
+}
+
+func (s *Store) Dispatch(action string) {
+	//for _, r := range s.reducers {
+	//}
 }
 
 func counter(state int, action string) int {
