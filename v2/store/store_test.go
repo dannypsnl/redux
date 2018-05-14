@@ -7,7 +7,7 @@ import (
 type Store struct {
 }
 
-func New(reducer interface{}) *Store {
+func New(reducer ...interface{}) *Store {
 	return &Store{}
 }
 
