@@ -10,8 +10,22 @@ type Store struct {
 }
 
 func New(reducers ...interface{}) *Store {
-	for _, r := range reducers {
-		reflect.ValueOf(r)
+	for _, reducer := range reducers {
+		r := reflect.ValueOf(reducer)
+		if r.Kind() == reflect.Invalid {
+			panic("It's an invalid value")
+		}
+
+		// reducer :: (state, action) -> state
+		if r.Type().NumIn() != 2 {
+			panic("reducer should have state & action two parameter, not thing more")
+		}
+		if r.Type().NumOut() != 1 {
+			panic("reducer should return state only")
+		}
+		if r.Type().In(0) != r.Type().Out(0) {
+			panic("reducer should own state with the same type at anytime, if you want have variant value, please using interface")
+		}
 	}
 	return &Store{}
 }
