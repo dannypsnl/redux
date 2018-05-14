@@ -10,12 +10,12 @@ import (
 
 type Store struct {
 	reducers []reflect.Value
-	state    map[string]interface{}
+	state    map[string]reflect.Value
 }
 
 func New(reducers ...interface{}) *Store {
 	rs := make([]reflect.Value, 0)
-	stateInit := make(map[string]interface{})
+	stateInit := make(map[string]reflect.Value)
 	for _, reducer := range reducers {
 		r := reflect.ValueOf(reducer)
 		if r.Kind() == reflect.Invalid {
@@ -41,7 +41,7 @@ func New(reducers ...interface{}) *Store {
 			[]reflect.Value{
 				reflect.Zero(stateType),
 				reflect.ValueOf("")})
-		stateInit[reducerName[strings.LastIndexByte(reducerName, '.'):]] = res[0].Interface()
+		stateInit[reducerName[strings.LastIndexByte(reducerName, '.')+1:]] = res[0]
 	}
 	s := &Store{
 		reducers: rs,
@@ -53,13 +53,13 @@ func New(reducers ...interface{}) *Store {
 func (s *Store) Dispatch(action interface{}) {
 	for _, r := range s.reducers {
 		rName := runtime.FuncForPC(r.Pointer()).Name()
-		rName = rName[strings.LastIndexByte(rName, '.'):]
+		rName = rName[strings.LastIndexByte(rName, '.')+1:]
 		res := r.Call(
 			[]reflect.Value{
-				reflect.ValueOf(s.state[rName]),
+				s.state[rName],
 				reflect.ValueOf(action)})
 
-		s.state[rName] = res[0].Interface()
+		s.state[rName] = res[0]
 	}
 }
 
@@ -84,5 +84,7 @@ func TestStoreNew(t *testing.T) {
 func TestStoreDispatch(t *testing.T) {
 	store := /*store.*/ New(counter)
 	store.Dispatch("INC")
-	println(store.state["counter"])
+	if store.state["counter"].Interface() != 1 {
+		t.Error("counter can not work")
+	}
 }
