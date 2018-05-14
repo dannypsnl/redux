@@ -37,11 +37,11 @@ func New(reducers ...interface{}) *Store {
 		rs = append(rs, r)
 
 		reducerName := runtime.FuncForPC(r.Pointer()).Name()
-		stateInit[reducerName[strings.LastIndexByte(reducerName, '.'):]] =
-			r.Call(
-				[]reflect.Value{
-					reflect.Zero(stateType),
-					reflect.ValueOf("")})
+		res := r.Call(
+			[]reflect.Value{
+				reflect.Zero(stateType),
+				reflect.ValueOf("")})
+		stateInit[reducerName[strings.LastIndexByte(reducerName, '.'):]] = res[0].Interface()
 	}
 	s := &Store{
 		reducers: rs,
@@ -50,9 +50,17 @@ func New(reducers ...interface{}) *Store {
 	return s
 }
 
-func (s *Store) Dispatch(action string) {
-	//for _, r := range s.reducers {
-	//}
+func (s *Store) Dispatch(action interface{}) {
+	for _, r := range s.reducers {
+		rName := runtime.FuncForPC(r.Pointer()).Name()
+		rName = rName[strings.LastIndexByte(rName, '.'):]
+		res := r.Call(
+			[]reflect.Value{
+				reflect.ValueOf(s.state[rName]),
+				reflect.ValueOf(action)})
+
+		s.state[rName] = res[0].Interface()
+	}
 }
 
 func counter(state int, action string) int {
@@ -71,4 +79,10 @@ func TestStoreNew(t *testing.T) {
 	if store == nil {
 		t.Error("func New fail, expected it return a pointer to store instance")
 	}
+}
+
+func TestStoreDispatch(t *testing.T) {
+	store := /*store.*/ New(counter)
+	store.Dispatch("INC")
+	println(store.state["counter"])
 }
