@@ -1,7 +1,7 @@
 package store
 
 import (
-	"github.com/dannypsnl/redux/action"
+	"github.com/dannypsnl/redux/v1/action"
 	"testing"
 	"time"
 )

@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/dannypsnl/redux"
-	"github.com/dannypsnl/redux/action"
+	"github.com/dannypsnl/redux/v1/action"
 )
 
 // Reducer provide a readable structure help you build reducer more rematchable

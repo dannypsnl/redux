@@ -1,9 +1,8 @@
 package main
 
 import (
-	"fmt"
-	"github.com/dannypsnl/redux/action"
-	"github.com/dannypsnl/redux/store"
+	"github.com/dannypsnl/redux/v1/action"
+	"github.com/dannypsnl/redux/v1/store"
 )
 
 func counter(state interface{}, act action.Action) interface{} {
@@ -23,7 +22,11 @@ func counter(state interface{}, act action.Action) interface{} {
 func main() {
 	store := store.New(counter)
 	store.Subscribe(func() {
-		fmt.Println(store.GetState("counter"))
+		store.Dispatch(action.New("INC"))
+		// store.Dispatch(redux.SendAction("INC"))
+		//       ^^^^^^^^ invoke Dispatch in Subscribe will cause deadlock
+		//store.Subscribe(func() {})
+		//      ^^^^^^^^^ invoke Subscribe in Subscribe will cause panic
 	})
 	store.Dispatch(action.New("INC"))
 }

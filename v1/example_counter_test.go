@@ -1,10 +1,10 @@
-package redux_test
+package v1_test
 
 import (
 	"fmt"
 
-	"github.com/dannypsnl/redux/action"
-	"github.com/dannypsnl/redux/store"
+	"github.com/dannypsnl/redux/v1/action"
+	"github.com/dannypsnl/redux/v1/store"
 )
 
 func counter(state interface{}, action action.Action) interface{} {

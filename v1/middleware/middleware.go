@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"github.com/dannypsnl/redux/action"
+	"github.com/dannypsnl/redux/v1/action"
 )
 
 // Middleware is exist to let user create middleware code much more faster
