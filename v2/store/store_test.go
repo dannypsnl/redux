@@ -40,7 +40,7 @@ func New(reducers ...interface{}) *Store {
 		res := r.Call(
 			[]reflect.Value{
 				reflect.Zero(stateType),
-				reflect.ValueOf("")})
+				reflect.Zero(r.Type().In(1))})
 		stateInit[reducerName[strings.LastIndexByte(reducerName, '.')+1:]] = res[0]
 	}
 	s := &Store{
