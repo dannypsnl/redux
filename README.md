@@ -48,6 +48,6 @@ func main() {
     // redux/v2/store
     store := store.New(counter)
     store.Dispatch("INC")
-    fmt.Printf("%d\n", store.GetState("counter")) // should print out: 1
+    fmt.Printf("%d\n", store.GetState(counter)) // should print out: 1
 }
 ```
