@@ -1,7 +1,10 @@
 package store
 
 import (
+	"github.com/dannypsnl/assert"
 	"testing"
+
+	"sync"
 )
 
 func counter(state int, action string) int {
@@ -82,6 +85,31 @@ func TestStoreWorkWithLambda(t *testing.T) {
 	if state != 10 {
 		t.Error("store can't work with lambda")
 	}
+}
+
+func TestConcurrencySafe(t *testing.T) {
+	assert := assert.NewTester(t)
+	var wg sync.WaitGroup
+
+	counter := func(s int, a int) int {
+		return s + a
+	}
+	store := New(counter)
+
+	wg.Add(100)
+	for i := 0; i < 100; i++ {
+		go func() {
+			defer wg.Done()
+			store.Dispatch(1)
+		}()
+	}
+
+	wg.Wait()
+
+	actual := store.StateOf(counter)
+	expected := 100
+
+	assert.Eq(actual, expected)
 }
 
 func TestPanic(t *testing.T) {

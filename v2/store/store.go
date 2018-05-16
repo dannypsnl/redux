@@ -2,6 +2,7 @@ package store
 
 import (
 	"reflect"
+	"sync"
 )
 
 // Store is a type manage your data
@@ -17,6 +18,7 @@ type Store struct {
 	reducers        []reflect.Value
 	state           map[uintptr]reflect.Value
 	subscribedFuncs []func()
+	dispatch        sync.Mutex
 }
 
 // New create a Store by reducers
@@ -46,6 +48,9 @@ func New(reducers ...interface{}) *Store {
 //
 // In v2, action can be anything you want, it's more powerful rather than v1
 func (s *Store) Dispatch(action interface{}) {
+	s.dispatch.Lock()
+	defer s.dispatch.Unlock()
+
 	for _, r := range s.reducers {
 		if reflect.ValueOf(action).Kind() == r.Type().In(1).Kind() {
 			res := r.Call(
