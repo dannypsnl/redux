@@ -19,6 +19,7 @@ type Store struct {
 	state           map[uintptr]reflect.Value
 	subscribedFuncs []func()
 	dispatch        sync.Mutex
+	onDispatching   bool
 }
 
 // New create a Store by reducers
@@ -61,13 +62,18 @@ func (s *Store) Dispatch(action interface{}) {
 		}
 	}
 
+	s.onDispatching = true
 	for _, s := range s.subscribedFuncs {
 		s()
 	}
+	s.onDispatching = false
 }
 
 // Subscribe let user emit a function will be triggered by Dispatch
 func (s *Store) Subscribe(function func()) {
+	if s.onDispatching {
+		panic("You can call Subscribe in subscribed function")
+	}
 	s.subscribedFuncs = append(s.subscribedFuncs, function)
 }
 

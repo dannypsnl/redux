@@ -112,6 +112,25 @@ func TestConcurrencySafe(t *testing.T) {
 	assert.Eq(actual, expected)
 }
 
+func TestSubscribedFuncShouldNotCallSubscribe(t *testing.T) {
+	defer func() {
+		if r := recover(); r == nil {
+			t.Error("subscribed function call store.Subscribe should panic")
+		}
+	}()
+	foo := func(s int, action int) int { return 0 }
+	store := New(foo)
+	store.Subscribe(func() {
+		store.Subscribe(func() {})
+	})
+	store.Dispatch(0)
+}
+func TestSubscribedFuncShouldNotCallSDispatch(t *testing.T) {
+	foo := func(s int, action int) int { return 0 }
+	store := New(foo)
+	_ = store
+}
+
 func TestPanic(t *testing.T) {
 	error1 := func(state int, act string) string {
 		return ""
