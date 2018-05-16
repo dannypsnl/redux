@@ -72,15 +72,14 @@ func TestStoreSubscribe(t *testing.T) {
 	}
 }
 
-func error1(state int, act string) string {
-	return ""
-}
-func error2(state string, act string) (string, error) {
-	return "", nil
-}
-func error3() {}
-
 func TestPanic(t *testing.T) {
+	error1 := func(state int, act string) string {
+		return ""
+	}
+	error2 := func(state string, act string) (string, error) {
+		return "", nil
+	}
+	error3 := func() {}
 	testPanic(t, error1, "should panic when reducer return a state is type different than input state type")
 	testPanic(t, error2, "should panic when reducer return several type")
 	testPanic(t, error3, "should panic when reducer do not contain state & action two parameters")
