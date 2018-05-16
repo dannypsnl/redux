@@ -16,24 +16,25 @@ type Store struct {
 // Usage:
 //   store := store.New(reducer...)
 func New(reducers ...interface{}) *Store {
-	rs := make([]reflect.Value, 0)
-	initState := make(map[uintptr]reflect.Value)
+	newStore := &Store{
+		reducers: make([]reflect.Value, 0),
+		state:    make(map[uintptr]reflect.Value),
+	}
 	for _, reducer := range reducers {
 		r := reflect.ValueOf(reducer)
 		// If fail any checking, it will panic, so don't try to recover or handling the error
 		checkReducer(r)
-		rs = append(rs, r)
+		newStore.reducers = append(newStore.reducers, r)
 
-		res := r.Call(
+		newStore.state[r.Pointer()] = r.Call(
 			[]reflect.Value{
-				reflect.Zero(r.Type().In(0)),
-				reflect.Zero(r.Type().In(1))})
-		initState[r.Pointer()] = res[0]
+				// We just use their zero value for initialize
+				reflect.Zero(r.Type().In(0)), // In index 0 is state
+				reflect.Zero(r.Type().In(1)), // In index 1 is action
+			},
+		)[0] // 0 at here is because checkReducer promise that we will only receive one return
 	}
-	return &Store{
-		reducers: rs,
-		state:    initState,
-	}
+	return newStore
 }
 
 // Dispatch send action to all reducer in Store to update state
