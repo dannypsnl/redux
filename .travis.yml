@@ -29,7 +29,7 @@ matrix:
 # set -e enabled in bash.
 before_script:
   - go get github.com/dannypsnl/redux
-  - go get github.com/dannypsnl/assert
+  - go get -u golang.org/x/vgo
   - go get golang.org/x/tools/cmd/cover
   - go get github.com/go-playground/overalls
   - go get github.com/mattn/goveralls
@@ -37,6 +37,7 @@ before_script:
 # script always run to completion (set +e). All of these code checks are must haves
 # in a modern Go project.
 script:
+  - vgo get -u
   - go test ./... -v
   - overalls -project=github.com/dannypsnl/redux
   - goveralls -coverprofile=overalls.coverprofile -service=travis-ci -repotoken ibfn8Gov1sjZJXyr32hPLrfWnjZTwDcVC
