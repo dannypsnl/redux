@@ -5,13 +5,6 @@ import (
 )
 
 // Store is a type manage your data
-type Store struct {
-	reducers        []reflect.Value
-	state           map[uintptr]reflect.Value
-	subscribedFuncs []func()
-}
-
-// New create a Store by reducers
 //
 // Usage:
 //   counter := func(state int, payload int) int {
@@ -20,6 +13,13 @@ type Store struct {
 //   store := store.New(counter)
 //   store.Dispatch(30)
 //   fmt.Printf("%d\n", store.GetState(counter)) // expected: 30
+type Store struct {
+	reducers        []reflect.Value
+	state           map[uintptr]reflect.Value
+	subscribedFuncs []func()
+}
+
+// New create a Store by reducers
 func New(reducers ...interface{}) *Store {
 	newStore := &Store{
 		reducers: make([]reflect.Value, 0),
