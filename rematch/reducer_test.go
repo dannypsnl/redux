@@ -3,8 +3,8 @@ package rematch
 import (
 	"testing"
 
-	"github.com/dannypsnl/redux/v1/action"
-	"github.com/dannypsnl/redux/v1/store"
+	"github.com/dannypsnl/redux/action"
+	"github.com/dannypsnl/redux/store"
 )
 
 var c Reducer

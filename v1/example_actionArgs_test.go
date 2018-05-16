@@ -3,8 +3,8 @@ package v1_test
 import (
 	"fmt"
 
-	"github.com/dannypsnl/redux/v1/action"
-	"github.com/dannypsnl/redux/v1/store"
+	"github.com/dannypsnl/redux/action"
+	"github.com/dannypsnl/redux/store"
 )
 
 var users = map[string]int{

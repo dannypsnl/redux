@@ -1,10 +1,11 @@
 package store
 
 import (
-	"github.com/dannypsnl/redux/v1/action"
-	"github.com/dannypsnl/redux/v1/middleware"
 	"sync"
 	"testing"
+
+	"github.com/dannypsnl/redux/action"
+	"github.com/dannypsnl/redux/middleware"
 )
 
 func TestDispatchInConcurrencyIsSafe(t *testing.T) {

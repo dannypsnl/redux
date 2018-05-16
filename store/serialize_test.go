@@ -2,7 +2,7 @@ package store
 
 import (
 	"encoding/json"
-	"github.com/dannypsnl/redux/v1/action"
+	"github.com/dannypsnl/redux/action"
 	"testing"
 )
 

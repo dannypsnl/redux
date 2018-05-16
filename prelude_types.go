@@ -1,7 +1,7 @@
-package v1
+package redux
 
 import (
-	"github.com/dannypsnl/redux/v1/action"
+	"github.com/dannypsnl/redux/action"
 )
 
 type Reducer func(interface{}, action.Action) interface{}

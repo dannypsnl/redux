@@ -1,8 +1,8 @@
 package store
 
 import (
-	"github.com/dannypsnl/redux/v1/action"
-	"github.com/dannypsnl/redux/v1/middleware"
+	"github.com/dannypsnl/redux/action"
+	"github.com/dannypsnl/redux/middleware"
 	"sync"
 )
 

@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/dannypsnl/redux/v1/action"
-	"github.com/dannypsnl/redux/v1/store"
+	"github.com/dannypsnl/redux/action"
+	"github.com/dannypsnl/redux/store"
 )
 
 func counter(state interface{}, action action.Action) interface{} {

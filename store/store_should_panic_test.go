@@ -1,8 +1,9 @@
 package store
 
 import (
-	"github.com/dannypsnl/redux/v1/action"
 	"testing"
+
+	"github.com/dannypsnl/redux/action"
 )
 
 func TestDuplicatedReducerShouldCausePanic(t *testing.T) {

@@ -3,8 +3,8 @@ package rematch
 import (
 	"fmt"
 
-	"github.com/dannypsnl/redux/v1"
-	"github.com/dannypsnl/redux/v1/action"
+	"github.com/dannypsnl/redux"
+	"github.com/dannypsnl/redux/action"
 )
 
 // Reducer provide a readable structure help you build reducer more rematchable
@@ -34,7 +34,7 @@ type Reducer struct {
 //   func reducer(s interface{}, a action.Action) interface{} {
 //       return r.Reduce()(s, a)
 //   }
-func (r *Reducer) Reduce() v1.Reducer {
+func (r *Reducer) Reduce() redux.Reducer {
 	return func(state interface{}, act action.Action) interface{} {
 		if state == nil {
 			return r.State
@@ -60,4 +60,4 @@ func (r *Reducer) Action(typ string) *action.Action {
 }
 
 // Reducers let we can meta reducer group much more readable
-type Reducers map[string]v1.Reducer
+type Reducers map[string]redux.Reducer

@@ -1,9 +1,10 @@
 package store
 
 import (
-	"github.com/dannypsnl/redux/v1/action"
 	"testing"
 	"time"
+
+	"github.com/dannypsnl/redux/action"
 )
 
 func Benchmark_2_Reducers_1_Subscribe(b *testing.B) {
