@@ -12,7 +12,7 @@ import (
 //   }
 //   store := store.New(counter)
 //   store.Dispatch(30)
-//   fmt.Printf("%d\n", store.GetState(counter)) // expected: 30
+//   fmt.Printf("%d\n", store.StateOf(counter)) // expected: 30
 type Store struct {
 	reducers        []reflect.Value
 	state           map[uintptr]reflect.Value
@@ -66,8 +66,8 @@ func (s *Store) Subscribe(function func()) {
 	s.subscribedFuncs = append(s.subscribedFuncs, function)
 }
 
-// GetState return the reducer name matches state
-func (s *Store) GetState(reducer interface{}) interface{} {
+// StateOf return the reducer name matches state
+func (s *Store) StateOf(reducer interface{}) interface{} {
 	place := reflect.ValueOf(reducer).Pointer()
 	return s.state[place].Interface()
 }

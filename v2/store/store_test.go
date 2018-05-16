@@ -41,7 +41,7 @@ func TestStoreNew(t *testing.T) {
 func TestStoreDispatch(t *testing.T) {
 	store := /*store.*/ New(counter, payload)
 	store.Dispatch("INC")
-	if store.GetState(counter) != 1 {
+	if store.StateOf(counter) != 1 {
 		t.Error("counter can not work")
 	}
 
@@ -49,16 +49,16 @@ func TestStoreDispatch(t *testing.T) {
 		typ:     "INC",
 		payload: 10,
 	})
-	if store.GetState(payload) != 10 {
+	if store.StateOf(payload) != 10 {
 		t.Error("payload should increase by payload")
 	}
 }
 
-func TestStoreGetState(t *testing.T) {
+func TestStoreStateOf(t *testing.T) {
 	store := /*store.*/ New(counter)
 	store.Dispatch("DEC")
-	if store.GetState(counter) != -1 {
-		t.Error("GetState should return reducer's state")
+	if store.StateOf(counter) != -1 {
+		t.Error("StateOf should return reducer's state")
 	}
 }
 
@@ -78,7 +78,7 @@ func TestStoreWorkWithLambda(t *testing.T) {
 	}
 	store := /*store.*/ New(lambda)
 	store.Dispatch(10)
-	state := store.GetState(lambda)
+	state := store.StateOf(lambda)
 	if state != 10 {
 		t.Error("store can't work with lambda")
 	}
