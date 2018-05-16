@@ -29,6 +29,7 @@ matrix:
 # set -e enabled in bash.
 before_script:
   - go get github.com/dannypsnl/redux
+  - go get github.com/dannypsnl/assert
   - go get golang.org/x/tools/cmd/cover
   - go get github.com/go-playground/overalls
   - go get github.com/mattn/goveralls
