@@ -8,8 +8,9 @@ import (
 
 // Store is a type manage your data
 type Store struct {
-	reducers []reflect.Value
-	state    map[string]reflect.Value
+	reducers        []reflect.Value
+	state           map[string]reflect.Value
+	subscribedFuncs []func()
 }
 
 // New create a Store by reducers
@@ -57,6 +58,15 @@ func (s *Store) Dispatch(action interface{}) {
 			s.state[rName] = res[0]
 		}
 	}
+
+	for _, s := range s.subscribedFuncs {
+		s()
+	}
+}
+
+// Subscribe let user emit a function will be triggered by Dispatch
+func (s *Store) Subscribe(function func()) {
+	s.subscribedFuncs = append(s.subscribedFuncs, function)
 }
 
 // GetState return the reducer name matches state

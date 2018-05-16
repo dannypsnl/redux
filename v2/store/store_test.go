@@ -62,3 +62,13 @@ func TestStoreGetState(t *testing.T) {
 	}
 
 }
+
+func TestStoreSubscribe(t *testing.T) {
+	store := /*store.*/ New(counter)
+
+	store.Subscribe(func() {})
+
+	if len(store.subscribedFuncs) != 1 {
+		t.Error("Subscribe do not work")
+	}
+}
