@@ -72,6 +72,18 @@ func TestStoreSubscribe(t *testing.T) {
 	}
 }
 
+func TestStoreWorkWithLambda(t *testing.T) {
+	lambda := func(state int, action int) int {
+		return state + action
+	}
+	store := /*store.*/ New(lambda)
+	store.Dispatch(10)
+	state := store.GetState(lambda)
+	if state != 10 {
+		t.Error("store can't work with lambda")
+	}
+}
+
 func TestPanic(t *testing.T) {
 	error1 := func(state int, act string) string {
 		return ""
