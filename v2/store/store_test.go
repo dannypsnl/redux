@@ -125,11 +125,6 @@ func TestSubscribedFuncShouldNotCallSubscribe(t *testing.T) {
 	})
 	store.Dispatch(0)
 }
-func TestSubscribedFuncShouldNotCallSDispatch(t *testing.T) {
-	foo := func(s int, action int) int { return 0 }
-	store := New(foo)
-	_ = store
-}
 
 func TestPanic(t *testing.T) {
 	error1 := func(state int, act string) string {
