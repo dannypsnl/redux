@@ -60,7 +60,6 @@ func TestStoreGetState(t *testing.T) {
 	if store.GetState("counter") != -1 {
 		t.Error("GetState should return reducer's state")
 	}
-
 }
 
 func TestStoreSubscribe(t *testing.T) {
