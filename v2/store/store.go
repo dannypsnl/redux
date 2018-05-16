@@ -2,14 +2,12 @@ package store
 
 import (
 	"reflect"
-	"runtime"
-	"strings"
 )
 
 // Store is a type manage your data
 type Store struct {
 	reducers        []reflect.Value
-	state           map[string]reflect.Value
+	state           map[uintptr]reflect.Value
 	subscribedFuncs []func()
 }
 
@@ -19,20 +17,18 @@ type Store struct {
 //   store := store.New(reducer...)
 func New(reducers ...interface{}) *Store {
 	rs := make([]reflect.Value, 0)
-	initState := make(map[string]reflect.Value)
+	initState := make(map[uintptr]reflect.Value)
 	for _, reducer := range reducers {
 		r := reflect.ValueOf(reducer)
 		// If fail any checking, it will panic, so don't try to recover or handling the error
 		checkReducer(r)
 		rs = append(rs, r)
 
-		rName := runtime.FuncForPC(r.Pointer()).Name()
-		rName = rName[strings.LastIndexByte(rName, '.')+1:]
 		res := r.Call(
 			[]reflect.Value{
 				reflect.Zero(r.Type().In(0)),
 				reflect.Zero(r.Type().In(1))})
-		initState[rName] = res[0]
+		initState[r.Pointer()] = res[0]
 	}
 	return &Store{
 		reducers: rs,
@@ -48,14 +44,12 @@ func New(reducers ...interface{}) *Store {
 //   store.Dispatch("INC")
 func (s *Store) Dispatch(action interface{}) {
 	for _, r := range s.reducers {
-		rName := runtime.FuncForPC(r.Pointer()).Name()
-		rName = rName[strings.LastIndexByte(rName, '.')+1:]
 		if reflect.ValueOf(action).Kind() == r.Type().In(1).Kind() {
 			res := r.Call(
 				[]reflect.Value{
-					s.state[rName],
+					s.state[r.Pointer()],
 					reflect.ValueOf(action)})
-			s.state[rName] = res[0]
+			s.state[r.Pointer()] = res[0]
 		}
 	}
 
@@ -70,8 +64,9 @@ func (s *Store) Subscribe(function func()) {
 }
 
 // GetState return the reducer name matches state
-func (s *Store) GetState(rName string) interface{} {
-	return s.state[rName].Interface()
+func (s *Store) GetState(reducer interface{}) interface{} {
+	place := reflect.ValueOf(reducer).Pointer()
+	return s.state[place].Interface()
 }
 
 // checkReducer reject all unexpected reducer format
