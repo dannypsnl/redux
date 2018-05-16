@@ -14,7 +14,12 @@ type Store struct {
 // New create a Store by reducers
 //
 // Usage:
-//   store := store.New(reducer...)
+//   counter := func(state int, payload int) int {
+//       return state + payload
+//   }
+//   store := store.New(counter)
+//   store.Dispatch(30)
+//   fmt.Printf("%d\n", store.GetState(counter)) // expected: 30
 func New(reducers ...interface{}) *Store {
 	newStore := &Store{
 		reducers: make([]reflect.Value, 0),
@@ -40,9 +45,6 @@ func New(reducers ...interface{}) *Store {
 // Dispatch send action to all reducer in Store to update state
 //
 // In v2, action can be anything you want, it's more powerful rather than v1
-//
-// Usage:
-//   store.Dispatch("INC")
 func (s *Store) Dispatch(action interface{}) {
 	for _, r := range s.reducers {
 		if reflect.ValueOf(action).Kind() == r.Type().In(1).Kind() {
