@@ -11,6 +11,5 @@ build: false
 deploy: false
 
 test_script:
-  - go get -u golang.org/x/vgo
-  - vgo get -u
+  - go get github.com/dannypsnl/assert
   - go test -v ./...
