@@ -18,8 +18,6 @@ I hope this project can help you manage the complex update flow in Go.
 
 v2 is still at experiment stage, if you want to use this library, use the v1
 
-[![GoDoc](https://godoc.org/github.com/dannypsnl/redux/v1?status.svg)](https://godoc.org/github.com/dannypsnl/redux/v1)
-
 ## Install
 
 ```bash
