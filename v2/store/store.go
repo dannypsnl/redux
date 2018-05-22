@@ -32,6 +32,11 @@ func New(reducers ...interface{}) *Store {
 		r := reflect.ValueOf(reducer)
 		// If fail any checking, it will panic, so don't try to recover or handling the error
 		checkReducer(r)
+
+		if _, ok := newStore.state[r.Pointer()]; ok {
+			panic("You can put duplicated reducer into the same store!")
+		}
+
 		newStore.reducers = append(newStore.reducers, r)
 
 		newStore.state[r.Pointer()] = r.Call(

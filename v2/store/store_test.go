@@ -126,6 +126,16 @@ func TestSubscribedFuncShouldNotCallSubscribe(t *testing.T) {
 	store.Dispatch(0)
 }
 
+func TestDuplicateReducerWillCausePanic(t *testing.T) {
+	defer func() {
+		if r := recover(); r == nil {
+			t.Error("duplicated reducer should cause panic when New a Store")
+		}
+	}()
+	counter := func(state int, payload int) int { return state + payload }
+	/*store.*/ New(counter, counter)
+}
+
 func TestInvalidReducerWillCausePanic(t *testing.T) {
 	error1 := func(state int, act string) string {
 		return ""
