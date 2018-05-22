@@ -52,12 +52,13 @@ func (s *Store) Dispatch(action interface{}) {
 	s.dispatch.Lock()
 	defer s.dispatch.Unlock()
 
+	rAction := reflect.ValueOf(action)
 	for _, r := range s.reducers {
-		if reflect.ValueOf(action).Kind() == r.Type().In(1).Kind() {
+		if rAction.Kind() == r.Type().In(1).Kind() {
 			res := r.Call(
 				[]reflect.Value{
 					s.state[r.Pointer()],
-					reflect.ValueOf(action)})
+					rAction})
 			s.state[r.Pointer()] = res[0]
 		}
 	}
