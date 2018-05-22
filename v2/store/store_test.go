@@ -126,7 +126,7 @@ func TestSubscribedFuncShouldNotCallSubscribe(t *testing.T) {
 	store.Dispatch(0)
 }
 
-func TestPanic(t *testing.T) {
+func TestInvalidReducerWillCausePanic(t *testing.T) {
 	error1 := func(state int, act string) string {
 		return ""
 	}
