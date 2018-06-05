@@ -14,10 +14,6 @@ I hope this project can help you manage the complex update flow in Go.
 
 [Origin version](https://github.com/reactjs/redux)
 
-## Warning
-
-v2 is still at experiment stage, if you want to use this library, use the v1
-
 ## Install
 
 ```bash
@@ -26,7 +22,7 @@ $ go get github.com/dannypsnl/redux
 
 ## Usage
 
-Example:
+Basic example
 
 ```go
 // As you can see, you don't need to checking nil or not now
@@ -47,5 +43,19 @@ func main() {
     store := store.New(counter)
     store.Dispatch("INC")
     fmt.Printf("%d\n", store.StateOf(counter)) // should print out: 1
+}
+```
+
+More stunning
+
+```go
+func main() {
+    counter := func(state, payload int) int {
+        return state + payload
+    }
+    store := store.New(counter)
+    store.Dispatch(100)
+    store.Dispatch(-50)
+    fmt.Printf("%d\n", store.StateOf(counter)) // should print out: 50
 }
 ```

@@ -15,11 +15,13 @@ import (
 //   store.Dispatch(30)
 //   fmt.Printf("%d\n", store.StateOf(counter)) // expected: 30
 type Store struct {
-	reducers        []reflect.Value
-	state           map[uintptr]reflect.Value
-	subscribedFuncs []func()
-	dispatch        sync.Mutex
-	onDispatching   bool
+	reducers            []reflect.Value
+	state               map[uintptr]reflect.Value
+	subscribedFuncs     []func()
+	dispatch            sync.Mutex
+	subscribe           sync.Mutex
+	subscribedFuncPanic bool
+	onDispatching       bool
 }
 
 // New create a Store by reducers
@@ -27,6 +29,8 @@ func New(reducers ...interface{}) *Store {
 	newStore := &Store{
 		reducers: make([]reflect.Value, 0),
 		state:    make(map[uintptr]reflect.Value),
+
+		subscribedFuncPanic: false,
 	}
 	for _, reducer := range reducers {
 		r := reflect.ValueOf(reducer)
@@ -69,14 +73,32 @@ func (s *Store) Dispatch(action interface{}) {
 	}
 
 	s.onDispatching = true
-	for _, s := range s.subscribedFuncs {
-		s()
+
+	var wg sync.WaitGroup
+	wg.Add(len(s.subscribedFuncs))
+	for _, subscribedFunc := range s.subscribedFuncs {
+		go func() {
+			defer func() {
+				if r := recover(); r != nil {
+					s.subscribedFuncPanic = true
+				}
+				wg.Done()
+			}()
+			subscribedFunc()
+		}()
+	}
+	wg.Wait()
+
+	if s.subscribedFuncPanic {
+		panic("You can't call Subscribe in subscribed function")
 	}
 	s.onDispatching = false
 }
 
 // Subscribe let user emit a function will be triggered by Dispatch
 func (s *Store) Subscribe(function func()) {
+	s.subscribe.Lock()
+	defer s.subscribe.Unlock()
 	if s.onDispatching {
 		panic("You can't call Subscribe in subscribed function")
 	}
