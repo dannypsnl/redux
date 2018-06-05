@@ -78,7 +78,7 @@ func (s *Store) Dispatch(action interface{}) {
 // Subscribe let user emit a function will be triggered by Dispatch
 func (s *Store) Subscribe(function func()) {
 	if s.onDispatching {
-		panic("You can call Subscribe in subscribed function")
+		panic("You can't call Subscribe in subscribed function")
 	}
 	s.subscribedFuncs = append(s.subscribedFuncs, function)
 }
