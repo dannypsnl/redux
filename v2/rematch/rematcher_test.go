@@ -15,8 +15,8 @@ func (cm *CountingModel) Increase(state int, payload int) int {
 	return state + payload
 }
 
-func NewCountingModel() CountingModel {
-	return CountingModel{
+func NewCountingModel() *CountingModel {
+	return &CountingModel{
 		State: 0,
 	}
 }

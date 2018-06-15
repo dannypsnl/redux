@@ -35,9 +35,14 @@ func New(reducers ...interface{}) *Store {
 	for _, reducer := range reducers {
 		r := reflect.ValueOf(reducer)
 
-		if r.Kind() == reflect.Struct {
-			if r.FieldByName("State").Kind() == reflect.Invalid {
+		if r.Kind() == reflect.Ptr {
+			v := reflect.Indirect(r)
+			if v.FieldByName("State").Kind() == reflect.Invalid {
 				panic("Reducer structure must contains field[State]")
+			}
+
+			if _, ok := newStore.state[r.Pointer()]; ok {
+				panic("You can't put duplicated reducer into the same store!")
 			}
 		} else {
 			// If fail any checking, it will panic, so don't try to recover or handling the error
