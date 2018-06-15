@@ -76,7 +76,7 @@ func New(reducers ...interface{}) *Store {
 			checkReducer(r)
 
 			if _, ok := newStore.state[r.Pointer()]; ok {
-				panic("You can put duplicated reducer into the same store!")
+				panic("You can't put duplicated reducer into the same store!")
 			}
 
 			newStore.reducers = append(newStore.reducers, r)
