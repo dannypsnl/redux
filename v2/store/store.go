@@ -44,6 +44,33 @@ func New(reducers ...interface{}) *Store {
 			if _, ok := newStore.state[r.Pointer()]; ok {
 				panic("You can't put duplicated reducer into the same store!")
 			}
+
+			ms := make(map[uintptr]reflect.Value)
+			for i := 1; i < v.NumMethod(); i++ {
+				m := v.Method(i)
+				if m.Type().NumIn() == 2 &&
+					m.Type().NumOut() == 1 &&
+					m.Type().In(0) == m.Type().Out(0) {
+					ms[m.Pointer()] = m
+				}
+			}
+
+			insideReducer := func(s interface{}, a interface {
+				Addr() uintptr
+				Payload() interface{}
+			}) interface{} {
+				return ms[a.Addr()].Call(
+					[]reflect.Value{
+						reflect.ValueOf(s),
+						reflect.ValueOf(a.Payload()),
+					},
+				)[0]
+			}
+
+			r := reflect.ValueOf(insideReducer)
+			newStore.reducers = append(newStore.reducers, r)
+
+			newStore.state[r.Pointer()] = reflect.ValueOf(v.FieldByName("State").Interface())
 		} else {
 			// If fail any checking, it will panic, so don't try to recover or handling the error
 			checkReducer(r)
