@@ -34,22 +34,29 @@ func New(reducers ...interface{}) *Store {
 	}
 	for _, reducer := range reducers {
 		r := reflect.ValueOf(reducer)
-		// If fail any checking, it will panic, so don't try to recover or handling the error
-		checkReducer(r)
 
-		if _, ok := newStore.state[r.Pointer()]; ok {
-			panic("You can put duplicated reducer into the same store!")
+		if r.Kind() == reflect.Struct {
+			if r.FieldByName("State").Kind() == reflect.Invalid {
+				panic("Reducer structure must contains field[State]")
+			}
+		} else {
+			// If fail any checking, it will panic, so don't try to recover or handling the error
+			checkReducer(r)
+
+			if _, ok := newStore.state[r.Pointer()]; ok {
+				panic("You can put duplicated reducer into the same store!")
+			}
+
+			newStore.reducers = append(newStore.reducers, r)
+
+			newStore.state[r.Pointer()] = r.Call(
+				[]reflect.Value{
+					// We just use their zero value for initialize
+					reflect.Zero(r.Type().In(0)), // In index 0 is state
+					reflect.Zero(r.Type().In(1)), // In index 1 is action
+				},
+			)[0] // 0 at here is because checkReducer promise that we will only receive one return
 		}
-
-		newStore.reducers = append(newStore.reducers, r)
-
-		newStore.state[r.Pointer()] = r.Call(
-			[]reflect.Value{
-				// We just use their zero value for initialize
-				reflect.Zero(r.Type().In(0)), // In index 0 is state
-				reflect.Zero(r.Type().In(1)), // In index 1 is action
-			},
-		)[0] // 0 at here is because checkReducer promise that we will only receive one return
 	}
 	return newStore
 }
