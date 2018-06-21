@@ -42,4 +42,4 @@ script:
   - goveralls -coverprofile=overalls.coverprofile -service=travis-ci -repotoken ibfn8Gov1sjZJXyr32hPLrfWnjZTwDcVC
 
 after_success:
-  - bash <(curl -s https://codecov.io/bash) -t bdb26e07-db34-4760-83a5-9d90923f8bf7
+  - bash <(curl -s https://codecov.io/bash)
