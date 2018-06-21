@@ -38,9 +38,9 @@ type Store struct {
 //   store := store.New(reducer...)
 func New(r reducer, reducers ...reducer) *Store {
 	s := &Store{
-		state:        make(map[string]interface{}),
-		doMiddleware: func(a *action.Action) *action.Action { return a },
+		state: make(map[string]interface{}),
 	}
+	// Middlewares result is a func with type func(a *action.Action) *action.Action
 	s.doMiddleware = s.updateState
 	s.emit(r)
 	for _, r := range reducers {
