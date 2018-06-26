@@ -6,18 +6,26 @@ import (
 	"strings"
 )
 
-// Reducer is core of rematch
+// Reducer is core of rematch.
 //
-// It should be embedded by using side like
-//
-// Code:
-//  type Counter struct {
+// Usage:
+//  type CountingModel struct {
 //      rematch.Reducer
+//      State int
 //  }
+//
+//  func (cm *CountingModel) Increase(s int, payload int) int {
+//      return s + payload
+//  }
+//
+//  // main
+//  c := &CountingModel{
+//      State: 0,
+//  }
+//  store := store.New(c)
+//  store.Dispatch(c.Action(c.Increase).With(10))
+//  store.StateOf(c) // should be 10
 type Reducer struct {
-	// State is not mutable field, it represents initial state
-	State interface{}
-
 	ms map[string]reflect.Value
 }
 
@@ -50,7 +58,7 @@ func (r Reducer) InsideReducer(v interface{}) func(interface{}, *action) interfa
 	}
 }
 
-// Action return a new `rematch.Action` by method
+// action return a new `rematch.action` by method
 //
 // method detect which reducer will be executed
 //
@@ -66,8 +74,7 @@ type action struct {
 	with     interface{}
 }
 
-// With help you insert any payload you want into action
-//
+// With help you insert any payload you want into action.
 // Just remind payload should has the same type with internal reducer expected
 //
 // For example:
@@ -82,6 +89,9 @@ type action struct {
 //  }
 //
 // You should `With` a `string` rather than put a `int`
+//
+// Usage:
+//   store.Dispatch(c.action(c.Increase).With(10))
 func (a *action) With(payload interface{}) *action {
 	a.with = payload
 	return a
