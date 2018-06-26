@@ -58,11 +58,9 @@ func (r Reducer) InsideReducer(v interface{}) func(interface{}, *action) interfa
 	}
 }
 
-// action return a new `rematch.action` by method
+// Action return a new `rematch.action` with the method will be executed(as type)
 //
-// method detect which reducer will be executed
-//
-// Then you can use `action.With` to creating action's payload
+// Then you can use `action.With` to creating payload
 func (r Reducer) Action(method interface{}) *action {
 	return &action{
 		funcName: getReducerName(method),
