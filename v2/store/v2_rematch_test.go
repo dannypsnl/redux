@@ -57,12 +57,22 @@ func TestNewStoreByRematch(t *testing.T) {
 	assert.Eq(actual, expect)
 }
 
-func TestDuplicateRematcher(t *testing.T) {
+func TestNewWithDuplicateRematcher(t *testing.T) {
 	defer func() {
 		if r := recover(); r == nil {
-			t.Errorf("expect duplicated rematch.Reducer should cause panic but didn't.")
+			t.Error("expect duplicated rematch.Reducer should cause panic but didn't.")
 		}
 	}()
 	c := NewCountingModel()
 	New(c, c)
+}
+
+func TestNewWithNotARematcher(t *testing.T) {
+	defer func(){
+		if r := recover(); r == nil {
+			t.Error("New store with illegl reducer should panic but didn't.")
+		}
+	}()
+	c := &user{}
+	New(c)
 }
