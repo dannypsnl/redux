@@ -68,7 +68,7 @@ func TestNewWithDuplicateRematcher(t *testing.T) {
 }
 
 func TestNewWithNotARematcher(t *testing.T) {
-	defer func(){
+	defer func() {
 		if r := recover(); r == nil {
 			t.Error("New store with illegl reducer should panic but didn't.")
 		}
