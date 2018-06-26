@@ -15,7 +15,7 @@ import (
 //   store.Dispatch(30)
 //   fmt.Printf("%d\n", store.StateOf(counter)) // expected: 30
 type Store struct {
-	reducers            []reflect.Value
+	reducers            map[uintptr]reflect.Value
 	state               map[uintptr]reflect.Value
 	subscribedFuncs     []func()
 	dispatch            sync.Mutex
@@ -27,7 +27,7 @@ type Store struct {
 // New create a Store by reducers
 func New(reducers ...interface{}) *Store {
 	newStore := &Store{
-		reducers: make([]reflect.Value, 0),
+		reducers: make(map[uintptr]reflect.Value),
 		state:    make(map[uintptr]reflect.Value),
 
 		subscribedFuncPanic: false,
@@ -36,7 +36,7 @@ func New(reducers ...interface{}) *Store {
 		r := reflect.ValueOf(reducer)
 
 		if r.Kind() == reflect.Ptr {
-			v := reflect.Indirect(r)
+			v := reflect.Indirect(r) // dereference from ptr
 			if v.FieldByName("State").Kind() == reflect.Invalid {
 				panic("Reducer structure must contains field[State]")
 			}
@@ -45,32 +45,11 @@ func New(reducers ...interface{}) *Store {
 				panic("You can't put duplicated reducer into the same store!")
 			}
 
-			ms := make(map[uintptr]reflect.Value)
-			for i := 1; i < v.NumMethod(); i++ {
-				m := v.Method(i)
-				if m.Type().NumIn() == 2 &&
-					m.Type().NumOut() == 1 &&
-					m.Type().In(0) == m.Type().Out(0) {
-					ms[m.Pointer()] = m
-				}
-			}
+			re := r.MethodByName("InsideReducer").
+				Call([]reflect.Value{r})[0]
+			newStore.reducers[r.Pointer()] = re
 
-			insideReducer := func(s interface{}, a interface {
-				Addr() uintptr
-				Payload() interface{}
-			}) interface{} {
-				return ms[a.Addr()].Call(
-					[]reflect.Value{
-						reflect.ValueOf(s),
-						reflect.ValueOf(a.Payload()),
-					},
-				)[0]
-			}
-
-			r := reflect.ValueOf(insideReducer)
-			newStore.reducers = append(newStore.reducers, r)
-
-			newStore.state[r.Pointer()] = reflect.ValueOf(v.FieldByName("State").Interface())
+			newStore.state[r.Pointer()] = v.FieldByName("State")
 		} else {
 			// If fail any checking, it will panic, so don't try to recover or handling the error
 			checkReducer(r)
@@ -79,7 +58,7 @@ func New(reducers ...interface{}) *Store {
 				panic("You can't put duplicated reducer into the same store!")
 			}
 
-			newStore.reducers = append(newStore.reducers, r)
+			newStore.reducers[r.Pointer()] = r
 
 			newStore.state[r.Pointer()] = r.Call(
 				[]reflect.Value{
@@ -101,13 +80,13 @@ func (s *Store) Dispatch(action interface{}) {
 	defer s.dispatch.Unlock()
 
 	rAction := reflect.ValueOf(action)
-	for _, r := range s.reducers {
+	for addr, r := range s.reducers {
 		if rAction.Kind() == r.Type().In(1).Kind() {
 			res := r.Call(
 				[]reflect.Value{
-					s.state[r.Pointer()],
+					s.state[addr],
 					rAction})
-			s.state[r.Pointer()] = res[0]
+			s.state[addr] = res[0]
 		}
 	}
 
