@@ -34,11 +34,12 @@ func (r Reducer) methods(v interface{}) map[string]reflect.Value {
 	rt := reflect.TypeOf(v)
 	methods := make(map[string]reflect.Value)
 	for i := 1; i < rt.NumMethod(); i++ {
-		m := rt.Method(i)
+		m := rt.Method(i) // rt.Method.Func return func with first argument as receiver
 		mt := m.Type
 		if mt.NumIn() == 3 &&
 			mt.NumOut() == 1 &&
 			mt.In(1) == mt.Out(0) {
+			// rv.Method return func with now receiver
 			methods[m.Name] = rv.Method(i)
 		}
 	}

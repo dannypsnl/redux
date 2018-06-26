@@ -24,50 +24,42 @@ type Store struct {
 	onDispatching       bool
 }
 
+func getReducerAndInitState(r reflect.Value) (reflect.Value, reflect.Value) {
+	if r.Kind() == reflect.Ptr {
+		v := reflect.Indirect(r) // dereference from ptr
+		return r.MethodByName("InsideReducer").
+			Call([]reflect.Value{r})[0],
+			v.FieldByName("State")
+	}
+	return r,
+		r.Call(
+			[]reflect.Value{
+				// We just use their zero value for initialize
+				reflect.Zero(r.Type().In(0)), // In index 0 is state
+				reflect.Zero(r.Type().In(1)), // In index 1 is action
+			},
+		)[0] // 0 at here is because checkReducer promise that we will only receive one return
+}
+
 // New create a Store by reducers
 func New(reducers ...interface{}) *Store {
 	newStore := &Store{
 		reducers: make(map[uintptr]reflect.Value),
 		state:    make(map[uintptr]reflect.Value),
-
-		subscribedFuncPanic: false,
 	}
 	for _, reducer := range reducers {
 		r := reflect.ValueOf(reducer)
+		// If fail any checking, it will panic, so don't try to recover or handling the error
+		checkReducer(r)
 
-		if r.Kind() == reflect.Ptr {
-			v := reflect.Indirect(r) // dereference from ptr
-			if v.FieldByName("State").Kind() == reflect.Invalid {
-				panic("Reducer structure must contains field[State]")
-			}
-
-			if _, ok := newStore.state[r.Pointer()]; ok {
-				panic("You can't put duplicated reducer into the same store!")
-			}
-
-			re := r.MethodByName("InsideReducer").
-				Call([]reflect.Value{r})[0]
-			newStore.reducers[r.Pointer()] = re
-
-			newStore.state[r.Pointer()] = v.FieldByName("State")
-		} else {
-			// If fail any checking, it will panic, so don't try to recover or handling the error
-			checkReducer(r)
-
-			if _, ok := newStore.state[r.Pointer()]; ok {
-				panic("You can't put duplicated reducer into the same store!")
-			}
-
-			newStore.reducers[r.Pointer()] = r
-
-			newStore.state[r.Pointer()] = r.Call(
-				[]reflect.Value{
-					// We just use their zero value for initialize
-					reflect.Zero(r.Type().In(0)), // In index 0 is state
-					reflect.Zero(r.Type().In(1)), // In index 1 is action
-				},
-			)[0] // 0 at here is because checkReducer promise that we will only receive one return
+		if _, ok := newStore.state[r.Pointer()]; ok {
+			panic("You can't put duplicated reducer into the same store!")
 		}
+
+		actualReducer, initState := getReducerAndInitState(r)
+
+		newStore.reducers[r.Pointer()] = actualReducer
+		newStore.state[r.Pointer()] = initState
 	}
 	return newStore
 }
@@ -80,13 +72,14 @@ func (s *Store) Dispatch(action interface{}) {
 	defer s.dispatch.Unlock()
 
 	rAction := reflect.ValueOf(action)
-	for addr, r := range s.reducers {
+	for at, r := range s.reducers {
+		// action type matches second argument
 		if rAction.Kind() == r.Type().In(1).Kind() {
-			res := r.Call(
-				[]reflect.Value{
-					s.state[addr],
-					rAction})
-			s.state[addr] = res[0]
+			// next state
+			s.state[at] = r.Call([]reflect.Value{
+				s.state[at], // now state
+				rAction,
+			})[0]
 		}
 	}
 
@@ -125,8 +118,8 @@ func (s *Store) Subscribe(function func()) {
 
 // StateOf return the reducer name matches state
 func (s *Store) StateOf(reducer interface{}) interface{} {
-	place := reflect.ValueOf(reducer).Pointer()
-	return s.state[place].Interface()
+	ofReducer := reflect.ValueOf(reducer).Pointer()
+	return s.state[ofReducer].Interface()
 }
 
 // checkReducer reject all unexpected reducer format
@@ -135,14 +128,21 @@ func checkReducer(r reflect.Value) {
 		panic("It's an invalid value")
 	}
 
-	// reducer :: (state, action) -> state
-	if r.Type().NumIn() != 2 {
-		panic("reducer should have state & action two parameter, not thing more")
-	}
-	if r.Type().NumOut() != 1 {
-		panic("reducer should return state only")
-	}
-	if r.Type().In(0) != r.Type().Out(0) {
-		panic("reducer should own state with the same type at anytime, if you want have variant value, please using interface")
+	if r.Kind() == reflect.Ptr {
+		v := reflect.Indirect(r) // dereference from ptr
+		if v.FieldByName("State").Kind() == reflect.Invalid {
+			panic("Reducer structure must contains field[State]")
+		}
+	} else {
+		// reducer :: (state, action) -> state
+		if r.Type().NumIn() != 2 {
+			panic("reducer should have state & action two parameter, not thing more")
+		}
+		if r.Type().NumOut() != 1 {
+			panic("reducer should return state only")
+		}
+		if r.Type().In(0) != r.Type().Out(0) {
+			panic("reducer should own state with the same type at anytime, if you want have variant value, please using interface")
+		}
 	}
 }
