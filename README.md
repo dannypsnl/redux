@@ -59,3 +59,31 @@ func main() {
     fmt.Printf("%d\n", store.StateOf(counter)) // should print out: 50
 }
 ```
+
+And more...
+
+```go
+type CountingModel struct {
+	rematch.Reducer
+	State int
+}
+
+func (cm *CountingModel) Increase(s, payload int) int {
+	return s + payload
+}
+
+func (cm *CountingModel) Decrease(s, payload int) int {
+	return s - payload
+}
+
+func main() {
+	c := &CountingModel{
+		State: 0,
+	}
+	store := store.New(c)
+	store.Dispatch(c.Action(c.Increase).With(100))
+	store.Dispatch(c.Action(c.Decrease).With(50))
+
+	fmt.Printf("result: %d\n", store.StateOf(c)) // expect: 50
+}
+```
