@@ -22,6 +22,15 @@ $ go get github.com/dannypsnl/redux
 
 ## Usage
 
+```go
+import (
+    // v2 store
+    "github.com/dannypsnl/v2/store"
+    // v2 rematch(optional)
+    "github.com/dannypsnl/v2/rematch"
+)
+```
+
 Basic example
 
 ```go
