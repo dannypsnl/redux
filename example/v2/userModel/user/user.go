@@ -9,29 +9,29 @@ type Model struct {
 	Age  int
 }
 
-type UserModel struct {
+type userModel struct {
 	rematch.Reducer
 	State Model
 }
 
-func (cm *UserModel) UpdateName(s Model, newName string) Model {
+func (cm *userModel) UpdateName(s Model, newName string) Model {
 	return Model{
 		Name: newName,
 		Age:  s.Age,
 	}
 }
 
-func (cm *UserModel) UpdateAge(s Model, newAge int) Model {
+func (cm *userModel) UpdateAge(s Model, newAge int) Model {
 	return Model{
 		Name: s.Name,
 		Age:  newAge,
 	}
 }
 
-var Reducer *UserModel
+var Reducer *userModel
 
 func init() {
-	Reducer = &UserModel{
+	Reducer = &userModel{
 		State: Model{
 			Name: "dan",
 			Age:  20,
