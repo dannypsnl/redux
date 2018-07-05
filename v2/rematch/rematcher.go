@@ -32,6 +32,7 @@ type Reducer struct {
 func (r Reducer) methods(v interface{}) map[string]reflect.Value {
 	rv := reflect.ValueOf(v)
 	rt := reflect.TypeOf(v)
+
 	methods := make(map[string]reflect.Value)
 	for i := 1; i < rt.NumMethod(); i++ {
 		m := rt.Method(i) // rt.Method.Func return func with first argument as receiver
@@ -40,7 +41,7 @@ func (r Reducer) methods(v interface{}) map[string]reflect.Value {
 			mt.NumOut() == 1 &&
 			mt.In(1) == mt.Out(0) {
 			// rv.Method return func with now receiver
-			methods[m.Name] = rv.Method(i)
+			methods[rt.String()[1:]+"."+m.Name] = rv.Method(i)
 		}
 	}
 	return methods
@@ -50,12 +51,15 @@ func (r Reducer) methods(v interface{}) map[string]reflect.Value {
 func (r Reducer) InsideReducer(v interface{}) func(interface{}, *action) interface{} {
 	r.ms = r.methods(v)
 	return func(state interface{}, action *action) interface{} {
-		return r.ms[action.reducerName()].Call(
-			[]reflect.Value{
-				reflect.ValueOf(state),
-				reflect.ValueOf(action.payload()),
-			},
-		)[0].Interface()
+		if m, ok := r.ms[action.reducerName()]; ok {
+			return m.Call(
+				[]reflect.Value{
+					reflect.ValueOf(state),
+					reflect.ValueOf(action.payload()),
+				},
+			)[0].Interface()
+		}
+		return state
 	}
 }
 
@@ -107,9 +111,13 @@ func (a action) payload() interface{} {
 // getReducerName is a helper func to get function's ref name.
 func getReducerName(r interface{}) string {
 	fullName := runtime.FuncForPC(reflect.ValueOf(r).Pointer()).Name()
+	pkgToMethod := fullName[strings.LastIndexByte(fullName, '/')+1 : len(fullName)-3]
+	star := strings.IndexRune(pkgToMethod, '*')
+	leftParent := strings.IndexRune(pkgToMethod, '(')
+	rightParent := strings.IndexRune(pkgToMethod, ')')
 	// fullName's format is `package.function_name`
 	// we don't want package part.
 	// package is full path(GOPATH/src/package_part) to it
 	// len-3 is because a method contains suffix `-fm`
-	return fullName[strings.LastIndexByte(fullName, '.')+1 : len(fullName)-3]
+	return pkgToMethod[:leftParent] + pkgToMethod[star+1:rightParent] + pkgToMethod[rightParent+1:]
 }

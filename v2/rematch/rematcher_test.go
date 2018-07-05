@@ -38,3 +38,33 @@ func TestNewStoreByRematch(t *testing.T) {
 	expect := 5
 	assert.Eq(actual, expect)
 }
+
+type duplicateMethod1 struct {
+	Reducer
+	State int
+}
+
+type duplicateMethod2 struct {
+	Reducer
+	State int
+}
+
+func (d1 *duplicateMethod1) Foo(state int, payload int) int {
+	return state + payload
+}
+func (d2 *duplicateMethod2) Foo(state int, payload int) int {
+	return state + payload
+}
+
+func TestDuplicatedMethodNameWontCauseBothStatesUpdated(t *testing.T) {
+	assert := assert.NewTester(t)
+
+	d1 := &duplicateMethod1{State: 0}
+	d2 := &duplicateMethod2{State: 0}
+
+	store := store.New(d1, d2)
+	store.Dispatch(d1.Action(d1.Foo).With(10))
+
+	assert.Eq(store.StateOf(d1), 10)
+	assert.Eq(store.StateOf(d2), 0)
+}
