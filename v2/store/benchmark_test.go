@@ -7,7 +7,7 @@ import (
 	"github.com/dannypsnl/redux/store"
 )
 
-func BenchmarkV1StoreDispatch(b *testing.B) {
+func Benchmark_v1_storeDispatch(b *testing.B) {
 	counter := func(state interface{}, action action.Action) interface{} {
 		if state == nil {
 			return 0
@@ -27,7 +27,7 @@ func BenchmarkV1StoreDispatch(b *testing.B) {
 	}
 }
 
-func BenchmarkStoreDispatch(b *testing.B) {
+func Benchmark_storeDispatch(b *testing.B) {
 	counter := func(state int, action int) int {
 		return state + action
 	}
@@ -37,7 +37,7 @@ func BenchmarkStoreDispatch(b *testing.B) {
 	}
 }
 
-func BenchmarkV1StoreGetState(b *testing.B) {
+func Benchmark_v1_storeGetState(b *testing.B) {
 	counter := func(state interface{}, action action.Action) interface{} {
 		if state == nil {
 			return 0
@@ -57,7 +57,7 @@ func BenchmarkV1StoreGetState(b *testing.B) {
 	}
 }
 
-func BenchmarkStoreStateOf(b *testing.B) {
+func Benchmark_storeStateOf(b *testing.B) {
 	counter := func(state int, action int) int {
 		return state + action
 	}
@@ -67,7 +67,7 @@ func BenchmarkStoreStateOf(b *testing.B) {
 	}
 }
 
-func BenchmarkV1StoreSubcribe(b *testing.B) {
+func Benchmark_v1_storeSubscribe(b *testing.B) {
 	counter := func(state interface{}, action action.Action) interface{} {
 		if state == nil {
 			return 0
@@ -87,7 +87,7 @@ func BenchmarkV1StoreSubcribe(b *testing.B) {
 	}
 }
 
-func BenchmarkStoreSubcribe(b *testing.B) {
+func Benchmark_storeSubscribe(b *testing.B) {
 	counter := func(state int, action int) int {
 		return state + action
 	}
