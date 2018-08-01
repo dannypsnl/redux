@@ -25,9 +25,9 @@ $ go get github.com/dannypsnl/redux
 ```go
 import (
     // v2 store
-    "github.com/dannypsnl/v2/store"
+    "github.com/dannypsnl/redux/v2/store"
     // v2 rematch(optional)
-    "github.com/dannypsnl/v2/rematch"
+    "github.com/dannypsnl/redux/v2/rematch"
 )
 ```
 
