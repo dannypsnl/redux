@@ -1,10 +1,12 @@
-package store
+package store_test
 
 import (
 	"github.com/dannypsnl/assert"
 	"testing"
 
 	"sync"
+
+	"github.com/dannypsnl/redux/v2/store"
 )
 
 func counter(state int, action string) int {
@@ -34,57 +36,59 @@ func payload(state int, action withPayload) int {
 	}
 }
 
-func TestStoreNew(t *testing.T) {
-	store := /*store.*/ New(counter)
-	if store == nil {
-		t.Error("func New fail, expected it return a pointer to store instance")
-	}
-}
-
-func TestStoreDispatch(t *testing.T) {
-	store := /*store.*/ New(counter, payload)
-	store.Dispatch("INC")
-	if store.StateOf(counter) != 1 {
-		t.Error("counter can not work")
-	}
-
-	store.Dispatch(withPayload{
-		typ:     "INC",
-		payload: 10,
+func TestStore(t *testing.T) {
+	t.Run("New", func(t *testing.T) {
+		store := store.New(counter)
+		if store == nil {
+			t.Error("func New fail, expected it return a pointer to store instance")
+		}
 	})
-	if store.StateOf(payload) != 10 {
-		t.Error("payload should increase by payload")
-	}
-}
+	t.Run("Dispatch", func(t *testing.T) {
+		store := store.New(counter, payload)
+		store.Dispatch("INC")
+		if store.StateOf(counter) != 1 {
+			t.Error("counter can not work")
+		}
+		store.Dispatch(withPayload{
+			typ:     "INC",
+			payload: 10,
+		})
+		if store.StateOf(payload) != 10 {
+			t.Error("payload should increase by payload")
+		}
+	})
+	t.Run("StateOf", func(t *testing.T) {
+		store := store.New(counter)
+		store.Dispatch("DEC")
+		if store.StateOf(counter) != -1 {
+			t.Error("StateOf should return reducer's state")
+		}
+	})
+	t.Run("Subscribe", func(t *testing.T) {
+		store := store.New(counter)
 
-func TestStoreStateOf(t *testing.T) {
-	store := /*store.*/ New(counter)
-	store.Dispatch("DEC")
-	if store.StateOf(counter) != -1 {
-		t.Error("StateOf should return reducer's state")
-	}
-}
+		subcribing := make(chan bool)
+		store.Subscribe(func() {
+			subcribing <- true
+		})
+		go store.Dispatch(0)
 
-func TestStoreSubscribe(t *testing.T) {
-	store := /*store.*/ New(counter)
-
-	store.Subscribe(func() {})
-
-	if len(store.subscribedFuncs) != 1 {
-		t.Error("Subscribe do not work")
-	}
-}
-
-func TestStoreWorkWithLambda(t *testing.T) {
-	lambda := func(state int, action int) int {
-		return state + action
-	}
-	store := /*store.*/ New(lambda)
-	store.Dispatch(10)
-	state := store.StateOf(lambda)
-	if state != 10 {
-		t.Error("store can't work with lambda")
-	}
+		b := <-subcribing
+		if !b {
+			t.Error("Subscribe do not work")
+		}
+	})
+	t.Run("WorkWithLambda", func(t *testing.T) {
+		lambda := func(state int, action int) int {
+			return state + action
+		}
+		store := store.New(lambda)
+		store.Dispatch(10)
+		state := store.StateOf(lambda)
+		if state != 10 {
+			t.Error("store can't work with lambda")
+		}
+	})
 }
 
 func TestConcurrencySafe(t *testing.T) {
@@ -94,7 +98,7 @@ func TestConcurrencySafe(t *testing.T) {
 	counter := func(s int, a int) int {
 		return s + a
 	}
-	store := New(counter)
+	store := store.New(counter)
 
 	wg.Add(100)
 	for i := 0; i < 100; i++ {
@@ -119,7 +123,7 @@ func TestSubscribedFuncShouldNotCallSubscribe(t *testing.T) {
 		}
 	}()
 	foo := func(s int, action int) int { return 0 }
-	store := New(foo)
+	store := store.New(foo)
 	store.Subscribe(func() {
 		store.Subscribe(func() {})
 	})
@@ -133,7 +137,7 @@ func TestDuplicateReducerWillCausePanic(t *testing.T) {
 		}
 	}()
 	counter := func(state int, payload int) int { return state + payload }
-	/*store.*/ New(counter, counter)
+	/*store.*/ store.New(counter, counter)
 }
 
 func TestInvalidReducerWillCausePanic(t *testing.T) {
@@ -151,10 +155,11 @@ func TestInvalidReducerWillCausePanic(t *testing.T) {
 }
 
 func testPanic(t *testing.T, reducer interface{}, msg string) {
+	t.Helper()
 	defer func() {
 		if r := recover(); r == nil {
 			t.Error(msg)
 		}
 	}()
-	New(reducer)
+	store.New(reducer)
 }
