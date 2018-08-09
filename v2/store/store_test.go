@@ -155,7 +155,6 @@ func TestInvalidReducerWillCausePanic(t *testing.T) {
 }
 
 func testPanic(t *testing.T, reducer interface{}, msg string) {
-	t.Helper()
 	defer func() {
 		if r := recover(); r == nil {
 			t.Error(msg)
