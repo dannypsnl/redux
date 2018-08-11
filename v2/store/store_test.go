@@ -78,7 +78,7 @@ func TestStore(t *testing.T) {
 			t.Error("Subscribe do not work")
 		}
 	})
-	t.Run("WorkWithLambda", func(t *testing.T) {
+	t.Run("UsingLambda", func(t *testing.T) {
 		lambda := func(state int, action int) int {
 			return state + action
 		}
@@ -116,42 +116,42 @@ func TestConcurrencySafe(t *testing.T) {
 	assert.Eq(actual, expected)
 }
 
-func TestSubscribedFuncShouldNotCallSubscribe(t *testing.T) {
-	defer func() {
-		if r := recover(); r == nil {
-			t.Error("subscribed function call store.Subscribe should panic")
-		}
-	}()
-	foo := func(s int, action int) int { return 0 }
-	store := store.New(foo)
-	store.Subscribe(func() {
-		store.Subscribe(func() {})
+func TestStoreShouldPanicWhen(t *testing.T) {
+	t.Run("SubscribedFuncCallSubscribe", func(t *testing.T) {
+		defer func() {
+			if r := recover(); r == nil {
+				t.Error("subscribed function call store.Subscribe should panic")
+			}
+		}()
+		foo := func(s int, action int) int { return 0 }
+		store := store.New(foo)
+		store.Subscribe(func() {
+			store.Subscribe(func() {})
+		})
+		store.Dispatch(0)
 	})
-	store.Dispatch(0)
-}
-
-func TestDuplicateReducerWillCausePanic(t *testing.T) {
-	defer func() {
-		if r := recover(); r == nil {
-			t.Error("duplicated reducer should cause panic when New a Store")
+	t.Run("HaveDuplicatedReducers", func(t *testing.T) {
+		defer func() {
+			if r := recover(); r == nil {
+				t.Error("duplicated reducer should cause panic when New a Store")
+			}
+		}()
+		counter := func(state int, payload int) int { return state + payload }
+		store.New(counter, counter)
+	})
+	t.Run("ReceiveInvalidReducer", func(t *testing.T) {
+		error1 := func(state int, act string) string {
+			return ""
 		}
-	}()
-	counter := func(state int, payload int) int { return state + payload }
-	/*store.*/ store.New(counter, counter)
-}
-
-func TestInvalidReducerWillCausePanic(t *testing.T) {
-	error1 := func(state int, act string) string {
-		return ""
-	}
-	error2 := func(state string, act string) (string, error) {
-		return "", nil
-	}
-	error3 := func() {}
-	testPanic(t, error1, "should panic when reducer return a state is type different than input state type")
-	testPanic(t, error2, "should panic when reducer return several type")
-	testPanic(t, error3, "should panic when reducer do not contain state & action two parameters")
-	testPanic(t, nil, "should panic for the invalid value")
+		error2 := func(state string, act string) (string, error) {
+			return "", nil
+		}
+		error3 := func() {}
+		testPanic(t, error1, "should panic when reducer return a state is type different than input state type")
+		testPanic(t, error2, "should panic when reducer return several type")
+		testPanic(t, error3, "should panic when reducer do not contain state & action two parameters")
+		testPanic(t, nil, "should panic for the invalid value")
+	})
 }
 
 func testPanic(t *testing.T, reducer interface{}, msg string) {
