@@ -28,7 +28,7 @@ func getReducerAndInitState(r reflect.Value) (reflect.Value, reflect.Value) {
 	if r.Kind() == reflect.Ptr {
 		v := reflect.Indirect(r) // dereference from ptr
 		return r.MethodByName("InsideReducer").
-			Call([]reflect.Value{r})[0],
+				Call([]reflect.Value{r})[0],
 			v.FieldByName("State")
 	}
 	return r,
@@ -64,9 +64,16 @@ func New(reducers ...interface{}) *Store {
 	return newStore
 }
 
-// Dispatch send action to all reducer in Store to update state
+// Dispatch send action to reducers in Store to update state
 //
-// In v2, action can be anything you want, it's more powerful rather than v1
+// In v2, action can be anything you want
+//
+// For example:
+//   func counter(state, payload int) int {
+//   	return state + payload
+//   }
+//
+// Action type should be `int`, if you use others type, just use others type
 func (s *Store) Dispatch(action interface{}) {
 	s.dispatch.Lock()
 	defer s.dispatch.Unlock()
@@ -106,7 +113,7 @@ func (s *Store) Dispatch(action interface{}) {
 	s.onDispatching = false
 }
 
-// Subscribe let user emit a function will be triggered by Dispatch
+// Subscribe emit a function will be triggered after executing Dispatch
 func (s *Store) Subscribe(function func()) {
 	s.subscribe.Lock()
 	defer s.subscribe.Unlock()
@@ -116,7 +123,7 @@ func (s *Store) Subscribe(function func()) {
 	s.subscribedFuncs = append(s.subscribedFuncs, function)
 }
 
-// StateOf return the reducer name matches state
+// StateOf return the reducer matches state
 func (s *Store) StateOf(reducer interface{}) interface{} {
 	ofReducer := reflect.ValueOf(reducer).Pointer()
 	return s.state[ofReducer].Interface()
