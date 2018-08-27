@@ -1,5 +1,7 @@
 github.com/dannypsnl/assert v0.0.4 h1:QNiPaZuDIxqZuQq/GkGWKa9ok7HAW+JWmHZQ3QSDJTQ=
 github.com/dannypsnl/assert v0.0.4/go.mod h1:3Cdg24+tqOsk3KiWCalaIxGSCPzbrVMW0PEZ7aTCvxo=
+github.com/dannypsnl/assert v0.0.8 h1:vO3ggxGJGN40ehCkVxhxNTy+pH59ND+ZxXGDXpBgid8=
+github.com/dannypsnl/assert v0.0.8/go.mod h1:roKLtJF0KGE6mCFarIxkVjOjUulyY7ngjS4NobWY4Lg=
 github.com/fatih/color v1.7.0 h1:DkWD4oS2D8LGGgTQ6IvwJJXSL5Vp2ffcQg58nFV38Ys=
 github.com/fatih/color v1.7.0/go.mod h1:Zm6kSWBoL9eyXnKyktHP6abPY2pDugNf5KwzbycvMj4=
 github.com/mattn/go-colorable v0.0.9 h1:UVL0vNpWh04HeJXV0KLcaT7r06gOH2l4OW6ddYRUIY4=
