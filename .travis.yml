@@ -8,6 +8,7 @@ language: go
 # are allowed to fail on Go tip.
 go:
   - 1.9
+  - 1.10.x
   - master
 
 # Skip the install step. Don't `go get` dependencies. Only build with the
