@@ -7,9 +7,12 @@ language: go
 # in the next version of Go. Don't worry! Later we declare that test runs
 # are allowed to fail on Go tip.
 go:
-  - 1.9
   - 1.10.x
+  - 1.11.x
   - master
+
+env:
+  - GO111MODULE=on
 
 # Skip the install step. Don't `go get` dependencies. Only build with the
 # code in vendor/
@@ -22,19 +25,20 @@ matrix:
   # Don't wait for tip tests to finish. Mark the test run green if the
   # tests pass on the stable versions of Go.
   fast_finish: true
+  include:
+    - go: 1.9
+      script: bash ./go.test.sh
 
 # Anything in before_script that returns a nonzero exit code will
 # flunk the build and immediately stop. It's sorta like having
 # set -e enabled in bash.
 before_script:
-  - go get github.com/dannypsnl/redux
-  - go get github.com/dannypsnl/assert
-  - go get golang.org/x/tools/cmd/cover
+  - go get -t -v ./...
 
 # script always run to completion (set +e). All of these code checks are must haves
 # in a modern Go project.
 script:
-  - bash ./go.test.sh
+  - go test -coverprofile=coverage.txt -v ./...
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
