@@ -1,17 +1,18 @@
-package rematch
+package rematch_test
 
 import (
 	"github.com/dannypsnl/assert"
 	"testing"
 
+	"github.com/dannypsnl/redux/v2/rematch"
 	"github.com/dannypsnl/redux/v2/store"
 )
 
 type CountingModel struct {
-	Reducer
+	rematch.Reducer
 	State int
 
-	IncreaseAction *Action `action:"Increase"`
+	IncreaseAction *rematch.Action `action:"Increase"`
 }
 
 func (cm *CountingModel) Increase(state int, payload int) int {
@@ -42,12 +43,12 @@ func TestNewStoreByRematch(t *testing.T) {
 }
 
 type duplicateMethod1 struct {
-	Reducer
+	rematch.Reducer
 	State int
 }
 
 type duplicateMethod2 struct {
-	Reducer
+	rematch.Reducer
 	State int
 }
 
@@ -72,7 +73,7 @@ func TestDuplicatedMethodNameWontCauseBothStatesUpdated(t *testing.T) {
 }
 
 type wrongType struct {
-	Reducer
+	rematch.Reducer
 	State int
 	// Test if user set the wrong type for action would panic in control
 	WrongTypeAction string `action:"Increase"`
