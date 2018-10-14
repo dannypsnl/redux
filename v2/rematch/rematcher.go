@@ -29,10 +29,7 @@ type Reducer struct {
 	ms map[string]reflect.Value
 }
 
-func (r Reducer) methods(v interface{}) map[string]reflect.Value {
-	rv := reflect.ValueOf(v)
-	rt := reflect.TypeOf(v)
-
+func (r Reducer) methods(rv reflect.Value, rt reflect.Type) map[string]reflect.Value {
 	methods := make(map[string]reflect.Value)
 	for i := 1; i < rt.NumMethod(); i++ {
 		m := rt.Method(i) // rt.Method.Func return func with first argument as receiver
@@ -50,10 +47,8 @@ func (r Reducer) methods(v interface{}) map[string]reflect.Value {
 	return methods
 }
 
-// actions would find out all possible action in user's rematcher & initial it
-func (r Reducer) actions(v interface{}) {
-	rv := reflect.ValueOf(v).Elem()
-	rt := rv.Type()
+// initActions would find out all possible action in user's rematcher & initial it
+func (r Reducer) initActions(rv reflect.Value, rt reflect.Type) {
 	for i := 0; i < rt.NumField(); i++ {
 		value, ok := rt.Field(i).Tag.Lookup("action")
 		if ok {
@@ -71,9 +66,13 @@ func (r Reducer) actions(v interface{}) {
 }
 
 // InsideReducer is not preparing for you, it's because reflect can't see private method, so export it
-func (r Reducer) InsideReducer(v interface{}) func(interface{}, *Action) interface{} {
-	r.actions(v)
-	r.ms = r.methods(v)
+func (r Reducer) InsideReducer(rematcher interface{}) func(interface{}, *Action) interface{} {
+	rv := reflect.ValueOf(rematcher)
+	rt := reflect.TypeOf(rematcher)
+	// received pointer to rematcher, so have to extract it
+	rev := rv.Elem()
+	r.initActions(rev, rev.Type())
+	r.ms = r.methods(rv, rt)
 	return func(state interface{}, action *Action) interface{} {
 		if m, ok := r.ms[action.reducerName()]; ok {
 			return m.Call(
