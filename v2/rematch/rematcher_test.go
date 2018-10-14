@@ -1,15 +1,18 @@
-package rematch
+package rematch_test
 
 import (
 	"github.com/dannypsnl/assert"
 	"testing"
 
+	"github.com/dannypsnl/redux/v2/rematch"
 	"github.com/dannypsnl/redux/v2/store"
 )
 
 type CountingModel struct {
-	Reducer
+	rematch.Reducer
 	State int
+
+	IncreaseAction *rematch.Action `action:"Increase"`
 }
 
 func (cm *CountingModel) Increase(state int, payload int) int {
@@ -40,12 +43,12 @@ func TestNewStoreByRematch(t *testing.T) {
 }
 
 type duplicateMethod1 struct {
-	Reducer
+	rematch.Reducer
 	State int
 }
 
 type duplicateMethod2 struct {
-	Reducer
+	rematch.Reducer
 	State int
 }
 
@@ -67,4 +70,31 @@ func TestDuplicatedMethodNameWontCauseBothStatesUpdated(t *testing.T) {
 
 	assert.Eq(store.StateOf(d1), 10)
 	assert.Eq(store.StateOf(d2), 0)
+}
+
+type wrongType struct {
+	rematch.Reducer
+	State int
+	// Test if user set the wrong type for action would panic in control
+	WrongTypeAction string `action:"Increase"`
+}
+
+func TestActionByTag(t *testing.T) {
+	assert := assert.NewTester(t)
+
+	c := NewCountingModel()
+	store := store.New(c)
+	store.Dispatch(c.IncreaseAction.With(10))
+
+	assert.Eq(store.StateOf(c), 10)
+}
+
+func TestPanicIfActionTagWithWrongType(t *testing.T) {
+	defer func() {
+		if r := recover(); r == nil {
+			t.Error("field with action tag has a wrong type should panic")
+		}
+	}()
+	w := &wrongType{State: 0}
+	store.New(w)
 }

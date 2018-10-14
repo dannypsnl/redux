@@ -50,10 +50,31 @@ func (r Reducer) methods(v interface{}) map[string]reflect.Value {
 	return methods
 }
 
+// actions would find out all possible action in user's rematcher & initial it
+func (r Reducer) actions(v interface{}) {
+	rv := reflect.ValueOf(v).Elem()
+	rt := rv.Type()
+	for i := 0; i < rt.NumField(); i++ {
+		value, ok := rt.Field(i).Tag.Lookup("action")
+		if ok {
+			if rv.Field(i).Type() != reflect.TypeOf(&Action{}) {
+				panic("type of field with action tag must be `*rematch.Action`")
+			}
+			fullPath := rt.PkgPath()
+			pkg := fullPath[strings.LastIndexByte(fullPath, '/')+1:]
+			funcName := pkg + ".(*" + rt.Name() + ")." + value
+			rv.Field(i).Set(reflect.ValueOf(&Action{
+				funcName: funcName,
+			}))
+		}
+	}
+}
+
 // InsideReducer is not preparing for you, it's because reflect can't see private method, so export it
-func (r Reducer) InsideReducer(v interface{}) func(interface{}, *action) interface{} {
+func (r Reducer) InsideReducer(v interface{}) func(interface{}, *Action) interface{} {
+	r.actions(v)
 	r.ms = r.methods(v)
-	return func(state interface{}, action *action) interface{} {
+	return func(state interface{}, action *Action) interface{} {
 		if m, ok := r.ms[action.reducerName()]; ok {
 			return m.Call(
 				[]reflect.Value{
@@ -66,21 +87,22 @@ func (r Reducer) InsideReducer(v interface{}) func(interface{}, *action) interfa
 	}
 }
 
-// Action return a new `rematch.action` with the method will be executed(as type)
+// Action return a new `rematch.Action` with the method will be executed(as type)
 //
-// Then you can use `action.With` to creating payload
-func (r Reducer) Action(method interface{}) *action {
-	return &action{
+// Then you can use `Action.With` to creating payload
+func (r Reducer) Action(method interface{}) *Action {
+	return &Action{
 		funcName: getReducerName(method),
 	}
 }
 
-type action struct {
+// Action type is rematch dispatcher, it store key to find correct internal reducer & payload for it
+type Action struct {
 	funcName string
 	with     interface{}
 }
 
-// With help you insert any payload you want into action.
+// With help you insert any payload you want into Action.
 // Just remind payload should has the same type with internal reducer expected
 //
 // For example:
@@ -97,17 +119,17 @@ type action struct {
 // You should `With` a `string` rather than put a `int`
 //
 // Usage:
-//   store.Dispatch(c.action(c.Increase).With(10))
-func (a *action) With(payload interface{}) *action {
+//   store.Dispatch(c.Action(c.Increase).With(10))
+func (a *Action) With(payload interface{}) *Action {
 	a.with = payload
 	return a
 }
 
-func (a action) reducerName() string {
+func (a Action) reducerName() string {
 	return a.funcName
 }
 
-func (a action) payload() interface{} {
+func (a Action) payload() interface{} {
 	return a.with
 }
 
