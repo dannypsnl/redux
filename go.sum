@@ -1,5 +1,5 @@
-github.com/dannypsnl/assert v0.0.9 h1:B9lOB+xviav+wODcZhS3yBUa54mlEW54oDG7Vr9tiK8=
-github.com/dannypsnl/assert v0.0.9/go.mod h1:roKLtJF0KGE6mCFarIxkVjOjUulyY7ngjS4NobWY4Lg=
+github.com/dannypsnl/assert v0.0.12 h1:b2j1egq4/uBREMj3JWmQSJEHcUNTdWRQ58M57SMUUMQ=
+github.com/dannypsnl/assert v0.0.12/go.mod h1:+jfk+ZXLhZdRte6a88J2upwTCxXeahqNbJsgBoJD6wI=
 github.com/fatih/color v1.7.0 h1:DkWD4oS2D8LGGgTQ6IvwJJXSL5Vp2ffcQg58nFV38Ys=
 github.com/fatih/color v1.7.0/go.mod h1:Zm6kSWBoL9eyXnKyktHP6abPY2pDugNf5KwzbycvMj4=
 github.com/mattn/go-colorable v0.0.9 h1:UVL0vNpWh04HeJXV0KLcaT7r06gOH2l4OW6ddYRUIY4=
@@ -8,5 +8,6 @@ github.com/mattn/go-isatty v0.0.3 h1:ns/ykhmWi7G9O+8a448SecJU3nSMBXJfqQkl0upE1jI
 github.com/mattn/go-isatty v0.0.3/go.mod h1:M+lRXTBqGeGNdLjl/ufCoiOlB5xdOkqRJdNxMWT7Zi4=
 github.com/mattn/go-isatty v0.0.4 h1:bnP0vzxcAdeI1zdubAl5PjU6zsERjGZb7raWodagDYs=
 github.com/mattn/go-isatty v0.0.4/go.mod h1:M+lRXTBqGeGNdLjl/ufCoiOlB5xdOkqRJdNxMWT7Zi4=
-golang.org/x/sys v0.0.0-20180907202204-917fdcba135d h1:kWn1hlsqeUrk6JsLJO0ZFyz9bMg8u85voZlIuc68ZU4=
-golang.org/x/sys v0.0.0-20180907202204-917fdcba135d/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
+golang.org/x/sys v0.0.0-20180926160741-c2ed4eda69e7/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
+golang.org/x/sys v0.0.0-20181106135930-3a76605856fd h1:5lx5yH6109ClL0rlBzOj++ZkX/njUT+RVgTO2RMbmZo=
+golang.org/x/sys v0.0.0-20181106135930-3a76605856fd/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
