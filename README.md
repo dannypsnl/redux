@@ -24,6 +24,8 @@ $ go get github.com/dannypsnl/redux@v2.2.1
 
 ```go
 import (
+    // must import, else go module would think following package is a module
+    _ "github.com/dannypsnl/redux/v2"
     // v2 store
     "github.com/dannypsnl/redux/v2/store"
     // v2 rematch(optional)
