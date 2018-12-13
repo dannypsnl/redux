@@ -1,7 +1,6 @@
-module github.com/dannypsnl/redux
+module github.com/dannypsnl/redux/v2
 
 require (
-	github.com/dannypsnl/assert v0.0.9
-	github.com/mattn/go-isatty v0.0.4 // indirect
-	golang.org/x/sys v0.0.0-20180907202204-917fdcba135d // indirect
+	github.com/dannypsnl/assert v0.0.12
+	github.com/dannypsnl/redux v1.5.3
 )

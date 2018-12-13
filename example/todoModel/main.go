@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/dannypsnl/redux/example/v2/todoModel/todo"
+	"github.com/dannypsnl/redux/v2/example/todoModel/todo"
 
 	"github.com/dannypsnl/redux/v2/store"
 )

@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/dannypsnl/redux/example/v2/userModel/user"
+	"github.com/dannypsnl/redux/v2/example/userModel/user"
 	"github.com/dannypsnl/redux/v2/store"
 )
 
