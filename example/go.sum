@@ -1,0 +1,5 @@
+github.com/dannypsnl/assert v0.0.4/go.mod h1:3Cdg24+tqOsk3KiWCalaIxGSCPzbrVMW0PEZ7aTCvxo=
+github.com/dannypsnl/redux v1.5.3 h1:8yqQWM9JPrbsuZhw8/0DG9X3bHIFjclrrrT1jWN6Gbo=
+github.com/dannypsnl/redux v1.5.3/go.mod h1:Z94Es6mL3UjumLqCOsFO2qKjYqj+q24CYn/H0BH95GQ=
+github.com/fatih/color v1.7.0/go.mod h1:Zm6kSWBoL9eyXnKyktHP6abPY2pDugNf5KwzbycvMj4=
+golang.org/x/sys v0.0.0-20180514143608-7c87d13f8e83/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
