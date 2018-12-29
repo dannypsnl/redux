@@ -98,3 +98,29 @@ func main() {
 	fmt.Printf("result: %d\n", store.StateOf(c)) // expect: 50
 }
 ```
+
+Then let's have a party
+
+```go
+type CountingModel struct {
+	Reducer
+	State int
+
+	Increase *rematch.Action `action:"IncreaseImpl"`
+}
+
+func (c *CountingModel) IncreaseImpl(s, payload int) int {
+	return s + payload
+}
+
+func main() {
+	c := &CountingModel {
+		State: 0,
+	}
+	store := store.New(c)
+	store.Dispatch(c.Increase.With(30))
+	store.Dispatch(c.Increase.With(20))
+
+	fmt.Printf("result: %d\n", store.StateOf(c)) // expect: 50
+}
+```
