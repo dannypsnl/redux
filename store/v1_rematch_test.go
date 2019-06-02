@@ -1,11 +1,12 @@
 package store
 
 import (
-	"github.com/dannypsnl/assert"
 	"testing"
 
 	"github.com/dannypsnl/redux/action"
 	"github.com/dannypsnl/redux/rematch"
+
+	"github.com/stretchr/testify/assert"
 )
 
 var reCounter rematch.Reducer
@@ -25,8 +26,6 @@ func init() {
 }
 
 func TestWorkWithV1Rematch(t *testing.T) {
-	assert := assert.NewTester(t)
-
 	wrap := func(s interface{}, act action.Action) interface{} {
 		return reCounter.Reduce()(s, act)
 	}
@@ -35,5 +34,5 @@ func TestWorkWithV1Rematch(t *testing.T) {
 		Action("INC").
 		Arg("payload", 10))
 
-	assert.Eq(store.StateOf(wrap), 10)
+	assert.Equal(t, 10, store.StateOf(wrap))
 }

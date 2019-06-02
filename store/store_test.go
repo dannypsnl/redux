@@ -1,12 +1,13 @@
 package store_test
 
 import (
-	"github.com/dannypsnl/assert"
 	"testing"
 
 	"sync"
 
 	"github.com/dannypsnl/redux/v2/store"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func counter(state int, action string) int {
@@ -92,7 +93,6 @@ func TestStore(t *testing.T) {
 }
 
 func TestConcurrencySafe(t *testing.T) {
-	assert := assert.NewTester(t)
 	var wg sync.WaitGroup
 
 	counter := func(s int, a int) int {
@@ -113,7 +113,7 @@ func TestConcurrencySafe(t *testing.T) {
 	actual := store.StateOf(counter)
 	expected := 100
 
-	assert.Eq(actual, expected)
+	assert.Equal(t, expected, actual)
 }
 
 func TestStoreShouldPanicWhen(t *testing.T) {
