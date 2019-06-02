@@ -1,12 +1,9 @@
-github.com/dannypsnl/redux v1.5.3 h1:8yqQWM9JPrbsuZhw8/0DG9X3bHIFjclrrrT1jWN6Gbo=
-github.com/dannypsnl/redux v1.5.3/go.mod h1:Z94Es6mL3UjumLqCOsFO2qKjYqj+q24CYn/H0BH95GQ=
+github.com/dannypsnl/redux v1.5.4 h1:74ZXbY6DFw5JzhvzG2h3nCTApwUBftNT+FJGrkQUI40=
+github.com/dannypsnl/redux v1.5.4/go.mod h1:2pNAfdPxy2jjJAzZsfamTY5g57b+hpMhWVPoslIRyks=
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/fatih/color v1.7.0 h1:DkWD4oS2D8LGGgTQ6IvwJJXSL5Vp2ffcQg58nFV38Ys=
-github.com/fatih/color v1.7.0/go.mod h1:Zm6kSWBoL9eyXnKyktHP6abPY2pDugNf5KwzbycvMj4=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.3.0 h1:TivCn/peBQ7UY8ooIcPgZFpTNSz0Q2U6UrFlUfqbe0Q=
 github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UVUgZn+9EI=
-golang.org/x/sys v0.0.0-20180514143608-7c87d13f8e83/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
