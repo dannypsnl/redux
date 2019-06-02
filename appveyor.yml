@@ -11,5 +11,5 @@ build: false
 deploy: false
 
 test_script:
-  - go get github.com/dannypsnl/assert
+  - go get ./...
   - go test -v ./...
