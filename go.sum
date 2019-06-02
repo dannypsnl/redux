@@ -1,4 +1,3 @@
-github.com/dannypsnl/assert v0.0.4/go.mod h1:3Cdg24+tqOsk3KiWCalaIxGSCPzbrVMW0PEZ7aTCvxo=
 github.com/dannypsnl/redux v1.5.3 h1:8yqQWM9JPrbsuZhw8/0DG9X3bHIFjclrrrT1jWN6Gbo=
 github.com/dannypsnl/redux v1.5.3/go.mod h1:Z94Es6mL3UjumLqCOsFO2qKjYqj+q24CYn/H0BH95GQ=
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
