@@ -1,11 +1,12 @@
 package store_test
 
 import (
-	"github.com/dannypsnl/assert"
 	"testing"
 
 	"github.com/dannypsnl/redux/v2/rematch"
 	"github.com/dannypsnl/redux/v2/store"
+
+	"github.com/stretchr/testify/assert"
 )
 
 type user struct {
@@ -42,8 +43,6 @@ func NewCountingModel() *UserModel {
 }
 
 func TestNewStoreByRematchReducer(t *testing.T) {
-	assert := assert.NewTester(t)
-
 	t.Run("Normal", func(t *testing.T) {
 		c := NewCountingModel()
 		store := store.New(c)
@@ -56,7 +55,7 @@ func TestNewStoreByRematchReducer(t *testing.T) {
 			name: "Danny",
 			age:  21,
 		}
-		assert.Eq(actual, expect)
+		assert.Equal(t, expect, actual)
 	})
 	t.Run("Duplicated Rematcher should cause panic", func(t *testing.T) {
 		defer func() {
