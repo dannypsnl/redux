@@ -8,9 +8,7 @@
 [![GoDoc](https://godoc.org/github.com/dannypsnl/redux?status.svg)](https://godoc.org/github.com/dannypsnl/redux)
 [![GitHub license](https://img.shields.io/github/license/dannypsnl/redux.svg)](https://github.com/dannypsnl/redux/blob/master/LICENSE)
 
-This is a redux implementation in Go.
-
-I hope this project can help you manage the complex update flow in Go.
+This is a redux implementation in Go/Rust.
 
 [Origin version](https://github.com/reactjs/redux)
 
