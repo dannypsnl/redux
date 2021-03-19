@@ -55,7 +55,7 @@ func main() {
 }
 ```
 
-More stunning
+More stunning(lambda can work)
 
 ```go
 func main() {
@@ -68,6 +68,8 @@ func main() {
     fmt.Printf("%d\n", store.StateOf(counter)) // should print out: 50
 }
 ```
+
+### Rematch
 
 And more...
 
