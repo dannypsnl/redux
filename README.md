@@ -15,7 +15,7 @@ This is a redux implementation in Go.
 ## Install
 
 ```bash
-$ go get github.com/dannypsnl/redux@v2.2.1
+$ go get github.com/dannypsnl/redux
 ```
 
 ## Usage
