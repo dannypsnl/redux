@@ -8,7 +8,7 @@
 [![go.dev reference](https://img.shields.io/badge/go.dev-reference-007d9c?logo=go&logoColor=white&style=flat-square)](https://pkg.go.dev/github.com/dannypsnl/redux/v2)
 [![GitHub license](https://img.shields.io/github/license/dannypsnl/redux.svg)](https://github.com/dannypsnl/redux/blob/master/LICENSE)
 
-This is a redux implementation in Go/Rust.
+This is a redux implementation in Go.
 
 [Origin version](https://github.com/reactjs/redux)
 
@@ -73,27 +73,27 @@ And more...
 
 ```go
 type CountingModel struct {
-	rematch.Reducer
-	State int
+    rematch.Reducer
+    State int
 }
 
 func (cm *CountingModel) Increase(s, payload int) int {
-	return s + payload
+    return s + payload
 }
 
 func (cm *CountingModel) Decrease(s, payload int) int {
-	return s - payload
+    return s - payload
 }
 
 func main() {
-	c := &CountingModel{
-		State: 0,
-	}
-	store := store.New(c)
-	store.Dispatch(c.Action(c.Increase).With(100))
-	store.Dispatch(c.Action(c.Decrease).With(50))
+    c := &CountingModel{
+        State: 0,
+    }
+    store := store.New(c)
+    store.Dispatch(c.Action(c.Increase).With(100))
+    store.Dispatch(c.Action(c.Decrease).With(50))
 
-	fmt.Printf("result: %d\n", store.StateOf(c)) // expect: 50
+    fmt.Printf("result: %d\n", store.StateOf(c)) // expect: 50
 }
 ```
 
@@ -101,24 +101,24 @@ Then let's have a party
 
 ```go
 type CountingModel struct {
-	Reducer
-	State int
+    Reducer
+    State int
 
-	Increase *rematch.Action `action:"IncreaseImpl"`
+    Increase *rematch.Action `action:"IncreaseImpl"`
 }
 
 func (c *CountingModel) IncreaseImpl(s, payload int) int {
-	return s + payload
+    return s + payload
 }
 
 func main() {
-	c := &CountingModel {
-		State: 0,
-	}
-	store := store.New(c)
-	store.Dispatch(c.Increase.With(30))
-	store.Dispatch(c.Increase.With(20))
+    c := &CountingModel {
+        State: 0,
+    }
+    store := store.New(c)
+    store.Dispatch(c.Increase.With(30))
+    store.Dispatch(c.Increase.With(20))
 
-	fmt.Printf("result: %d\n", store.StateOf(c)) // expect: 50
+    fmt.Printf("result: %d\n", store.StateOf(c)) // expect: 50
 }
 ```
