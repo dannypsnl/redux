@@ -1,7 +1,4 @@
-on:
-  pull_request:
-    paths:
-    - '**.go'
+on: [ 'push', 'pull_request' ]
 
 jobs:
   coverage:
