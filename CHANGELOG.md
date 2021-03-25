@@ -1,3 +1,52 @@
+## v2.2.2
+
+remove the dependency about github.com/dannypsnl/assert since it already is removed
+
+## v2.2.1
+
+fix: support go module now
+
+## v2.2.0
+
+At before we use rematcher.Action(rematcher.ReducerMethod).With(payload) to generate our action for dispatching, now we just add a field with action tag, the format is: action:"ReducerMethodName"
+
+## v2.1.2
+
+fix:
+
+* #52
+* #53
+
+improving performance by moving job to only executing once part.
+
+## v2.1.1
+
+improving store
+
+## v2.1.0
+
+feature: rematch, ref #48
+
+## v2.0.3
+
+fix: warning message for duplicating reducer typo
+
+## v2.0.2
+
+* remove readme warning of v2
+* patch version to let code dependency can update
+
+## v2.0.1
+
+Fix bug #49, duplicated reducer will cause panic now
+
+## v2.0.0
+
+* The new store allows you:
+  * using any type to be state & action.
+  * let you can use the lambda that works as well as the global function by using their address instead of runtime name
+* Follow first change, now you can send anything to Dispatch. It will pick matching reducer executing
+* As we told, we using address rather than runtime name. The purpose of this change it let user can use function itself to get the mapping state! Now GetState be rename to StateOf. And it expected a reducer will be sent in.
 
 <a name="v1.3.3"></a>
 ## [v1.3.3](https://github.com/dannypsnl/redux/compare/v1.3.2...v1.3.3)
