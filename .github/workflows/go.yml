@@ -2,10 +2,14 @@ name: Go
 on:
   push:
     branches:
-    - *
+      - '*'
+    paths:
+      - '**.go'
   pull_request:
     branches:
-    - *
+      - '*'
+    paths:
+      - '**.go'
   schedule:
   - cron: 0 0 * * *
 jobs:
