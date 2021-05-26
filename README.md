@@ -101,7 +101,7 @@ Then let's have a party
 
 ```go
 type CountingModel struct {
-    Reducer
+    rematch.Reducer
     State int
 
     Increase *rematch.Action `action:"IncreaseImpl"`
