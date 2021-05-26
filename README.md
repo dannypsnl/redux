@@ -1,6 +1,6 @@
 # redux
 
-[![version badges](https://img.shields.io/badge/version-2.2.2-blue.svg)](https://github.com/dannypsnl/redux/releases)
+[![version badges](https://img.shields.io/badge/version-2.2.3-blue.svg)](https://github.com/dannypsnl/redux/releases)
 ![Build Status](https://github.com/dannypsnl/redux/workflows/Go/badge.svg?branch=master)
 [![codecov](https://codecov.io/gh/dannypsnl/redux/branch/master/graph/badge.svg)](https://codecov.io/gh/dannypsnl/redux)
 [![go.dev reference](https://img.shields.io/badge/go.dev-reference-007d9c?logo=go&logoColor=white&style=flat-square)](https://pkg.go.dev/github.com/dannypsnl/redux/v2)
