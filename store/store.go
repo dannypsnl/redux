@@ -95,15 +95,15 @@ func (s *Store) Dispatch(action interface{}) {
 	var wg sync.WaitGroup
 	wg.Add(len(s.subscribedFuncs))
 	for _, subscribedFunc := range s.subscribedFuncs {
-		go func() {
+		go func(f func()) {
 			defer func() {
 				if r := recover(); r != nil {
 					s.subscribedFuncPanic = true
 				}
 				wg.Done()
 			}()
-			subscribedFunc()
-		}()
+			f()
+		}(subscribedFunc)
 	}
 	wg.Wait()
 
