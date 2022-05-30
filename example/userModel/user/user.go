@@ -1,7 +1,7 @@
 package user
 
 import (
-	"github.com/dannypsnl/redux/v2/rematch"
+	"github.com/dannypsnl/redux/v3/rematch"
 )
 
 type Model struct {

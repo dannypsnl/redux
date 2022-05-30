@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/dannypsnl/redux/v2/rematch"
-	"github.com/dannypsnl/redux/v2/store"
+	"github.com/dannypsnl/redux/v3/rematch"
+	"github.com/dannypsnl/redux/v3/store"
 )
 
 type CountingModel struct {

@@ -5,7 +5,7 @@ import (
 
 	"sync"
 
-	"github.com/dannypsnl/redux/v2/store"
+	"github.com/dannypsnl/redux/v3/store"
 
 	"github.com/stretchr/testify/assert"
 )

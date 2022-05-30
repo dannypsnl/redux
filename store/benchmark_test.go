@@ -4,10 +4,10 @@ import (
 	"testing"
 
 	"github.com/dannypsnl/redux/action"
-	"github.com/dannypsnl/redux/store"
+	v2store "github.com/dannypsnl/redux/v2/store"
 )
 
-func Benchmark_v1_storeDispatch(b *testing.B) {
+func Benchmark_v2_storeDispatch(b *testing.B) {
 	counter := func(state interface{}, action action.Action) interface{} {
 		if state == nil {
 			return 0
@@ -21,7 +21,7 @@ func Benchmark_v1_storeDispatch(b *testing.B) {
 			return state
 		}
 	}
-	store := store.New(counter)
+	store := v2store.New(counter)
 	for i := 0; i < b.N; i++ {
 		store.Dispatch(action.New("INC"))
 	}
@@ -37,7 +37,7 @@ func Benchmark_storeDispatch(b *testing.B) {
 	}
 }
 
-func Benchmark_v1_storeGetState(b *testing.B) {
+func Benchmark_v2_storeGetState(b *testing.B) {
 	counter := func(state interface{}, action action.Action) interface{} {
 		if state == nil {
 			return 0
@@ -51,9 +51,9 @@ func Benchmark_v1_storeGetState(b *testing.B) {
 			return state
 		}
 	}
-	store := store.New(counter)
+	store := v2store.New(counter)
 	for i := 0; i < b.N; i++ {
-		store.GetState("func1")
+		store.StateOf("func1")
 	}
 }
 
@@ -67,7 +67,7 @@ func Benchmark_storeStateOf(b *testing.B) {
 	}
 }
 
-func Benchmark_v1_storeSubscribe(b *testing.B) {
+func Benchmark_v2_storeSubscribe(b *testing.B) {
 	counter := func(state interface{}, action action.Action) interface{} {
 		if state == nil {
 			return 0
@@ -81,7 +81,7 @@ func Benchmark_v1_storeSubscribe(b *testing.B) {
 			return state
 		}
 	}
-	store := store.New(counter)
+	store := v2store.New(counter)
 	for i := 0; i < b.N; i++ {
 		store.Subscribe(func() {})
 	}

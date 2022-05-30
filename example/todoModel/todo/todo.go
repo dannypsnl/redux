@@ -1,7 +1,7 @@
 package todo
 
 import (
-	"github.com/dannypsnl/redux/v2/rematch"
+	"github.com/dannypsnl/redux/v3/rematch"
 )
 
 var Reducer *todoModel

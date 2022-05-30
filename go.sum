@@ -1,5 +1,7 @@
 github.com/dannypsnl/redux v1.5.4 h1:74ZXbY6DFw5JzhvzG2h3nCTApwUBftNT+FJGrkQUI40=
 github.com/dannypsnl/redux v1.5.4/go.mod h1:2pNAfdPxy2jjJAzZsfamTY5g57b+hpMhWVPoslIRyks=
+github.com/dannypsnl/redux/v2 v2.2.3 h1:s2cPu23F+QsV24SI2LD+vlYU9HZ3MX5dVpXFKyvFYgQ=
+github.com/dannypsnl/redux/v2 v2.2.3/go.mod h1:gUIq041UWpBOGQlQIYG5Lyc8MYQsyapXlB6IRimSkhQ=
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=

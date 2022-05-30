@@ -3,9 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/dannypsnl/redux/v2/example/todoModel/todo"
-
-	"github.com/dannypsnl/redux/v2/store"
+	"github.com/dannypsnl/redux/v3/example/todoModel/todo"
+	"github.com/dannypsnl/redux/v3/store"
 )
 
 func main() {
